@@ -1,0 +1,52 @@
+---
+title: "Transforming Covariates"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Transforming Covariates}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(
+        stop_on_error = 2L
+)
+```
+
+## Supported transformations
+
+For convenience, you may wish to transform one or more of your covariates within the model estimation call. For example, imagine we want to natural log transform the variable `dist` in a linear regression:
+
+```{r, message=FALSE}
+cars <- transform(cars, dist.log = log(dist))
+m.log <- lm(speed ~ log(dist), data = cars)
+m.log2 <- lm(speed ~ dist.log, data = cars)
+```
+
+Then we want to find quantities of interest when the `dist` variable is 26 to
+56 (the first to third quartile):
+
+```{r}
+library(smargins)
+
+summary(smargins(m.log, at = list(dist = c(26, 56))))
+```
+
+We could also estimate the model with `dist` as a polynomial. For example:
+
+```{r message=FALSE}
+# Find range of polynomial values
+
+m2 <- lm(speed ~ poly(dist, 2), data = cars)
+summary(smargins(m2, at = list(dist = with(cars, seq(min(dist), max(dist), 10)))))
+```
+
+Splines and other transformations should generally work as expected.
+
+```{r, message=FALSE}
+library(splines)
+
+m3 <- lm(speed ~ bs(dist, df = 4), data = cars)
+summary(smargins(m3, at = list(dist = with(cars, seq(min(dist), max(dist), 10)))))
+```

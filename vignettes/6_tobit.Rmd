@@ -1,0 +1,165 @@
+---
+title: "AMEs for Tobit Models"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{AMEs for Tobit Models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(
+    stop_on_error = 2L
+)
+knitr::opts_chunk$set(
+    fig.height = 11,
+    fig.width = 7
+)
+
+options(cite = FALSE)
+```
+---
+
+
+Examples
+------
+
+```{r, eval = TRUE, echo = FALSE}
+rm(list=ls(pattern="\\.out"))
+suppressWarnings(suppressMessages(library(Zelig)))
+set.seed(1234)
+```
+
+### Basic Example
+
+Attaching the sample dataset:
+
+```{r, eval = TRUE}
+library(survival)
+data(tobin)
+```
+
+Estimating linear regression using `tobit`:
+
+```{r, eval = TRUE}
+## consider these two models:
+m1 <- survreg(Surv(durable, durable>0, type='left') ~ age + quant,
+              data=tobin, dist='gaussian')
+```
+
+Summarize estimated paramters:
+
+```{r, eval = TRUE}
+summary(m1)
+```
+
+Setting values for the explanatory variables to their sample averages
+and simulating quantity of interest.
+
+```{r, eval = TRUE}
+library(smargins)
+
+m.sm <- smargins(m1, at = list(quant = seq(210, 280, 10)))
+
+summary(m.sm)
+
+library(ggplot2)
+
+ggplot(summary(m.sm), aes(x = quant, y = mean)) +
+    geom_smooth(aes(ymin = lower_2.5, ymax = upper_97.5),
+                stat = "identity")
+```
+
+### Simulating First Differences
+
+Set explanatory variables to their default(mean/mode) values, with
+high (80th percentile) and low (20th percentile) liquidity ratio
+(`quant`):
+
+```{r, eval = TRUE}
+m.sm2 <- smargins(m1, at = list(quant = quantile(tobin$quant, prob = c(0.2, 0.8))))
+
+summary(m.sm2)
+```
+
+Estimating the first difference for the effect of high versus low
+liquidity ratio on duration(\ `durable`):
+
+```{r, eval = TRUE}
+summary(scompare(m.sm2, "quant"))
+ggplot(scompare(m.sm2, "quant"), aes(x = .smargin_qi)) +
+    geom_density(fill = "blue", alpha = 0.25)
+```
+
+Model
+------
+
+-  Let $Y_i^*$ be a latent dependent variable which is distributed
+   with *stochastic* component
+
+
+$$
+    \begin{aligned}
+        Y_i^* & \sim & \textrm{Normal}(\mu_i, \sigma^2) \\\end{aligned}
+$$
+
+   where $\mu_i$ is a vector means and $\sigma^2$ is a
+   scalar variance parameter. $Y_i^*$ is not directly observed,
+   however. Rather we observed $Y_i$ which is defined as:
+
+
+$$
+    Y_i = \left\{
+        \begin{array}{lcl}
+      Y_i^*  &\textrm{if} & c <Y_i^* \\
+      c    &\textrm{if} & c \ge Y_i^*
+      \end{array}\right.
+$$
+
+   where $c$ is the lower bound below which $Y_i^*$ is
+   censored.
+
+-  The *systematic component* is given by
+
+
+$$
+    \begin{aligned}
+        \mu_{i} &=& x_{i} \beta,\end{aligned}
+$$
+
+   where $x_{i}$ is the vector of $k$ explanatory variables
+   for observation $i$ and $\beta$ is the vector of
+   coefficients.
+
+Quantities of Interest
+------
+
+-  The expected values (`qi$ev`) for the tobit regression model are
+   the same as the expected value of $Y*$:
+
+
+$$
+    E(Y^* | X) = \mu_{i} = x_{i} \beta
+$$
+
+-  The first difference (`qi$fd`) for the tobit regression model is
+   defined as
+
+
+$$
+    \begin{aligned}
+        \text{FD}=E(Y^* \mid x_{1}) - E(Y^* \mid x).\end{aligned}
+$$
+
+-  In conditional prediction models, the average expected treatment
+   effect (`qi$att.ev`) for the treatment group is
+
+
+$$
+    \begin{aligned}
+        \frac{1}{\sum t_{i}}\sum_{i:t_{i}=1}[E[Y^*_{i}(t_{i}=1)]-E[Y^*_{i}(t_{i}=0)]],\end{aligned}
+$$
+
+   where $t_{i}$ is a binary explanatory variable defining the
+   treatment ($t_{i}=1$) and control ($t_{i}=0$) groups.
