@@ -28,7 +28,7 @@ The main functions provided by this package are:
 * `smargins()` calculates average marginal effects
 * `scompare()` performs pairwise comparisons of the average marginal effects produced by `smargins`.
 
-Some examples are available at [](https://izahn.github.io/smargins/)
+Some examples are available at (https://izahn.github.io/smargins/)
 
 ## Purpose
 

@@ -15,7 +15,7 @@ The main functions provided by this package are: \* `smargins()`
 calculates average marginal effects \* `scompare()` performs pairwise
 comparisons of the average marginal effects produced by `smargins`.
 
-Some examples are available at [](https://izahn.github.io/smargins/)
+Some examples are available at (<https://izahn.github.io/smargins/>)
 
 Purpose
 -------
@@ -47,12 +47,12 @@ Usage
                      at = list(gear = levels(mtc$gear)))
     summary(m.sm)
     #>   gear     mean       sd   median lower_2.5 upper_97.5
-    #> 1    3 16.09317 1.228878 16.02596  13.66345   18.43532
-    #> 2    4 24.53272 1.374501 24.50382  21.85658   27.49507
-    #> 3    5 21.31562 2.144460 21.22444  17.16829   25.67557
+    #> 1    3 16.09919 1.235973 16.08059  13.73738   18.50996
+    #> 2    4 24.54575 1.333915 24.52239  21.75110   27.19820
+    #> 3    5 21.38965 2.091787 21.37447  17.21370   25.45643
 
     summary(scompare(m.sm, "gear"))
     #>     gear      mean       sd    median  lower_2.5 upper_97.5
-    #> 1 3 vs 4 -8.439557 1.835630 -8.485771 -11.993408 -4.7810416
-    #> 2 3 vs 5 -5.222452 2.472813 -5.167885 -10.308377 -0.2634693
-    #> 3 4 vs 5  3.217106 2.541430  3.213214  -1.475929  8.2469156
+    #> 1 3 vs 4 -8.446562 1.800213 -8.472657 -11.993262 -4.9112416
+    #> 2 3 vs 5 -5.290452 2.408014 -5.270751  -9.870763 -0.5940042
+    #> 3 4 vs 5  3.156109 2.466389  3.107031  -1.713973  8.0977813
