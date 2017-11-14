@@ -18,9 +18,11 @@ knitr::opts_chunk$set(
 
 `smargins` is a package that aids in calculating Average Marginal
 Effects for models of various kinds. There are many packages like it
-(e.g., [effects](https://cran.rstudio.com/web/packages/effects/),
+(e.g., [coreSim](https://cran.r-project.org/web/packages/coreSim/),
+[effects](https://cran.rstudio.com/web/packages/effects/),
 [lsmeans](https://cran.rstudio.com/web/packages/lsmeans/),
-[margins](https://cran.rstudio.com/web/packages/margins/), [rms](https://cran.rstudio.com/web/packages/rms/) and
+[margins](https://cran.rstudio.com/web/packages/margins/),
+[rms](https://cran.rstudio.com/web/packages/rms/) and
 [Zelig](https://cran.rstudio.com/web/packages/Zelig/)) but this one is
 mine.
 
