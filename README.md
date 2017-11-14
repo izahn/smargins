@@ -4,9 +4,10 @@ Overview
 
 `smargins` is a package that aids in calculating Average Marginal
 Effects for models of various kinds. There are many packages like it
-(e.g.,[effects](https://cran.rstudio.com/web/packages/effects/),
+(e.g., [effects](https://cran.rstudio.com/web/packages/effects/),
 [lsmeans](https://cran.rstudio.com/web/packages/lsmeans/),
-[margins](https://cran.rstudio.com/web/packages/margins/), and
+[margins](https://cran.rstudio.com/web/packages/margins/),
+[rms](https://cran.rstudio.com/web/packages/rms/) and
 [Zelig](https://cran.rstudio.com/web/packages/Zelig/)) but this one is
 mine.
 
@@ -46,12 +47,12 @@ Usage
                      at = list(gear = levels(mtc$gear)))
     summary(m.sm)
     #>   gear     mean       sd   median lower_2.5 upper_97.5
-    #> 1    3 16.11536 1.224537 16.12504  13.70970   18.51455
-    #> 2    4 24.56198 1.313763 24.59786  21.95439   27.02018
-    #> 3    5 21.45020 2.059484 21.48608  17.40312   25.50417
+    #> 1    3 16.09317 1.228878 16.02596  13.66345   18.43532
+    #> 2    4 24.53272 1.374501 24.50382  21.85658   27.49507
+    #> 3    5 21.31562 2.144460 21.22444  17.16829   25.67557
 
     summary(scompare(m.sm, "gear"))
     #>     gear      mean       sd    median  lower_2.5 upper_97.5
-    #> 1 3 vs 4 -8.446617 1.796413 -8.471356 -11.802274 -4.9091850
-    #> 2 3 vs 5 -5.334846 2.448668 -5.333002 -10.106188 -0.3231437
-    #> 3 4 vs 5  3.111772 2.453608  3.053308  -1.695247  7.8960754
+    #> 1 3 vs 4 -8.439557 1.835630 -8.485771 -11.993408 -4.7810416
+    #> 2 3 vs 5 -5.222452 2.472813 -5.167885 -10.308377 -0.2634693
+    #> 3 4 vs 5  3.217106 2.541430  3.213214  -1.475929  8.2469156
