@@ -72,7 +72,7 @@ smargins.default <- function(model, at = list(), n = 1000,
 #'
 #' @param x An object of class "smargins".
 #' @author Ista Zahn
-
+#' @export
 print.smargins <- function(x) {
     rownames(x) <- sprintf(paste0("%-", nchar(nrow(x)), "s"), rownames(x))
     width <- nchar(capture.output(print.data.frame(tail(x, 1)))[2])
