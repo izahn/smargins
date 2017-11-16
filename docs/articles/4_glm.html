@@ -143,7 +143,7 @@
 <div class="sourceLine" id="cb8-3" data-line-number="3">
 <span class="kw">summary</span>(m.sm)</div></code></pre>
 <pre><code>##   age  race      mean         sd    median lower_2.5 upper_97.5
-## 1  36 white 0.6083868 0.02908312 0.6086894 0.5516242  0.6648579</code></pre>
+## 1  36 white 0.6081009 0.02912661 0.6079436 0.5507091  0.6653467</code></pre>
 <p>Show the results graphically:</p>
 <pre class="sourceCode r" id="cb10"><code class="sourceCode r"><div class="sourceLine" id="cb10-1" data-line-number="1">
 <span class="kw">library</span>(ggplot2)</div>
@@ -162,12 +162,12 @@
 <div class="sourceLine" id="cb11-4" data-line-number="4">
 <span class="kw">summary</span>(m2.sm)</div></code></pre>
 <pre><code>##   educate      mean         sd    median lower_2.5 upper_97.5
-## 1      10 0.6899839 0.01211648 0.6900389 0.6660631  0.7138617
-## 2      14 0.8134441 0.01039840 0.8135651 0.7928967  0.8335252</code></pre>
+## 1      10 0.6901692 0.01204874 0.6903049 0.6665268  0.7136372
+## 2      14 0.8133377 0.01034993 0.8134664 0.7923449  0.8328615</code></pre>
 <pre class="sourceCode r" id="cb13"><code class="sourceCode r"><div class="sourceLine" id="cb13-1" data-line-number="1">
 <span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="dt">var =</span> <span class="st">"educate"</span>))</div></code></pre>
 <pre><code>##    educate       mean         sd     median  lower_2.5 upper_97.5
-## 1 10 vs 14 -0.1234602 0.01141769 -0.1235374 -0.1458856 -0.1008605</code></pre>
+## 1 10 vs 14 -0.1231685 0.01156283 -0.1231232 -0.1460555 -0.1005818</code></pre>
 <pre class="sourceCode r" id="cb15"><code class="sourceCode r"><div class="sourceLine" id="cb15-1" data-line-number="1">
 <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="st">"educate"</span>)) <span class="op">+</span>
 </div>
