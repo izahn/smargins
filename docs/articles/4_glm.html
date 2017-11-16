@@ -143,7 +143,7 @@
 <div class="sourceLine" id="cb8-3" data-line-number="3">
 <span class="kw">summary</span>(m.sm)</div></code></pre>
 <pre><code>##   age  race      mean         sd    median lower_2.5 upper_97.5
-## 1  36 white 0.6081009 0.02912661 0.6079436 0.5507091  0.6653467</code></pre>
+## 1  36 white 0.6095468 0.02954281 0.6099569 0.5523148  0.6666763</code></pre>
 <p>Show the results graphically:</p>
 <pre class="sourceCode r" id="cb10"><code class="sourceCode r"><div class="sourceLine" id="cb10-1" data-line-number="1">
 <span class="kw">library</span>(ggplot2)</div>
@@ -162,12 +162,12 @@
 <div class="sourceLine" id="cb11-4" data-line-number="4">
 <span class="kw">summary</span>(m2.sm)</div></code></pre>
 <pre><code>##   educate      mean         sd    median lower_2.5 upper_97.5
-## 1      10 0.6901692 0.01204874 0.6903049 0.6665268  0.7136372
-## 2      14 0.8133377 0.01034993 0.8134664 0.7923449  0.8328615</code></pre>
+## 1      10 0.6902249 0.01225109 0.6903473 0.6656900  0.7134827
+## 2      14 0.8135030 0.01069035 0.8139004 0.7915865  0.8337037</code></pre>
 <pre class="sourceCode r" id="cb13"><code class="sourceCode r"><div class="sourceLine" id="cb13-1" data-line-number="1">
 <span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="dt">var =</span> <span class="st">"educate"</span>))</div></code></pre>
-<pre><code>##    educate       mean         sd     median  lower_2.5 upper_97.5
-## 1 10 vs 14 -0.1231685 0.01156283 -0.1231232 -0.1460555 -0.1005818</code></pre>
+<pre><code>##    educate       mean         sd     median  lower_2.5  upper_97.5
+## 1 10 vs 14 -0.1232781 0.01167375 -0.1230623 -0.1461848 -0.09997765</code></pre>
 <pre class="sourceCode r" id="cb15"><code class="sourceCode r"><div class="sourceLine" id="cb15-1" data-line-number="1">
 <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="st">"educate"</span>)) <span class="op">+</span>
 </div>
