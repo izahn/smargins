@@ -26,12 +26,12 @@ smargins <- function(model, ..., n = 1000) {
 #' @param model A fitted model object.
 #' @param ... Named values to set predictor variables to.
 #' @param n Number of simulations to run.
-#' @param coef.fun Number of simulations to run.
-#' @param sim.fun Number of simulations to run.
-#' @param linkinv.fun Number of simulations to run.
-#' @param vcov.fun Number of simulations to run.
-#' @param model.frame.fun Number of simulations to run.
-#' @param model.matrix.fun Number of simulations to run.
+#' @param coef.fun Function to use for computing coefficients.
+#' @param sim.fun Function to use for adjusting simulations.
+#' @param linkinv.fun Function to use for cmputing the inverse link.
+#' @param vcov.fun Function to use for computing the variance-covariance matrix.
+#' @param model.frame.fun Function to use for extracting the model.frame.
+#' @param model.matrix.fun Function to use for extracting the model.matrix.
 #'
 #' @return A data.frame containing predictor variables values and
 #'         expected values of the dependant variable.
@@ -49,6 +49,11 @@ smargins.default <- function(model, ..., n = 5000,
                              ) {
     mf <- model.frame.fun(model)
     #xl <- lapply(mf[!sapply(mf, is.numeric)], levels)
+    if(!missing(.data)) {
+        alldat <- data
+    } else {
+        alldat <- prediction::find_data(model)
+    }
     at <- eval(substitute(list(...)), prediction::find_data(model))
     at.grid <- expand.grid(at)
     fvars <- names(mf)[purrr::map_lgl(mf, is.factor)]
