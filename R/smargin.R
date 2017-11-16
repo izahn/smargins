@@ -49,7 +49,7 @@ smargins.default <- function(model, ..., n = 5000,
                              ) {
     mf <- model.frame.fun(model)
     #xl <- lapply(mf[!sapply(mf, is.numeric)], levels)
-    at <- eval(substitute(list(...)), get_all_vars(model, data = eval(model[["call"]][["data"]])))
+    at <- eval(substitute(list(...)), prediction::find_data(model))
     at.grid <- expand.grid(at)
     fvars <- names(mf)[purrr::map_lgl(mf, is.factor)]
     mf.orig <- mf
