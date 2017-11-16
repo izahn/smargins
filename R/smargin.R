@@ -16,7 +16,7 @@
 #'
 #' @author Ista Zahn
 #' @export
-smargins <- function(model, at, n = 1000, ...) {
+smargins <- function(model, ..., n = 1000) {
     UseMethod("smargins")
 }
 
@@ -44,9 +44,12 @@ smargins.default <- function(model, ..., n = 5000,
                              linkinv.fun = family(model)$linkinv,
                              vcov.fun = vcov,
                              model.frame.fun = model.frame,
-                             model.matrix.fun = function(x, data) {model.matrix(formula(x), data = data)}) {
+                             model.matrix.fun = function(x, data) {model.matrix(formula(x), data = data)}
+                             #model.matrix.fun = model.matrix
+                             ) {
     mf <- model.frame.fun(model)
-    at <- lapply(substitute(list(...))[-1], function(x) eval(x, mf))
+    #xl <- lapply(mf[!sapply(mf, is.numeric)], levels)
+    at <- eval(substitute(list(...)), get_all_vars(model, data = eval(model[["call"]][["data"]])))
     at.grid <- expand.grid(at)
     fvars <- names(mf)[purrr::map_lgl(mf, is.factor)]
     mf.orig <- mf
