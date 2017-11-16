@@ -49,12 +49,9 @@ smargins.default <- function(model, ..., n = 5000,
                              ) {
     mf <- model.frame.fun(model)
     #xl <- lapply(mf[!sapply(mf, is.numeric)], levels)
-    if(!missing(.data)) {
-        alldat <- data
-    } else {
-        alldat <- prediction::find_data(model)
-    }
-    at <- eval(substitute(list(...)), prediction::find_data(model))
+    alldat <- try(prediction::find_data(model), silent = TRUE)
+    if(class(alldat) == "try-error") alldat <- mf
+    at <- eval(substitute(list(...)), alldat)
     at.grid <- expand.grid(at)
     fvars <- names(mf)[purrr::map_lgl(mf, is.factor)]
     mf.orig <- mf

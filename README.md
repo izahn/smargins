@@ -34,6 +34,9 @@ Installation
 `smargins` is not on CRAN (and may never be). You can install it from
 github using the `devtools` package:
 
+    ## install.packages("devtools")
+    devtools::install_github("izahn/smargins")
+
 Usage
 -----
 
@@ -42,15 +45,15 @@ Usage
     mtcars <- transform(mtcars, gear = factor(gear))
 
     m.sm <- smargins(lm(mpg ~ gear, data = mtcars),
-                     gear = unique(gear))
+                     gear = levels(gear))
     summary(m.sm)
     #>   gear     mean       sd   median lower_2.5 upper_97.5
-    #> 1    4 24.53784 1.368736 24.53490  21.92441   27.24769
-    #> 2    3 16.07109 1.214436 16.05300  13.75438   18.44333
+    #> 1    3 16.07109 1.214436 16.05300  13.75438   18.44333
+    #> 2    4 24.53784 1.368736 24.53490  21.92441   27.24769
     #> 3    5 21.43060 2.106989 21.42886  17.30583   25.56910
 
     summary(scompare(m.sm, "gear"))
     #>     gear      mean       sd    median lower_2.5 upper_97.5
-    #> 1 4 vs 3  3.107235 2.501960  3.086447  -1.77765  8.0003284
-    #> 2 4 vs 5 -8.466747 1.833977 -8.446346 -12.13801 -4.9015510
-    #> 3 3 vs 5 -5.359512 2.452244 -5.388814 -10.16701 -0.5767845
+    #> 1 3 vs 4 -8.466747 1.833977 -8.446346 -12.13801 -4.9015510
+    #> 2 3 vs 5 -5.359512 2.452244 -5.388814 -10.16701 -0.5767845
+    #> 3 4 vs 5  3.107235 2.501960  3.086447  -1.77765  8.0003284

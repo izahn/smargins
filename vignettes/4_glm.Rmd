@@ -51,7 +51,7 @@ interest from the posterior distribution:
 
 ```{r}
 library(smargins)
-m.sm <- smargins(m1, age = 36, race = c("white"))
+m.sm <- smargins(m1, age = 36, race = "white")
 summary(m.sm)
 ```
 

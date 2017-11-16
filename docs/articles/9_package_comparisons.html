@@ -198,7 +198,7 @@
 ## Results are averaged over the levels of: type 
 ## Confidence level used: 0.95</code></pre>
 <pre class="sourceCode r" id="cb22"><code class="sourceCode r"><div class="sourceLine" id="cb22-1" data-line-number="1">
-<span class="kw"><a href="http://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/prediction/topics/prediction">prediction</a></span>(m, <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">income =</span> <span class="kw">quantile</span>(Prestige<span class="op">$</span>income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>)))),</div>
+<span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/summarise">summarise</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/group_by">group_by</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/prediction/topics/prediction">prediction</a></span>(m, <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">income =</span> <span class="kw">quantile</span>(Prestige<span class="op">$</span>income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>)))),</div>
 <div class="sourceLine" id="cb22-2" data-line-number="2">                   income),</div>
 <div class="sourceLine" id="cb22-3" data-line-number="3">          <span class="kw">mean</span>(fitted),</div>
 <div class="sourceLine" id="cb22-4" data-line-number="4">          <span class="kw">mean</span>(se.fitted))</div></code></pre>
@@ -272,11 +272,11 @@
 ##  sim range :
 ##  -----
 ## ev
-##       mean       sd      50%     2.5%    97.5%
-## 1 33.92544 1.239246 33.90992 31.59607 36.39573
+##       mean       sd    50%     2.5%    97.5%
+## 1 33.92705 1.265507 33.951 31.53582 36.34641
 ## pv
-##          mean       sd      50%     2.5%    97.5%
-## [1,] 33.63427 8.302781 33.51602 17.48967 49.69655
+##         mean       sd      50%     2.5%    97.5%
+## [1,] 33.7407 8.239059 33.82106 17.58489 50.00148
 ## 
 ## 
 ## [1] 6035.5
@@ -285,11 +285,11 @@
 ##  sim range :
 ##  -----
 ## ev
-##       mean       sd      50%     2.5%    97.5%
-## 1 36.46557 1.220936 36.40642 34.09732 38.88857
+##       mean       sd     50%     2.5%   97.5%
+## 1 36.43152 1.253157 36.3888 33.95343 38.9068
 ## pv
 ##          mean       sd      50%     2.5%    97.5%
-## [1,] 35.63183 8.325934 35.73126 19.50281 51.06889
+## [1,] 36.55122 8.269222 36.89721 20.61005 52.70838
 ## 
 ## 
 ## [1] 8226.25
@@ -298,11 +298,11 @@
 ##  sim range :
 ##  -----
 ## ev
-##       mean       sd     50%     2.5%    97.5%
-## 1 39.58311 1.378332 39.5234 36.89568 42.33576
+##       mean       sd      50%     2.5%    97.5%
+## 1 39.50529 1.430248 39.43037 36.67898 42.32489
 ## pv
-##          mean       sd      50%     2.5%    97.5%
-## [1,] 39.28498 8.427316 39.26532 22.46258 56.05277</code></pre>
+##          mean      sd      50%     2.5%    97.5%
+## [1,] 39.74518 8.30703 39.76207 23.98828 55.84397</code></pre>
 <p>Like the <code>rms</code> package the <code>setx</code> function uses variable names as arguments.</p>
 </section></section><section id="the-best-parts" class="level2"><h2>The best parts</h2>
 <p>Each of the packages reviewed above has advantages and disadvantages relative to the others. If we were to combine the best parts of each approach into a single package it would have the following features:</p>
@@ -322,48 +322,48 @@
 <span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m,</div>
 <div class="sourceLine" id="cb42-4" data-line-number="4">                 <span class="dt">income =</span> <span class="kw">quantile</span>(income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>))))</div></code></pre>
 <pre><code>##    income     mean        sd   median lower_2.5 upper_97.5
-## 1 4250.50 43.57489 1.0530800 43.55839  41.49270   45.67342
-## 2 6035.50 46.06862 0.8629779 46.07004  44.37450   47.78421
-## 3 8226.25 49.12921 0.8975432 49.13667  47.37354   50.91589</code></pre>
+## 1 4250.50 43.54794 1.0597250 43.56645  41.37496   45.53002
+## 2 6035.50 46.05331 0.8672294 46.06521  44.31822   47.70924
+## 3 8226.25 49.12818 0.8930069 49.13364  47.36462   50.85085</code></pre>
 <p>Producing the expected values at specific values of the predictors as <code>Zelig</code> and <code>rms</code> do is also easy, as one simply needs to specify values for all the predictors:</p>
 <pre class="sourceCode r" id="cb44"><code class="sourceCode r"><div class="sourceLine" id="cb44-1" data-line-number="1">
 <span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m,</div>
 <div class="sourceLine" id="cb44-2" data-line-number="2">                 <span class="dt">income =</span> <span class="kw">quantile</span>(income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>)),</div>
 <div class="sourceLine" id="cb44-3" data-line-number="3">                 <span class="dt">type =</span> <span class="st">"bc"</span>))</div></code></pre>
 <pre><code>##    income type     mean       sd   median lower_2.5 upper_97.5
-## 1 4250.50   bc 33.96014 1.266867 33.94436  31.54309   36.41263
-## 2 6035.50   bc 36.45247 1.240714 36.45903  34.03430   38.85308
-## 3 8226.25   bc 39.51133 1.408811 39.50747  36.76780   42.25723</code></pre>
+## 1 4250.50   bc 33.93145 1.262587 33.94296  31.35539   36.36575
+## 2 6035.50   bc 36.44022 1.239203 36.45242  33.92916   38.80891
+## 3 8226.25   bc 39.51927 1.410326 39.53766  36.71860   42.20225</code></pre>
 <p>Obtaining marginal means as computed by <code>emmeans</code> is a simple matter of computing all the expected values and then averaging as desired. For example the <code>emmeans</code> result above can be produced with <code>smargins</code> and <code>summary</code> as follows:</p>
 <pre class="sourceCode r" id="cb46"><code class="sourceCode r"><div class="sourceLine" id="cb46-1" data-line-number="1">
 <span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m,</div>
 <div class="sourceLine" id="cb46-2" data-line-number="2">                 <span class="dt">income =</span> <span class="kw">quantile</span>(income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>))),</div>
 <div class="sourceLine" id="cb46-3" data-line-number="3">        <span class="dt">vars =</span> <span class="st">"income"</span>)</div></code></pre>
 <pre><code>##    income     mean        sd   median lower_2.5 upper_97.5
-## 1 4250.50 43.56291 1.0586152 43.55947  41.47361   45.63391
-## 2 6035.50 46.07029 0.8638176 46.07261  44.38732   47.79346
-## 3 8226.25 49.14764 0.8906045 49.13844  47.40496   50.92625</code></pre>
+## 1 4250.50 43.58004 1.0575758 43.56665  41.51043   45.70106
+## 2 6035.50 46.06749 0.8601675 46.05098  44.38093   47.73000
+## 3 8226.25 49.12035 0.8803970 49.12867  47.37117   50.81073</code></pre>
 <p>The nice thing about this approach is that it is transparent and flexible. Users can specify any combination of variables to average over. In fact, users can easily do it themselves if desired:</p>
 <pre class="sourceCode r" id="cb48"><code class="sourceCode r"><div class="sourceLine" id="cb48-1" data-line-number="1">(all.ev &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m,</div>
 <div class="sourceLine" id="cb48-2" data-line-number="2">                           <span class="dt">income =</span> <span class="kw">quantile</span>(income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>)),</div>
 <div class="sourceLine" id="cb48-3" data-line-number="3">                           <span class="dt">type =</span> <span class="kw">unique</span>(type))))</div></code></pre>
 <pre><code>##    income type     mean       sd   median lower_2.5 upper_97.5
-## 1 4250.50 prof 59.00377 2.125093 59.00052  54.91257   63.14116
-## 2 6035.50 prof 61.50853 1.835041 61.51228  57.95972   65.05135
-## 3 8226.25 prof 64.58264 1.572066 64.60156  61.50978   67.58174
-## 4 4250.50   bc 33.94322 1.279780 33.93719  31.43276   36.49795
-## 5 6035.50   bc 36.44798 1.258554 36.44814  33.98144   38.94511
-## 6 8226.25   bc 39.52209 1.425337 39.51005  36.77081   42.37335
-## 7 4250.50   wc 41.10457 1.710067 41.09526  37.75650   44.49947
-## 8 6035.50   wc 43.60933 1.723093 43.59095  40.21140   46.97450
-## 9 8226.25   wc 46.68344 1.880876 46.67333  43.01688   50.33095</code></pre>
-<pre class="sourceCode r" id="cb50"><code class="sourceCode r"><div class="sourceLine" id="cb50-1" data-line-number="1">(em.inc.ev &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/summarise_all.html">summarise_all</a></span>(<span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(all.ev, <span class="op">-</span>type), income), <span class="kw"><a href="http://dplyr.tidyverse.org/reference/funs.html">funs</a></span>(mean)))</div></code></pre>
+## 1 4250.50 prof 59.01362 2.120067 59.02746  54.71047   63.15945
+## 2 6035.50 prof 61.50857 1.836240 61.51818  57.83577   65.14133
+## 3 8226.25 prof 64.57066 1.582552 64.57882  61.41230   67.68482
+## 4 4250.50   bc 33.97745 1.283784 34.00675  31.40874   36.46619
+## 5 6035.50   bc 36.47241 1.256580 36.47909  33.95763   38.92314
+## 6 8226.25   bc 39.53449 1.415989 39.54396  36.78548   42.36026
+## 7 4250.50   wc 41.14197 1.713625 41.14832  37.74311   44.46772
+## 8 6035.50   wc 43.63693 1.723787 43.63226  40.19787   46.92603
+## 9 8226.25   wc 46.69901 1.877541 46.69324  42.93945   50.36272</code></pre>
+<pre class="sourceCode r" id="cb50"><code class="sourceCode r"><div class="sourceLine" id="cb50-1" data-line-number="1">(em.inc.ev &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/summarise_all">summarise_all</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/group_by">group_by</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/select">select</a></span>(all.ev, <span class="op">-</span>type), income), <span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/funs">funs</a></span>(mean)))</div></code></pre>
 <pre><code>## # A tibble: 3 x 6
 ##    income     mean       sd   median lower_2.5 upper_97.5
 ##     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
-## 1 4250.50 44.68385 1.704980 44.67766  41.36728   48.04619
-## 2 6035.50 47.18861 1.605563 47.18379  44.05085   50.32365
-## 3 8226.25 50.26272 1.626093 50.26165  47.09915   53.42868</code></pre>
+## 1 4250.50 44.71101 1.705825 44.72751  41.28744   48.03112
+## 2 6035.50 47.20597 1.605536 47.20984  43.99709   50.33017
+## 3 8226.25 50.26805 1.625361 50.27201  47.04574   53.46927</code></pre>
 <p>The <code>summary</code> method is just a convenience that makes it easier to do this. The simplicity and transparency of this operation is a direct consequence of the decision to return expected values in a simple <code>data.frame</code> structure that is familiar to R users and is easy for them to manipulate.</p>
 </section><section id="comparisons-and-transformations" class="level2"><h2>Comparisons and transformations</h2>
 <p>Some of the packages reviewed above provide some tools for calculating differences among expected values.</p>
@@ -372,10 +372,10 @@
 <pre class="sourceCode r" id="cb52"><code class="sourceCode r"><div class="sourceLine" id="cb52-1" data-line-number="1">m.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m, <span class="dt">type =</span> <span class="kw">unique</span>(type))</div>
 <div class="sourceLine" id="cb52-2" data-line-number="2">
 <span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m.sm, <span class="st">"type"</span>))</div></code></pre>
-<pre><code>##         type       mean       sd    median lower_2.5 upper_97.5
-## 1 prof vs bc  17.854970 2.614145  17.85037  12.66574  23.082012
-## 2 prof vs wc -25.063463 2.294696 -25.08078 -29.57595 -20.541535
-## 3   bc vs wc  -7.208493 2.110408  -7.17816 -11.32583  -3.227132</code></pre>
+<pre><code>##         type       mean       sd     median lower_2.5 upper_97.5
+## 1 prof vs bc  17.880714 2.643755  17.867512  12.71444  23.024655
+## 2 prof vs wc -25.084270 2.307353 -25.117362 -29.55948 -20.571031
+## 3   bc vs wc  -7.203555 2.141467  -7.202358 -11.41926  -3.047944</code></pre>
 <p>but the really great thing is that the structure is simple enough that the user can perform their own arbitrary transformations. For example, we can compare the average of white collar and professional with blue collar:</p>
 <pre class="sourceCode r" id="cb54"><code class="sourceCode r"><div class="sourceLine" id="cb54-1" data-line-number="1">bc &lt;-<span class="st"> </span><span class="kw">subset</span>(m.sm, type <span class="op">==</span><span class="st"> "bc"</span>)<span class="op">$</span>.smargin_qi</div>
 <div class="sourceLine" id="cb54-2" data-line-number="2">wc_prof &lt;-<span class="st"> </span><span class="kw">subset</span>(m.sm, type <span class="op">==</span><span class="st"> "wc"</span>)<span class="op">$</span>.smargin_qi <span class="op">+</span>
@@ -385,7 +385,7 @@
 <div class="sourceLine" id="cb54-4" data-line-number="4">
 <span class="kw"><a href="../reference/sumstats.html">sumstats</a></span>(bc <span class="op">-</span><span class="st"> </span>wc_prof)</div></code></pre>
 <pre><code>##       mean         sd     median  lower_2.5 upper_97.5 
-## -27.061681   4.130076 -26.996210 -35.301452 -18.911429</code></pre>
+## -27.013513   4.169291 -26.935020 -35.224737 -19.036978</code></pre>
 </section><section id="plots" class="level2"><h2>Plots</h2>
 <p>TODO</p>
 </section><section id="interactions" class="level2"><h2>Interactions</h2>

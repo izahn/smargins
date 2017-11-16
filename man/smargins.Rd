@@ -4,16 +4,16 @@
 \alias{smargins}
 \title{Calculate average marginal effects from a fitted model object.}
 \usage{
-smargins(model, at, n = 1000, ...)
+smargins(model, ..., n = 1000)
 }
 \arguments{
 \item{model}{A fitted model object.}
 
-\item{at}{A named list of values to set predictor variables to.}
+\item{...}{Further arguments passed to or from other methods.}
 
 \item{n}{Number of simulations to run.}
 
-\item{...}{Further arguments passed to or from other methods.}
+\item{at}{A named list of values to set predictor variables to.}
 }
 \value{
 A data.frame containing predictor variables values and

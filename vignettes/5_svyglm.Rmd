@@ -54,7 +54,6 @@ you may not need to do in another dataset.
 
 ```{r, eval = TRUE}
 library(survey)
-
 apistrat.design <- svydesign(ids = ~1, weights = ~pw, data = apistrat)
 
 m1 <- svyglm(yr.rnd ~ meals + mobility,

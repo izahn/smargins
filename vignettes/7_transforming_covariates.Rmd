@@ -40,15 +40,15 @@ We could also estimate the model with `dist` as a polynomial. For example:
 ```{r message=FALSE}
 # Find range of polynomial values
 
-#m2 <- lm(speed ~ poly(distance, 2), data = cars)
-#summary(smargins(m2, distance = min(distance)))
+m2 <- lm(speed ~ poly(distance, 2), data = cars)
+summary(smargins(m2, distance = quantile(distance, seq(0, 1, .1))))
 ```
 
 Splines and other transformations should generally work as expected.
 
 ```{r, message=FALSE}
-#library(splines)
+library(splines)
 
-#m3 <- lm(speed ~ bs(distance, df = 4), data = cars)
-#summary(smargins(m3, distance = seq(min(distance), max(distance), 10)))
+m3 <- lm(speed ~ bs(distance, df = 4), data = cars)
+summary(smargins(m3, distance = seq(min(distance), max(distance), 10)))
 ```
