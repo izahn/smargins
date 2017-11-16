@@ -143,34 +143,34 @@
 <div class="sourceLine" id="cb3-4" data-line-number="4"></div>
 <div class="sourceLine" id="cb3-5" data-line-number="5">ppred1</div></code></pre>
 <pre><code>##       type .sim_number .smargin_qi
-## 1     prof           1    6020.303
-## 2     prof           2    6819.914
-## 3     prof           3    7644.039
-## 4     prof           4    6845.295
-## 5     prof           5    7659.680
-## 6     prof           6    7114.037
+## 1     prof           1    9049.196
+## 2     prof           2    7486.157
+## 3     prof           3    8114.485
+## 4     prof           4    7966.789
+## 5     prof           5    6834.912
+## 6     prof           6    8996.791
 ## # - - - - - - - - - - - - - - - - -                                  
-## 14995   wc        4995    4372.383
-## 14996   wc        4996    4370.676
-## 14997   wc        4997    4701.664
-## 14998   wc        4998    5146.613
-## 14999   wc        4999    4525.128
-## 15000   wc        5000    5307.628</code></pre>
+## 14995   wc        4995    4452.689
+## 14996   wc        4996    3544.105
+## 14997   wc        4997    3679.421
+## 14998   wc        4998    5304.009
+## 14999   wc        4999    6459.818
+## 15000   wc        5000    5998.539</code></pre>
 <p>The print method shows us how the result is organized. There is a summary method that gives a default set of statistics for each combination of values specified in the <code>at</code> argument:</p>
 <pre class="sourceCode r" id="cb5"><code class="sourceCode r"><div class="sourceLine" id="cb5-1" data-line-number="1">
 <span class="kw">summary</span>(ppred1)</div></code></pre>
 <pre><code>##   type     mean        sd   median lower_2.5 upper_97.5
-## 1 prof 7669.225 1118.9341 7671.616  5510.494   9857.801
-## 2   bc 7520.973  861.3517 7517.423  5854.702   9242.086
-## 3   wc 4857.028  698.7501 4865.531  3470.829   6245.005</code></pre>
+## 1 prof 7640.262 1114.7899 7658.869  5458.344   9799.794
+## 2   bc 7549.277  857.9431 7539.822  5890.878   9217.147
+## 3   wc 4849.473  709.1784 4842.940  3460.585   6260.410</code></pre>
 </section><section id="comparisons" class="level2"><h2>Comparisons</h2>
 <p>The summary method shows expected values for each value specified in the <code>...</code> arguments, but frequently we want some transformation of these values. There is a <code>scompare</code> function that gives pairwise differences:</p>
 <pre class="sourceCode r" id="cb7"><code class="sourceCode r"><div class="sourceLine" id="cb7-1" data-line-number="1">
 <span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(ppred1, <span class="st">"type"</span>))</div></code></pre>
-<pre><code>##         type      mean       sd    median  lower_2.5 upper_97.5
-## 1 prof vs bc 2812.1966 1276.322 2831.9263   346.6673   5297.691
-## 2 prof vs wc -148.2519 1824.819 -139.4934 -3693.6690   3360.631
-## 3   bc vs wc 2663.9446 1148.544 2654.9183   385.7762   4904.297</code></pre>
+<pre><code>##         type       mean       sd    median  lower_2.5 upper_97.5
+## 1 prof vs bc 2790.78961 1271.583 2784.2598   304.9961   5251.772
+## 2 prof vs wc  -90.98521 1816.877 -109.2784 -3710.1341   3482.967
+## 3   bc vs wc 2699.80439 1162.442 2706.2481   419.9419   4990.017</code></pre>
 <p>but the really great thing is that the structure is simple enough that the user can perform their own arbitrary transformations. For example, we can compare the average of white collar and professional with blue collar:</p>
 <pre class="sourceCode r" id="cb9"><code class="sourceCode r"><div class="sourceLine" id="cb9-1" data-line-number="1">bc &lt;-<span class="st"> </span><span class="kw">subset</span>(ppred1, type <span class="op">==</span><span class="st"> "bc"</span>)<span class="op">$</span>.smargin_qi</div>
 <div class="sourceLine" id="cb9-2" data-line-number="2">wc_prof &lt;-<span class="st"> </span><span class="kw">subset</span>(ppred1, type <span class="op">==</span><span class="st"> "wc"</span>)<span class="op">$</span>.smargin_qi <span class="op">+</span>
@@ -180,7 +180,7 @@
 <div class="sourceLine" id="cb9-4" data-line-number="4">
 <span class="kw"><a href="../reference/sumstats.html">sumstats</a></span>(bc <span class="op">-</span><span class="st"> </span>wc_prof)</div></code></pre>
 <pre><code>##       mean         sd     median  lower_2.5 upper_97.5 
-##  -2044.831   1727.113  -2029.073  -5358.787   1382.283</code></pre>
+##  -2058.683   1731.297  -2048.217  -5542.703   1318.140</code></pre>
 </section><section id="visualizations" class="level2"><h2>Visualizations</h2>
 <p>Another advantage of the simple data structure returned by <code>smargins</code> is that it makes creating plots using standard graphics packages in R easy. For example, we can graph the expected values by type:</p>
 <pre class="sourceCode r" id="cb11"><code class="sourceCode r"><div class="sourceLine" id="cb11-1" data-line-number="1">
