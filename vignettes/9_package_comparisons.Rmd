@@ -156,7 +156,7 @@ Obtaining marginal means as computed by `emmeans` is a simple matter of computin
 
 ```{r}
 summary(smargins(m,
-                 income = quantile(income, c(.25, .5, .75)),),
+                 income = quantile(income, c(.25, .5, .75))),
         vars = "income")
 ```
 

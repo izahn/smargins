@@ -142,8 +142,8 @@
 <div class="sourceLine" id="cb8-2" data-line-number="2">m.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">age =</span> <span class="dv">36</span>, <span class="dt">race =</span> <span class="kw">c</span>(<span class="st">"white"</span>))</div>
 <div class="sourceLine" id="cb8-3" data-line-number="3">
 <span class="kw">summary</span>(m.sm)</div></code></pre>
-<pre><code>##   age  race     mean         sd    median lower_2.5 upper_97.5
-## 1  36 white 0.608105 0.02907479 0.6084978 0.5493922  0.6637536</code></pre>
+<pre><code>##   age  race      mean         sd    median lower_2.5 upper_97.5
+## 1  36 white 0.6083868 0.02908312 0.6086894 0.5516242  0.6648579</code></pre>
 <p>Show the results graphically:</p>
 <pre class="sourceCode r" id="cb10"><code class="sourceCode r"><div class="sourceLine" id="cb10-1" data-line-number="1">
 <span class="kw">library</span>(ggplot2)</div>
@@ -162,12 +162,12 @@
 <div class="sourceLine" id="cb11-4" data-line-number="4">
 <span class="kw">summary</span>(m2.sm)</div></code></pre>
 <pre><code>##   educate      mean         sd    median lower_2.5 upper_97.5
-## 1      10 0.6900138 0.01204573 0.6902361 0.6658196  0.7131517
-## 2      14 0.8130538 0.01038134 0.8133685 0.7917807  0.8325070</code></pre>
+## 1      10 0.6899839 0.01211648 0.6900389 0.6660631  0.7138617
+## 2      14 0.8134441 0.01039840 0.8135651 0.7928967  0.8335252</code></pre>
 <pre class="sourceCode r" id="cb13"><code class="sourceCode r"><div class="sourceLine" id="cb13-1" data-line-number="1">
 <span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="dt">var =</span> <span class="st">"educate"</span>))</div></code></pre>
-<pre><code>##    educate     mean       sd    median  lower_2.5 upper_97.5
-## 1 10 vs 14 -0.12304 0.011479 -0.122925 -0.1453368 -0.1002259</code></pre>
+<pre><code>##    educate       mean         sd     median  lower_2.5 upper_97.5
+## 1 10 vs 14 -0.1234602 0.01141769 -0.1235374 -0.1458856 -0.1008605</code></pre>
 <pre class="sourceCode r" id="cb15"><code class="sourceCode r"><div class="sourceLine" id="cb15-1" data-line-number="1">
 <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="st">"educate"</span>)) <span class="op">+</span>
 </div>

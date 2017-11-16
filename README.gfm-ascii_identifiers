@@ -1,0 +1,56 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+## Overview
+
+`smargins` is a package that aids in calculating Average Marginal
+Effects for models of various kinds. There are many packages like it
+(e.g., [coreSim](https://cran.r-project.org/web/packages/coreSim/),
+[effects](https://cran.rstudio.com/web/packages/effects/),
+[lsmeans](https://cran.rstudio.com/web/packages/lsmeans/),
+[margins](https://cran.rstudio.com/web/packages/margins/),
+[rms](https://cran.rstudio.com/web/packages/rms/) and
+[Zelig](https://cran.rstudio.com/web/packages/Zelig/)) but this one is
+mine.
+
+The main functions provided by this package are: \* `smargins()`
+calculates average marginal effects \* `scompare()` performs pairwise
+comparisons of the average marginal effects produced by `smargins`.
+
+Some examples are available at (<https://izahn.github.io/smargins/>)
+
+## Purpose
+
+The primary purpose of this package is to serve as a test bed for
+exploring interfaces and designs for R packages that facilitate
+calculating quantities of interest. Several such packages exist, each
+with their own pros and cons. This package is serves as a play ground
+where we can try different approaches in order to see if we can find one
+with more pros and fewer cons than existing solutions.
+
+## Installation
+
+`smargins` is not on CRAN (and may never be). You can install it from
+github using the `devtools` package:
+
+## Usage
+
+``` r
+library(smargins)
+
+mtcars <- transform(mtcars, gear = factor(gear))
+
+m.sm <- smargins(lm(mpg ~ gear, data = mtcars),
+                 gear = levels(gear))
+summary(m.sm)
+#>   gear     mean       sd   median lower_2.5 upper_97.5
+#> 1    3 16.07768 1.232141 16.06126  13.64931   18.53487
+#> 2    4 24.51305 1.346233 24.53086  21.84483   27.13678
+#> 3    5 21.36735 2.128667 21.34528  17.22526   25.52806
+
+summary(scompare(m.sm, "gear"))
+#>     gear      mean       sd    median  lower_2.5 upper_97.5
+#> 1 3 vs 4 -8.435368 1.834999 -8.428222 -12.014409 -4.7772074
+#> 2 3 vs 5 -5.289661 2.458639 -5.268353 -10.076462 -0.5088293
+#> 3 4 vs 5  3.145708 2.500295  3.165376  -1.779136  8.1186697
+```
