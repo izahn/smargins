@@ -51,22 +51,25 @@
       <a href="../articles/2_quickstart.html">smargins Quickstart Guide</a>
     </li>
     <li>
-      <a href="../articles/3_lm.html">AMEs for LMs</a>
+      <a href="../articles/3_lm.html">Expected Values for LMs</a>
     </li>
     <li>
-      <a href="../articles/4_glm.html">AMEs for GLMs</a>
+      <a href="../articles/4_glm.html">Expected Values for GLMs</a>
     </li>
     <li>
-      <a href="../articles/5_svyglm.html">AMEs for Regression with Survey Weights</a>
+      <a href="../articles/5_svyglm.html">Expected Values for Regression with Survey Weights</a>
     </li>
     <li>
-      <a href="../articles/6_tobit.html">AMEs for Tobit Models</a>
+      <a href="../articles/6_tobit.html">Expected Values for Tobit Models</a>
     </li>
     <li>
       <a href="../articles/7_transforming_covariates.html">Transforming Covariates</a>
     </li>
     <li>
       <a href="../articles/8_with_Amelia.html">Using smargins with Amelia</a>
+    </li>
+    <li>
+      <a href="../articles/9_package_comparisons.html">Comparison of R Packges for Calculating Expected Values</a>
     </li>
   </ul>
 </li>
@@ -85,14 +88,14 @@
     <div class="page-header toc-ignore">
       <h1>smargins Quickstart Guide</h1>
             
-            <h4 class="date">2017-11-14</h4>
+            <h4 class="date">2017-11-16</h4>
           </div>
 
     
     
 <div class="contents">
 <section id="workflow-overview" class="level2"><h2>Workflow overview</h2>
-<p>Models in R can generally be fit using a formula interface. The fitted models can then be explored and post-processed in various was, for example to display an ANOVA-style table, calculate confidence intervals, or plot predictions from the model. This package provides additional post-estimation functions to calculate average marginal effects along with simulation-based estimates of uncertainty.</p>
+<p>Models in R can generally be fit using a formula interface. The fitted models can then be explored and post-processed in various was, for example to display an ANOVA-style table, calculate confidence intervals, or plot predictions from the model. This package provides additional post-estimation functions to calculate expected values along with simulation-based estimates of uncertainty.</p>
 </section><section id="examples" class="level1"><h1>Examples</h1>
 <p>Let’s walk through an example. This example uses the Prestige dataset. It contains data on 102 occupations. We will model the effect of education and type on income.</p>
 <section id="building-models" class="level2"><h2>Building Models</h2>
@@ -132,42 +135,42 @@
 ## Multiple R-squared:  0.4052, Adjusted R-squared:  0.3862 
 ## F-statistic: 21.35 on 3 and 94 DF,  p-value: 1.249e-10</code></pre>
 <p>Since this is an ordinary least squares regression, the coefficients are themselves quantities of interest. The <code>education</code> coefficient tells us that (holding occupation type constant) every additional year of education is associated with an $887.9 increase in income. The coefficients for <code>typeprof</code> and <code>typewc</code> are slightly more difficult to interpret. They are dummy codes that tell us the expected difference between blue-collar and professional incomes, and between blue-collar and white-collar incomes.</p>
-<p>Although the model coefficients are not difficult to interpret, the average marginal effects are even more straight-forward. We can calculate theme using the <code>smargins</code> function.</p>
+<p>Although the model coefficients are not difficult to interpret, expected values are even more straight-forward. We can calculate them using the <code>smargins</code> function.</p>
 <pre class="sourceCode r" id="cb3"><code class="sourceCode r"><div class="sourceLine" id="cb3-1" data-line-number="1">
 <span class="kw">library</span>(smargins)</div>
 <div class="sourceLine" id="cb3-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb3-3" data-line-number="3">ppred1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">type =</span> <span class="kw">unique</span>(Prestige<span class="op">$</span>type)))</div>
+<div class="sourceLine" id="cb3-3" data-line-number="3">ppred1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">type =</span> <span class="kw">unique</span>(type))</div>
 <div class="sourceLine" id="cb3-4" data-line-number="4"></div>
 <div class="sourceLine" id="cb3-5" data-line-number="5">ppred1</div></code></pre>
-<pre><code>##      type .sim_number .smargin_qi
-## 1    prof           1    6403.065
-## 2    prof           2    8480.511
-## 3    prof           3    7493.514
-## 4    prof           4    5115.365
-## 5    prof           5    6222.472
-## 6    prof           6    8259.206
-## # - - - - - - - - - - - - - - - -                                 
-## 2995   wc         995    6626.907
-## 2996   wc         996    4264.392
-## 2997   wc         997    5733.285
-## 2998   wc         998    4746.942
-## 2999   wc         999    4768.615
-## 3000   wc        1000    5213.085</code></pre>
+<pre><code>##       type .sim_number .smargin_qi
+## 1     prof           1    6020.303
+## 2     prof           2    6819.914
+## 3     prof           3    7644.039
+## 4     prof           4    6845.295
+## 5     prof           5    7659.680
+## 6     prof           6    7114.037
+## # - - - - - - - - - - - - - - - - -                                  
+## 14995   wc        4995    4372.383
+## 14996   wc        4996    4370.676
+## 14997   wc        4997    4701.664
+## 14998   wc        4998    5146.613
+## 14999   wc        4999    4525.128
+## 15000   wc        5000    5307.628</code></pre>
 <p>The print method shows us how the result is organized. There is a summary method that gives a default set of statistics for each combination of values specified in the <code>at</code> argument:</p>
 <pre class="sourceCode r" id="cb5"><code class="sourceCode r"><div class="sourceLine" id="cb5-1" data-line-number="1">
 <span class="kw">summary</span>(ppred1)</div></code></pre>
 <pre><code>##   type     mean        sd   median lower_2.5 upper_97.5
-## 1 prof 7641.524 1132.4734 7618.644  5441.452   9843.880
-## 2   bc 7528.110  860.2856 7538.573  5758.365   9164.554
-## 3   wc 4876.804  675.1763 4856.793  3604.888   6281.376</code></pre>
+## 1 prof 7669.225 1118.9341 7671.616  5510.494   9857.801
+## 2   bc 7520.973  861.3517 7517.423  5854.702   9242.086
+## 3   wc 4857.028  698.7501 4865.531  3470.829   6245.005</code></pre>
 </section><section id="comparisons" class="level2"><h2>Comparisons</h2>
-<p>The summary method shows expected values for each value specified in the <code>at</code> argument, but frequently we want some transformation of these values. There is a <code>scompare</code> function that gives pairwise differences:</p>
+<p>The summary method shows expected values for each value specified in the <code>...</code> arguments, but frequently we want some transformation of these values. There is a <code>scompare</code> function that gives pairwise differences:</p>
 <pre class="sourceCode r" id="cb7"><code class="sourceCode r"><div class="sourceLine" id="cb7-1" data-line-number="1">
 <span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(ppred1, <span class="st">"type"</span>))</div></code></pre>
 <pre><code>##         type      mean       sd    median  lower_2.5 upper_97.5
-## 1 prof vs bc 2764.7197 1241.605 2795.4306   301.2291   5080.718
-## 2 prof vs wc -113.4141 1833.291 -121.9363 -3747.7612   3594.661
-## 3   bc vs wc 2651.3056 1136.463 2672.7300   222.8833   4838.018</code></pre>
+## 1 prof vs bc 2812.1966 1276.322 2831.9263   346.6673   5297.691
+## 2 prof vs wc -148.2519 1824.819 -139.4934 -3693.6690   3360.631
+## 3   bc vs wc 2663.9446 1148.544 2654.9183   385.7762   4904.297</code></pre>
 <p>but the really great thing is that the structure is simple enough that the user can perform their own arbitrary transformations. For example, we can compare the average of white collar and professional with blue collar:</p>
 <pre class="sourceCode r" id="cb9"><code class="sourceCode r"><div class="sourceLine" id="cb9-1" data-line-number="1">bc &lt;-<span class="st"> </span><span class="kw">subset</span>(ppred1, type <span class="op">==</span><span class="st"> "bc"</span>)<span class="op">$</span>.smargin_qi</div>
 <div class="sourceLine" id="cb9-2" data-line-number="2">wc_prof &lt;-<span class="st"> </span><span class="kw">subset</span>(ppred1, type <span class="op">==</span><span class="st"> "wc"</span>)<span class="op">$</span>.smargin_qi <span class="op">+</span>
@@ -177,7 +180,7 @@
 <div class="sourceLine" id="cb9-4" data-line-number="4">
 <span class="kw"><a href="../reference/sumstats.html">sumstats</a></span>(bc <span class="op">-</span><span class="st"> </span>wc_prof)</div></code></pre>
 <pre><code>##       mean         sd     median  lower_2.5 upper_97.5 
-## -2112.0848  1647.5605 -2076.3729 -5413.5168   964.9362</code></pre>
+##  -2044.831   1727.113  -2029.073  -5358.787   1382.283</code></pre>
 </section><section id="visualizations" class="level2"><h2>Visualizations</h2>
 <p>Another advantage of the simple data structure returned by <code>smargins</code> is that it makes creating plots using standard graphics packages in R easy. For example, we can graph the expected values by type:</p>
 <pre class="sourceCode r" id="cb11"><code class="sourceCode r"><div class="sourceLine" id="cb11-1" data-line-number="1">
@@ -204,7 +207,7 @@
 <p>This is especially useful for plotting interactions:</p>
 <pre class="sourceCode r" id="cb13"><code class="sourceCode r"><div class="sourceLine" id="cb13-1" data-line-number="1">m2 &lt;-<span class="st"> </span><span class="kw">lm</span>(income <span class="op">~</span><span class="st"> </span>education<span class="op">*</span>type, <span class="dt">data =</span> Prestige)</div>
 <div class="sourceLine" id="cb13-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb13-3" data-line-number="3">m2.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m2, <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">education =</span> <span class="dv">6</span><span class="op">:</span><span class="dv">16</span>, <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">"bc"</span>, <span class="st">"prof"</span>, <span class="st">"wc"</span>)))</div>
+<div class="sourceLine" id="cb13-3" data-line-number="3">m2.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m2, <span class="dt">education =</span> <span class="dv">6</span><span class="op">:</span><span class="dv">16</span>, <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">"bc"</span>, <span class="st">"prof"</span>, <span class="st">"wc"</span>))</div>
 <div class="sourceLine" id="cb13-4" data-line-number="4"></div>
 <div class="sourceLine" id="cb13-5" data-line-number="5">
 <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw">summary</span>(m2.sm),</div>

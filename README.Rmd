@@ -40,20 +40,15 @@ The primary purpose of this package is to serve as a test bed for exploring inte
 
 `smargins` is not on CRAN (and may never be). You can install it from github using the `devtools` package:
 
-```{r, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("tidyverse/dplyr")
-```
-
 ## Usage
 
-```{r, message = FALSE}
+```{r}
 library(smargins)
 
-mtc <- transform(mtcars, gear = factor(gear))
+mtcars <- transform(mtcars, gear = factor(gear))
 
-m.sm <- smargins(lm(mpg ~ gear, data = mtc),
-                 at = list(gear = levels(mtc$gear)))
+m.sm <- smargins(lm(mpg ~ gear, data = mtcars),
+                 gear = levels(gear))
 summary(m.sm)
 
 summary(scompare(m.sm, "gear"))

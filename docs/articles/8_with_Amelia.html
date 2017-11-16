@@ -51,22 +51,25 @@
       <a href="../articles/2_quickstart.html">smargins Quickstart Guide</a>
     </li>
     <li>
-      <a href="../articles/3_lm.html">AMEs for LMs</a>
+      <a href="../articles/3_lm.html">Expected Values for LMs</a>
     </li>
     <li>
-      <a href="../articles/4_glm.html">AMEs for GLMs</a>
+      <a href="../articles/4_glm.html">Expected Values for GLMs</a>
     </li>
     <li>
-      <a href="../articles/5_svyglm.html">AMEs for Regression with Survey Weights</a>
+      <a href="../articles/5_svyglm.html">Expected Values for Regression with Survey Weights</a>
     </li>
     <li>
-      <a href="../articles/6_tobit.html">AMEs for Tobit Models</a>
+      <a href="../articles/6_tobit.html">Expected Values for Tobit Models</a>
     </li>
     <li>
       <a href="../articles/7_transforming_covariates.html">Transforming Covariates</a>
     </li>
     <li>
       <a href="../articles/8_with_Amelia.html">Using smargins with Amelia</a>
+    </li>
+    <li>
+      <a href="../articles/9_package_comparisons.html">Comparison of R Packges for Calculating Expected Values</a>
     </li>
   </ul>
 </li>
@@ -85,7 +88,7 @@
     <div class="page-header toc-ignore">
       <h1>Using smargins with Amelia</h1>
             
-            <h4 class="date">2017-11-14</h4>
+            <h4 class="date">2017-11-16</h4>
           </div>
 
     
@@ -109,7 +112,7 @@
 <div class="sourceLine" id="cb4-2" data-line-number="2">a.out &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/Amelia/topics/amelia">amelia</a></span>(<span class="dt">x =</span> africa, <span class="dt">cs =</span> <span class="st">"country"</span>, <span class="dt">ts =</span> <span class="st">"year"</span>, <span class="dt">logs =</span> <span class="st">"gdp_pc"</span>)</div></code></pre>
 <pre><code>## -- Imputation 1 --
 ## 
-##   1  2  3
+##   1  2
 ## 
 ## -- Imputation 2 --
 ## 
@@ -133,42 +136,45 @@
 <span class="kw"><a href="http://www.rdocumentation.org/packages/Amelia/topics/mi.meld">mi.meld</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/reduce">reduce</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(models, coef), rbind),</div>
 <div class="sourceLine" id="cb7-2" data-line-number="2">        <span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/reduce">reduce</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(models, <span class="op">~</span><span class="st"> </span><span class="kw">coef</span>(<span class="kw">summary</span>(.))[, <span class="st">"Std. Error"</span>]), rbind))</div></code></pre>
 <pre><code>## $q.mi
-##      (Intercept)    trade    civlib
-## [1,]    114.4432 18.08709 -610.5129
+##      (Intercept)   trade    civlib
+## [1,]    122.2372 18.0798 -651.0671
 ## 
 ## $se.mi
 ##      (Intercept)    trade   civlib
-## [1,]     100.356 1.270498 189.6553</code></pre>
+## [1,]     96.5323 1.237323 181.6715</code></pre>
 <p>Nicer output is available from several of the available multiple-imputation packages in R, including the <em>mice</em> and <em>mitools</em>.</p>
 <pre class="sourceCode r" id="cb9"><code class="sourceCode r"><div class="sourceLine" id="cb9-1" data-line-number="1">
 <span class="kw">library</span>(mice)</div></code></pre>
 <pre><code>## Loading required package: lattice</code></pre>
 <pre class="sourceCode r" id="cb11"><code class="sourceCode r"><div class="sourceLine" id="cb11-1" data-line-number="1">(foo &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/mice/topics/pool">pool</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/mice/topics/as.mira">as.mira</a></span>(models))))</div></code></pre>
-<pre><code>##                    est         se         t       df    Pr(&gt;|t|)
-## (Intercept)  114.44324 100.355956  1.140373 109.2143 0.256625483
-## trade         18.08709   1.270498 14.236223 113.7451 0.000000000
-## civlib      -610.51286 189.655308 -3.219066 102.5079 0.001722682
-##                  lo 95     hi 95 nmis        fmi      lambda
-## (Intercept)  -84.45462  313.3411   NA 0.04608183 0.028771580
-## trade         15.57018   20.6040   NA 0.02601591 0.009039432
-## civlib      -986.67090 -234.3548   NA 0.06746791 0.049449337</code></pre>
+<pre><code>##                   est         se         t       df     Pr(&gt;|t|)
+## (Intercept)  122.2372  96.532305  1.266283 114.7651 0.2079758966
+## trade         18.0798   1.237323 14.612029 114.5744 0.0000000000
+## civlib      -651.0671 181.671463 -3.583761 114.5682 0.0004986875
+##                   lo 95     hi 95 nmis        fmi      lambda
+## (Intercept)   -68.97884  313.4533   NA 0.01926532 0.002321799
+## trade          15.62881   20.5308   NA 0.02068272 0.003735760
+## civlib      -1010.93768 -291.1964   NA 0.02072738 0.003780276</code></pre>
 <section id="quantities-of-interest-for-mi" class="level2"><h2>Quantities of interest for MI</h2>
 <p>Using simulations to estimate uncertainty makes it pretty easy to incorporate additional uncertainty from imputed values.</p>
 <pre class="sourceCode r" id="cb13"><code class="sourceCode r"><div class="sourceLine" id="cb13-1" data-line-number="1">
 <span class="kw">library</span>(smargins)</div>
 <div class="sourceLine" id="cb13-2" data-line-number="2"></div>
 <div class="sourceLine" id="cb13-3" data-line-number="3">models.sm &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(models,</div>
-<div class="sourceLine" id="cb13-4" data-line-number="4">                 <span class="op">~</span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(.,</div>
-<div class="sourceLine" id="cb13-5" data-line-number="5">                          <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">trade =</span> <span class="kw">quantile</span>(africa<span class="op">$</span>trade,</div>
-<div class="sourceLine" id="cb13-6" data-line-number="6">                                                     <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.50</span>, <span class="fl">.75</span>),</div>
-<div class="sourceLine" id="cb13-7" data-line-number="7">                                                     <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))))</div>
-<div class="sourceLine" id="cb13-8" data-line-number="8"></div>
-<div class="sourceLine" id="cb13-9" data-line-number="9">
+<div class="sourceLine" id="cb13-4" data-line-number="4">                 <span class="op">~</span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(., <span class="dt">trade =</span> <span class="kw">quantile</span>(trade,</div>
+<div class="sourceLine" id="cb13-5" data-line-number="5">                                               <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.50</span>, <span class="fl">.75</span>),</div>
+<div class="sourceLine" id="cb13-6" data-line-number="6">                                               <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)))</div>
+<div class="sourceLine" id="cb13-7" data-line-number="7"></div>
+<div class="sourceLine" id="cb13-8" data-line-number="8">
 <span class="kw">summary</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/reduce">reduce</a></span>(models.sm, rbind))</div></code></pre>
-<pre><code>##    trade      mean       sd    median lower_2.5 upper_97.5
-## 1 38.515  635.7834 44.59741  636.0285  548.3374    725.980
-## 2 59.590 1016.0734 33.36755 1016.2939  950.8117   1082.084
-## 3 81.160 1405.2955 41.80964 1405.3668 1323.1497   1487.568</code></pre>
+<pre><code>##     trade      mean       sd    median lower_2.5 upper_97.5
+## 1 38.3307  633.3841 42.68701  633.7009  551.9111   718.6691
+## 2 59.1900  628.8123 43.08756  628.0225  545.2814   713.2155
+## 3 80.7875  630.9437 43.14785  631.0282  544.9116   713.5322
+## 4 38.4650  623.9552 43.02827  623.1701  540.8477   708.4134
+## 5 58.8350  998.6389 31.78381  998.9410  935.4357  1061.0959
+## 6 38.4075 1004.5014 32.47764 1004.2615  940.5695  1068.2552
+## 7 38.5325 1395.3898 39.84076 1395.3813 1317.3814  1472.7176</code></pre>
 </section>
 </div>
   </div>

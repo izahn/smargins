@@ -74,22 +74,25 @@
       <a href="../articles/2_quickstart.html">smargins Quickstart Guide</a>
     </li>
     <li>
-      <a href="../articles/3_lm.html">AMEs for LMs</a>
+      <a href="../articles/3_lm.html">Expected Values for LMs</a>
     </li>
     <li>
-      <a href="../articles/4_glm.html">AMEs for GLMs</a>
+      <a href="../articles/4_glm.html">Expected Values for GLMs</a>
     </li>
     <li>
-      <a href="../articles/5_svyglm.html">AMEs for Regression with Survey Weights</a>
+      <a href="../articles/5_svyglm.html">Expected Values for Regression with Survey Weights</a>
     </li>
     <li>
-      <a href="../articles/6_tobit.html">AMEs for Tobit Models</a>
+      <a href="../articles/6_tobit.html">Expected Values for Tobit Models</a>
     </li>
     <li>
       <a href="../articles/7_transforming_covariates.html">Transforming Covariates</a>
     </li>
     <li>
       <a href="../articles/8_with_Amelia.html">Using smargins with Amelia</a>
+    </li>
+    <li>
+      <a href="../articles/9_package_comparisons.html">Comparison of R Packges for Calculating Expected Values</a>
     </li>
   </ul>
 </li>
@@ -116,7 +119,7 @@
     
 
     <pre class="usage"><span class='co'># S3 method for default</span>
-<span class='fu'><a href='smargins.html'>smargins</a></span>(<span class='no'>model</span>, <span class='kw'>at</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>coef.fun</span> <span class='kw'>=</span> <span class='no'>coef</span>,
+<span class='fu'><a href='smargins.html'>smargins</a></span>(<span class='no'>model</span>, <span class='no'>...</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>coef.fun</span> <span class='kw'>=</span> <span class='no'>coef</span>,
   <span class='kw'>sim.fun</span> <span class='kw'>=</span> <span class='no'>I</span>, <span class='kw'>linkinv.fun</span> <span class='kw'>=</span> <span class='fu'>family</span>(<span class='no'>model</span>)$<span class='no'>linkinv</span>, <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='no'>vcov</span>,
   <span class='kw'>model.frame.fun</span> <span class='kw'>=</span> <span class='no'>model.frame</span>, <span class='kw'>model.matrix.fun</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>, <span class='no'>data</span>) {
   <span class='fu'>model.matrix</span>(<span class='fu'>formula</span>(<span class='no'>x</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>) })</pre>
@@ -129,8 +132,8 @@
       <td><p>A fitted model object.</p></td>
     </tr>
     <tr>
-      <th>at</th>
-      <td><p>A named list of values to set predictor variables to.</p></td>
+      <th>...</th>
+      <td><p>Named values to set predictor variables to.</p></td>
     </tr>
     <tr>
       <th>n</th>

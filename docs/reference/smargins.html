@@ -74,22 +74,25 @@
       <a href="../articles/2_quickstart.html">smargins Quickstart Guide</a>
     </li>
     <li>
-      <a href="../articles/3_lm.html">AMEs for LMs</a>
+      <a href="../articles/3_lm.html">Expected Values for LMs</a>
     </li>
     <li>
-      <a href="../articles/4_glm.html">AMEs for GLMs</a>
+      <a href="../articles/4_glm.html">Expected Values for GLMs</a>
     </li>
     <li>
-      <a href="../articles/5_svyglm.html">AMEs for Regression with Survey Weights</a>
+      <a href="../articles/5_svyglm.html">Expected Values for Regression with Survey Weights</a>
     </li>
     <li>
-      <a href="../articles/6_tobit.html">AMEs for Tobit Models</a>
+      <a href="../articles/6_tobit.html">Expected Values for Tobit Models</a>
     </li>
     <li>
       <a href="../articles/7_transforming_covariates.html">Transforming Covariates</a>
     </li>
     <li>
       <a href="../articles/8_with_Amelia.html">Using smargins with Amelia</a>
+    </li>
+    <li>
+      <a href="../articles/9_package_comparisons.html">Comparison of R Packges for Calculating Expected Values</a>
     </li>
   </ul>
 </li>
@@ -148,20 +151,8 @@
     <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>smargins</span>)
 <span class='no'>lm.out</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>Fertility</span> ~ <span class='no'>Education</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>swiss</span>)
 
-<span class='fu'>smargins</span>(<span class='no'>lm.out</span>, <span class='kw'>at</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>Education</span> <span class='kw'>=</span> <span class='fu'>quantile</span>(<span class='no'>swiss</span>$<span class='no'>Education</span>, <span class='fu'>c</span>(<span class='fl'>.25</span>, <span class='fl'>.50</span>, <span class='fl'>.75</span>))))</div><div class='output co'>#&gt;      Education .sim_number .smargin_qi
-#&gt; 1            6           1    76.65311
-#&gt; 2            6           2    74.19035
-#&gt; 3            6           3    77.60451
-#&gt; 4            6           4    75.17911
-#&gt; 5            6           5    74.28152
-#&gt; 6            6           6    72.99111
-#&gt; # - - - - - - - - - - - - - - - - - - -                                      
-#&gt; 2995        12         995    71.04501
-#&gt; 2996        12         996    69.43667
-#&gt; 2997        12         997    69.31567
-#&gt; 2998        12         998    68.92337
-#&gt; 2999        12         999    67.52232
-#&gt; 3000        12        1000    72.00297</div><div class='input'>
+<span class='fu'>smargins</span>(<span class='no'>lm.out</span>, <span class='kw'>at</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>Education</span> <span class='kw'>=</span> <span class='fu'>quantile</span>(<span class='no'>swiss</span>$<span class='no'>Education</span>, <span class='fu'>c</span>(<span class='fl'>.25</span>, <span class='fl'>.50</span>, <span class='fl'>.75</span>))))</div><div class='output co'>#&gt; <span class='error'>Error in sort.list(y): 'x' must be atomic for 'sort.list'</span>
+#&gt; <span class='error'>Have you called 'sort' on a list?</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

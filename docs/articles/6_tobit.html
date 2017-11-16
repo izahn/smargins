@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AMEs for Tobit Models • smargins</title>
+<title>Expected Values for Tobit Models • smargins</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
@@ -51,22 +51,25 @@
       <a href="../articles/2_quickstart.html">smargins Quickstart Guide</a>
     </li>
     <li>
-      <a href="../articles/3_lm.html">AMEs for LMs</a>
+      <a href="../articles/3_lm.html">Expected Values for LMs</a>
     </li>
     <li>
-      <a href="../articles/4_glm.html">AMEs for GLMs</a>
+      <a href="../articles/4_glm.html">Expected Values for GLMs</a>
     </li>
     <li>
-      <a href="../articles/5_svyglm.html">AMEs for Regression with Survey Weights</a>
+      <a href="../articles/5_svyglm.html">Expected Values for Regression with Survey Weights</a>
     </li>
     <li>
-      <a href="../articles/6_tobit.html">AMEs for Tobit Models</a>
+      <a href="../articles/6_tobit.html">Expected Values for Tobit Models</a>
     </li>
     <li>
       <a href="../articles/7_transforming_covariates.html">Transforming Covariates</a>
     </li>
     <li>
       <a href="../articles/8_with_Amelia.html">Using smargins with Amelia</a>
+    </li>
+    <li>
+      <a href="../articles/9_package_comparisons.html">Comparison of R Packges for Calculating Expected Values</a>
     </li>
   </ul>
 </li>
@@ -83,9 +86,9 @@
       </header><div class="row">
   <div class="col-md-9">
     <div class="page-header toc-ignore">
-      <h1>AMEs for Tobit Models</h1>
+      <h1>Expected Values for Tobit Models</h1>
             
-            <h4 class="date">2017-11-14</h4>
+            <h4 class="date">2017-11-16</h4>
           </div>
 
     
@@ -127,7 +130,7 @@
 <pre class="sourceCode r" id="cb5"><code class="sourceCode r"><div class="sourceLine" id="cb5-1" data-line-number="1">
 <span class="kw">library</span>(smargins)</div>
 <div class="sourceLine" id="cb5-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb5-3" data-line-number="3">m.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">quant =</span> <span class="kw">seq</span>(<span class="dv">210</span>, <span class="dv">280</span>, <span class="dv">10</span>)))</div>
+<div class="sourceLine" id="cb5-3" data-line-number="3">m.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">quant =</span> <span class="kw">seq</span>(<span class="dv">210</span>, <span class="dv">280</span>, <span class="dv">10</span>))</div>
 <div class="sourceLine" id="cb5-4" data-line-number="4"></div>
 <div class="sourceLine" id="cb5-5" data-line-number="5">
 <span class="kw">summary</span>(m.sm)</div></code></pre>
@@ -153,7 +156,7 @@
 <p><img src="6_tobit_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </section><section id="simulating-first-differences" class="level3"><h3>Simulating First Differences</h3>
 <p>Set explanatory variables to their default(mean/mode) values, with high (80th percentile) and low (20th percentile) liquidity ratio (<code>quant</code>):</p>
-<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><div class="sourceLine" id="cb9-1" data-line-number="1">m.sm2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">quant =</span> <span class="kw">quantile</span>(tobin<span class="op">$</span>quant, <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>))))</div>
+<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><div class="sourceLine" id="cb9-1" data-line-number="1">m.sm2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">quant =</span> <span class="kw">quantile</span>(tobin<span class="op">$</span>quant, <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)))</div>
 <div class="sourceLine" id="cb9-2" data-line-number="2"></div>
 <div class="sourceLine" id="cb9-3" data-line-number="3">
 <span class="kw">summary</span>(m.sm2)</div></code></pre>

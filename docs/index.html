@@ -15,7 +15,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-home">
+    <div class="container template-vignette">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -51,22 +51,25 @@
       <a href="articles/2_quickstart.html">smargins Quickstart Guide</a>
     </li>
     <li>
-      <a href="articles/3_lm.html">AMEs for LMs</a>
+      <a href="articles/3_lm.html">Expected Values for LMs</a>
     </li>
     <li>
-      <a href="articles/4_glm.html">AMEs for GLMs</a>
+      <a href="articles/4_glm.html">Expected Values for GLMs</a>
     </li>
     <li>
-      <a href="articles/5_svyglm.html">AMEs for Regression with Survey Weights</a>
+      <a href="articles/5_svyglm.html">Expected Values for Regression with Survey Weights</a>
     </li>
     <li>
-      <a href="articles/6_tobit.html">AMEs for Tobit Models</a>
+      <a href="articles/6_tobit.html">Expected Values for Tobit Models</a>
     </li>
     <li>
       <a href="articles/7_transforming_covariates.html">Transforming Covariates</a>
     </li>
     <li>
       <a href="articles/8_with_Amelia.html">Using smargins with Amelia</a>
+    </li>
+    <li>
+      <a href="articles/9_package_comparisons.html">Comparison of R Packges for Calculating Expected Values</a>
     </li>
   </ul>
 </li>
@@ -81,18 +84,56 @@
 
       
       </header><div class="row">
-  <div class="contents col-md-9">
-    Like Stata's margins, but simulation based a la Zelig.
+  <div class="col-md-9">
+    
+
+    
+    
+<div class="contents">
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+<section id="overview" class="level2"><h2>Overview</h2>
+<p><code>smargins</code> is a package that aids in calculating Average Marginal Effects for models of various kinds. There are many packages like it (e.g., <a href="https://cran.r-project.org/web/packages/coreSim/">coreSim</a>, <a href="https://cran.rstudio.com/web/packages/effects/">effects</a>, <a href="https://cran.rstudio.com/web/packages/lsmeans/">lsmeans</a>, <a href="https://cran.rstudio.com/web/packages/margins/">margins</a>, <a href="https://cran.rstudio.com/web/packages/rms/">rms</a> and <a href="https://cran.rstudio.com/web/packages/Zelig/">Zelig</a>) but this one is mine.</p>
+<p>The main functions provided by this package are: * <code><a href="reference/smargins.html">smargins()</a></code> calculates average marginal effects * <code><a href="reference/scompare.html">scompare()</a></code> performs pairwise comparisons of the average marginal effects produced by <code>smargins</code>.</p>
+<p>Some examples are available at (<a href="https://izahn.github.io/smargins/" class="uri">https://izahn.github.io/smargins/</a>)</p>
+</section><section id="purpose" class="level2"><h2>Purpose</h2>
+<p>The primary purpose of this package is to serve as a test bed for exploring interfaces and designs for R packages that facilitate calculating quantities of interest. Several such packages exist, each with their own pros and cons. This package is serves as a play ground where we can try different approaches in order to see if we can find one with more pros and fewer cons than existing solutions.</p>
+</section><section id="installation" class="level2"><h2>Installation</h2>
+<p><code>smargins</code> is not on CRAN (and may never be). You can install it from github using the <code>devtools</code> package:</p>
+</section><section id="usage" class="level2"><h2>Usage</h2>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">
+<span class="kw">library</span>(smargins)</div>
+<div class="sourceLine" id="cb1-2" data-line-number="2"></div>
+<div class="sourceLine" id="cb1-3" data-line-number="3">mtcars &lt;-<span class="st"> </span><span class="kw">transform</span>(mtcars, <span class="dt">gear =</span> <span class="kw">factor</span>(gear))</div>
+<div class="sourceLine" id="cb1-4" data-line-number="4"></div>
+<div class="sourceLine" id="cb1-5" data-line-number="5">m.sm &lt;-<span class="st"> </span><span class="kw"><a href="reference/smargins.html">smargins</a></span>(<span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>gear, <span class="dt">data =</span> mtcars),</div>
+<div class="sourceLine" id="cb1-6" data-line-number="6">                 <span class="dt">gear =</span> <span class="kw">unique</span>(gear))</div>
+<div class="sourceLine" id="cb1-7" data-line-number="7">
+<span class="kw">summary</span>(m.sm)</div>
+<div class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt;   gear     mean       sd   median lower_2.5 upper_97.5</span></div>
+<div class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; 1    4 24.55867 1.360984 24.56271  21.82801   27.27817</span></div>
+<div class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; 2    3 16.09162 1.219075 16.08973  13.77209   18.46376</span></div>
+<div class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; 3    5 21.38300 2.101751 21.36140  17.30212   25.63581</span></div>
+<div class="sourceLine" id="cb1-12" data-line-number="12"></div>
+<div class="sourceLine" id="cb1-13" data-line-number="13">
+<span class="kw">summary</span>(<span class="kw"><a href="reference/scompare.html">scompare</a></span>(m.sm, <span class="st">"gear"</span>))</div>
+<div class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt;     gear      mean       sd    median  lower_2.5 upper_97.5</span></div>
+<div class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; 1 4 vs 3  3.175672 2.493760  3.154625  -1.805142  8.1096227</span></div>
+<div class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">#&gt; 2 4 vs 5 -8.467057 1.811454 -8.482451 -12.008460 -4.9245367</span></div>
+<div class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#&gt; 3 3 vs 5 -5.291385 2.403474 -5.270491 -10.018474 -0.6096946</span></div></code></pre>
+</section>
+</div>
   </div>
 
-  <div class="col-md-3" id="sidebar">
-    <h2>License</h2>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2 class="hasAnchor">
+<a href="#sidebar" class="anchor"></a>License</h2>
 <p>GPL (&gt;=3)</p>
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Ista Zahn <br><small class="roles"> Author, maintainer </small> </li>
 </ul>
 </div>
+
 </div>
 
 

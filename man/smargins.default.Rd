@@ -4,7 +4,7 @@
 \alias{smargins.default}
 \title{Calculate average marginal effects from a fitted model object.}
 \usage{
-\method{smargins}{default}(model, at = list(), n = 1000, coef.fun = coef,
+\method{smargins}{default}(model, ..., n = 5000, coef.fun = coef,
   sim.fun = I, linkinv.fun = family(model)$linkinv, vcov.fun = vcov,
   model.frame.fun = model.frame, model.matrix.fun = function(x, data) {    
   model.matrix(formula(x), data = data) })
@@ -12,7 +12,7 @@
 \arguments{
 \item{model}{A fitted model object.}
 
-\item{at}{A named list of values to set predictor variables to.}
+\item{...}{Named values to set predictor variables to.}
 
 \item{n}{Number of simulations to run.}
 

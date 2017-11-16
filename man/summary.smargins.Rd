@@ -4,10 +4,13 @@
 \alias{summary.smargins}
 \title{Summarize a smargins object.}
 \usage{
-\method{summary}{smargins}(object, level = 0.95)
+\method{summary}{smargins}(object, vars = names(object)[1:(ncol(object) - 2)],
+  level = 0.95)
 }
 \arguments{
 \item{object}{An object of class "smargins".}
+
+\item{vars}{A character vector naming columns to aggregate by.}
 
 \item{level}{Level at which confidnece interval should be calculated}
 }

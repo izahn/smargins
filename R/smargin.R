@@ -24,7 +24,7 @@ smargins <- function(model, at, n = 1000, ...) {
 #' Calculate average marginal effects from a fitted model object.
 #'
 #' @param model A fitted model object.
-#' @param at A named list of values to set predictor variables to.
+#' @param ... Named values to set predictor variables to.
 #' @param n Number of simulations to run.
 #' @param coef.fun Number of simulations to run.
 #' @param sim.fun Number of simulations to run.
@@ -38,15 +38,16 @@ smargins <- function(model, at, n = 1000, ...) {
 #'
 #' @author Ista Zahn
 #' @export
-smargins.default <- function(model, at = list(), n = 1000,
+smargins.default <- function(model, ..., n = 5000,
                              coef.fun = coef,
                              sim.fun = I,
                              linkinv.fun = family(model)$linkinv,
                              vcov.fun = vcov,
                              model.frame.fun = model.frame,
                              model.matrix.fun = function(x, data) {model.matrix(formula(x), data = data)}) {
-    at.grid <- expand.grid(at)
     mf <- model.frame.fun(model)
+    at <- lapply(substitute(list(...))[-1], function(x) eval(x, mf))
+    at.grid <- expand.grid(at)
     fvars <- names(mf)[purrr::map_lgl(mf, is.factor)]
     mf.orig <- mf
     mf <- mf[, setdiff(names(mf), names(at)), drop = FALSE]
@@ -84,15 +85,23 @@ print.smargins <- function(x) {
 #' Summarize a smargins object.
 #'
 #' @param object An object of class "smargins".
+#' @param vars A character vector naming columns to aggregate by.
 #' @param level Level at which confidnece interval should be calculated
 #' @author Ista Zahn
 #' @export
-summary.smargins <- function(object, level=0.95) {
-    nc <- ncol(object)
-    stats <- purrr:::map(split(object[[nc]], object[, -c(nc, nc - 1), drop = FALSE]),
+summary.smargins <- function(object, vars = names(object)[1:(ncol(object)-2)], level=0.95) {
+    all.vars <- names(object)[1:(ncol(object)-2)]
+    stats <- purrr:::map(split(object[[ncol(object)]], object[, all.vars, drop = FALSE]),
                          sumstats, level = level)
-    out <- data.frame(unique(object[, -c(nc, nc-1), drop = FALSE]),
+    out <- data.frame(unique(object[, all.vars, drop = FALSE]),
                       rbind(purrr::reduce(stats,rbind)))
+    if(!identical(vars, all.vars)) {
+        out <- data.frame(unique(out[, vars, drop = FALSE]),
+                          purrr::reduce(purrr::map(split(out[(ncol(out) - 4):ncol(out)], out[, vars, drop = FALSE]),
+                                                   colMeans),
+                                        rbind),
+                          stringsAsFactors = FALSE)
+    }
     rownames(out) <- 1:nrow(out)
     out
 }

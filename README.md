@@ -1,20 +1,6 @@
----
-output:
-  github_document:
-    html_preview: false
----
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-"
-)
-```
-
-## Overview
+Overview
+--------
 
 `smargins` is a package that aids in calculating Average Marginal
 Effects for models of various kinds. There are many packages like it
@@ -26,37 +12,45 @@ Effects for models of various kinds. There are many packages like it
 [Zelig](https://cran.rstudio.com/web/packages/Zelig/)) but this one is
 mine.
 
-The main functions provided by this package are:
-* `smargins()` calculates average marginal effects
-* `scompare()` performs pairwise comparisons of the average marginal effects produced by `smargins`.
+The main functions provided by this package are: \* `smargins()`
+calculates average marginal effects \* `scompare()` performs pairwise
+comparisons of the average marginal effects produced by `smargins`.
 
-Some examples are available at (https://izahn.github.io/smargins/)
+Some examples are available at (<https://izahn.github.io/smargins/>)
 
-## Purpose
+Purpose
+-------
 
-The primary purpose of this package is to serve as a test bed for exploring interfaces and designs for R packages that facilitate calculating quantities of interest. Several such packages exist, each with their own pros and cons. This package is serves as a play ground where we can try different approaches in order to see if we can find one with more pros and fewer cons than existing solutions.
+The primary purpose of this package is to serve as a test bed for
+exploring interfaces and designs for R packages that facilitate
+calculating quantities of interest. Several such packages exist, each
+with their own pros and cons. This package is serves as a play ground
+where we can try different approaches in order to see if we can find one
+with more pros and fewer cons than existing solutions.
 
-## Installation
+Installation
+------------
 
-`smargins` is not on CRAN (and may never be). You can install it from github using the `devtools` package:
+`smargins` is not on CRAN (and may never be). You can install it from
+github using the `devtools` package:
 
-```{r, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("tidyverse/dplyr")
-```
+Usage
+-----
 
-## Usage
+    library(smargins)
 
-```{r, message = FALSE}
-library(smargins)
+    mtcars <- transform(mtcars, gear = factor(gear))
 
-mtc <- transform(mtcars, gear = factor(gear))
+    m.sm <- smargins(lm(mpg ~ gear, data = mtcars),
+                     gear = unique(gear))
+    summary(m.sm)
+    #>   gear     mean       sd   median lower_2.5 upper_97.5
+    #> 1    4 24.53784 1.368736 24.53490  21.92441   27.24769
+    #> 2    3 16.07109 1.214436 16.05300  13.75438   18.44333
+    #> 3    5 21.43060 2.106989 21.42886  17.30583   25.56910
 
-m.sm <- smargins(lm(mpg ~ gear, data = mtc),
-                 at = list(gear = levels(mtc$gear)))
-summary(m.sm)
-
-summary(scompare(m.sm, "gear"))
-
-```
-
+    summary(scompare(m.sm, "gear"))
+    #>     gear      mean       sd    median lower_2.5 upper_97.5
+    #> 1 4 vs 3  3.107235 2.501960  3.086447  -1.77765  8.0003284
+    #> 2 4 vs 5 -8.466747 1.833977 -8.446346 -12.13801 -4.9015510
+    #> 3 3 vs 5 -5.359512 2.452244 -5.388814 -10.16701 -0.5767845

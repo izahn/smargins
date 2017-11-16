@@ -74,22 +74,25 @@
       <a href="../articles/2_quickstart.html">smargins Quickstart Guide</a>
     </li>
     <li>
-      <a href="../articles/3_lm.html">AMEs for LMs</a>
+      <a href="../articles/3_lm.html">Expected Values for LMs</a>
     </li>
     <li>
-      <a href="../articles/4_glm.html">AMEs for GLMs</a>
+      <a href="../articles/4_glm.html">Expected Values for GLMs</a>
     </li>
     <li>
-      <a href="../articles/5_svyglm.html">AMEs for Regression with Survey Weights</a>
+      <a href="../articles/5_svyglm.html">Expected Values for Regression with Survey Weights</a>
     </li>
     <li>
-      <a href="../articles/6_tobit.html">AMEs for Tobit Models</a>
+      <a href="../articles/6_tobit.html">Expected Values for Tobit Models</a>
     </li>
     <li>
       <a href="../articles/7_transforming_covariates.html">Transforming Covariates</a>
     </li>
     <li>
       <a href="../articles/8_with_Amelia.html">Using smargins with Amelia</a>
+    </li>
+    <li>
+      <a href="../articles/9_package_comparisons.html">Comparison of R Packges for Calculating Expected Values</a>
     </li>
   </ul>
 </li>
@@ -116,7 +119,8 @@
     
 
     <pre class="usage"><span class='co'># S3 method for smargins</span>
-<span class='fu'>summary</span>(<span class='no'>object</span>, <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>)</pre>
+<span class='fu'>summary</span>(<span class='no'>object</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'>names</span>(<span class='no'>object</span>)[<span class='fl'>1</span>:(<span class='fu'>ncol</span>(<span class='no'>object</span>) - <span class='fl'>2</span>)],
+  <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -124,6 +128,10 @@
     <tr>
       <th>object</th>
       <td><p>An object of class "smargins".</p></td>
+    </tr>
+    <tr>
+      <th>vars</th>
+      <td><p>A character vector naming columns to aggregate by.</p></td>
     </tr>
     <tr>
       <th>level</th>

@@ -74,22 +74,25 @@
       <a href="../articles/2_quickstart.html">smargins Quickstart Guide</a>
     </li>
     <li>
-      <a href="../articles/3_lm.html">AMEs for LMs</a>
+      <a href="../articles/3_lm.html">Expected Values for LMs</a>
     </li>
     <li>
-      <a href="../articles/4_glm.html">AMEs for GLMs</a>
+      <a href="../articles/4_glm.html">Expected Values for GLMs</a>
     </li>
     <li>
-      <a href="../articles/5_svyglm.html">AMEs for Regression with Survey Weights</a>
+      <a href="../articles/5_svyglm.html">Expected Values for Regression with Survey Weights</a>
     </li>
     <li>
-      <a href="../articles/6_tobit.html">AMEs for Tobit Models</a>
+      <a href="../articles/6_tobit.html">Expected Values for Tobit Models</a>
     </li>
     <li>
       <a href="../articles/7_transforming_covariates.html">Transforming Covariates</a>
     </li>
     <li>
       <a href="../articles/8_with_Amelia.html">Using smargins with Amelia</a>
+    </li>
+    <li>
+      <a href="../articles/9_package_comparisons.html">Comparison of R Packges for Calculating Expected Values</a>
     </li>
   </ul>
 </li>
@@ -116,7 +119,7 @@
     
 
     <pre class="usage"><span class='co'># S3 method for lmerMod</span>
-<span class='fu'><a href='smargins.html'>smargins</a></span>(<span class='no'>model</span>, <span class='kw'>at</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='smargins.html'>smargins</a></span>(<span class='no'>model</span>, <span class='no'>...</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -126,16 +129,12 @@
       <td><p>A fitted model object.</p></td>
     </tr>
     <tr>
-      <th>at</th>
-      <td><p>A named list of values to set predictor variables to.</p></td>
+      <th>...</th>
+      <td><p>Named values to set predictor variables to.</p></td>
     </tr>
     <tr>
       <th>n</th>
       <td><p>Number of simulations to run.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Further arguments passed to or from other methods.</p></td>
     </tr>
     </table>
     

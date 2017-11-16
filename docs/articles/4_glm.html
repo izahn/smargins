@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AMEs for GLMs • smargins</title>
+<title>Expected Values for GLMs • smargins</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
@@ -51,22 +51,25 @@
       <a href="../articles/2_quickstart.html">smargins Quickstart Guide</a>
     </li>
     <li>
-      <a href="../articles/3_lm.html">AMEs for LMs</a>
+      <a href="../articles/3_lm.html">Expected Values for LMs</a>
     </li>
     <li>
-      <a href="../articles/4_glm.html">AMEs for GLMs</a>
+      <a href="../articles/4_glm.html">Expected Values for GLMs</a>
     </li>
     <li>
-      <a href="../articles/5_svyglm.html">AMEs for Regression with Survey Weights</a>
+      <a href="../articles/5_svyglm.html">Expected Values for Regression with Survey Weights</a>
     </li>
     <li>
-      <a href="../articles/6_tobit.html">AMEs for Tobit Models</a>
+      <a href="../articles/6_tobit.html">Expected Values for Tobit Models</a>
     </li>
     <li>
       <a href="../articles/7_transforming_covariates.html">Transforming Covariates</a>
     </li>
     <li>
       <a href="../articles/8_with_Amelia.html">Using smargins with Amelia</a>
+    </li>
+    <li>
+      <a href="../articles/9_package_comparisons.html">Comparison of R Packges for Calculating Expected Values</a>
     </li>
   </ul>
 </li>
@@ -83,9 +86,9 @@
       </header><div class="row">
   <div class="col-md-9">
     <div class="page-header toc-ignore">
-      <h1>AMEs for GLMs</h1>
+      <h1>Expected Values for GLMs</h1>
             
-            <h4 class="date">2017-11-14</h4>
+            <h4 class="date">2017-11-16</h4>
           </div>
 
     
@@ -136,11 +139,11 @@
 <p>Set values for the explanatory variables and simulate quantities of interest from the posterior distribution:</p>
 <pre class="sourceCode r" id="cb8"><code class="sourceCode r"><div class="sourceLine" id="cb8-1" data-line-number="1">
 <span class="kw">library</span>(smargins)</div>
-<div class="sourceLine" id="cb8-2" data-line-number="2">m.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">age =</span> <span class="dv">36</span>, <span class="dt">race =</span> <span class="kw">c</span>(<span class="st">"white"</span>)), <span class="dt">n =</span> <span class="dv">5000</span>)</div>
+<div class="sourceLine" id="cb8-2" data-line-number="2">m.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">age =</span> <span class="dv">36</span>, <span class="dt">race =</span> <span class="kw">c</span>(<span class="st">"white"</span>))</div>
 <div class="sourceLine" id="cb8-3" data-line-number="3">
 <span class="kw">summary</span>(m.sm)</div></code></pre>
 <pre><code>##   age  race      mean         sd    median lower_2.5 upper_97.5
-## 1  36 white 0.6088818 0.02828075 0.6089692 0.5526354   0.663761</code></pre>
+## 1  36 white 0.6083625 0.02928334 0.6087727 0.5500076  0.6642767</code></pre>
 <p>Show the results graphically:</p>
 <pre class="sourceCode r" id="cb10"><code class="sourceCode r"><div class="sourceLine" id="cb10-1" data-line-number="1">
 <span class="kw">library</span>(ggplot2)</div>
@@ -154,17 +157,17 @@
 </section></section><section id="first-differences" class="level2"><h2>First differences</h2>
 <p>Estimating the risk difference (and risk ratio) between low education (25th percentile) and high education (75th percentile) while all the other variables averaged over their observed values.</p>
 <pre class="sourceCode r" id="cb11"><code class="sourceCode r"><div class="sourceLine" id="cb11-1" data-line-number="1">m2 &lt;-<span class="st"> </span><span class="kw">glm</span>(vote <span class="op">~</span><span class="st"> </span>educate, <span class="dt">data =</span> turnout, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">"logit"</span>))</div>
-<div class="sourceLine" id="cb11-2" data-line-number="2">m2.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m2, <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">educate =</span> <span class="kw">quantile</span>(turnout<span class="op">$</span>educate, <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>))))</div>
+<div class="sourceLine" id="cb11-2" data-line-number="2">m2.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m2, <span class="dt">educate =</span> <span class="kw">quantile</span>(educate, <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>)))</div>
 <div class="sourceLine" id="cb11-3" data-line-number="3"></div>
 <div class="sourceLine" id="cb11-4" data-line-number="4">
 <span class="kw">summary</span>(m2.sm)</div></code></pre>
 <pre><code>##   educate      mean         sd    median lower_2.5 upper_97.5
-## 1      10 0.6903791 0.01270291 0.6905790 0.6657028  0.7139682
-## 2      14 0.8134183 0.01051611 0.8134115 0.7928100  0.8335172</code></pre>
+## 1      10 0.6898357 0.01215329 0.6900576 0.6647333  0.7134552
+## 2      14 0.8130983 0.01040942 0.8134370 0.7920850  0.8324708</code></pre>
 <pre class="sourceCode r" id="cb13"><code class="sourceCode r"><div class="sourceLine" id="cb13-1" data-line-number="1">
 <span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="dt">var =</span> <span class="st">"educate"</span>))</div></code></pre>
-<pre><code>##    educate       mean         sd    median lower_2.5  upper_97.5
-## 1 10 vs 14 -0.1230392 0.01203406 -0.122597 -0.147359 -0.09950926</code></pre>
+<pre><code>##    educate       mean         sd     median  lower_2.5 upper_97.5
+## 1 10 vs 14 -0.1232626 0.01168509 -0.1231133 -0.1461479 -0.1005507</code></pre>
 <pre class="sourceCode r" id="cb15"><code class="sourceCode r"><div class="sourceLine" id="cb15-1" data-line-number="1">
 <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="st">"educate"</span>)) <span class="op">+</span>
 </div>

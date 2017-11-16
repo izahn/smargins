@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AMEs for Regression with Survey Weights • smargins</title>
+<title>Expected Values for Regression with Survey Weights • smargins</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
@@ -51,22 +51,25 @@
       <a href="../articles/2_quickstart.html">smargins Quickstart Guide</a>
     </li>
     <li>
-      <a href="../articles/3_lm.html">AMEs for LMs</a>
+      <a href="../articles/3_lm.html">Expected Values for LMs</a>
     </li>
     <li>
-      <a href="../articles/4_glm.html">AMEs for GLMs</a>
+      <a href="../articles/4_glm.html">Expected Values for GLMs</a>
     </li>
     <li>
-      <a href="../articles/5_svyglm.html">AMEs for Regression with Survey Weights</a>
+      <a href="../articles/5_svyglm.html">Expected Values for Regression with Survey Weights</a>
     </li>
     <li>
-      <a href="../articles/6_tobit.html">AMEs for Tobit Models</a>
+      <a href="../articles/6_tobit.html">Expected Values for Tobit Models</a>
     </li>
     <li>
       <a href="../articles/7_transforming_covariates.html">Transforming Covariates</a>
     </li>
     <li>
       <a href="../articles/8_with_Amelia.html">Using smargins with Amelia</a>
+    </li>
+    <li>
+      <a href="../articles/9_package_comparisons.html">Comparison of R Packges for Calculating Expected Values</a>
     </li>
   </ul>
 </li>
@@ -83,9 +86,9 @@
       </header><div class="row">
   <div class="col-md-9">
     <div class="page-header toc-ignore">
-      <h1>AMEs for Regression with Survey Weights</h1>
+      <h1>Expected Values for Regression with Survey Weights</h1>
             
-            <h4 class="date">2017-11-14</h4>
+            <h4 class="date">2017-11-16</h4>
           </div>
 
     
@@ -140,18 +143,18 @@
 <pre class="sourceCode r" id="cb9"><code class="sourceCode r"><div class="sourceLine" id="cb9-1" data-line-number="1">
 <span class="kw">library</span>(smargins)</div>
 <div class="sourceLine" id="cb9-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb9-3" data-line-number="3">m.sm1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">meals =</span> <span class="kw">quantile</span>(apistrat<span class="op">$</span>meals, <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>))), <span class="dt">n =</span> <span class="dv">10000</span>)</div>
+<div class="sourceLine" id="cb9-3" data-line-number="3">m.sm1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">meals =</span> <span class="kw">quantile</span>(meals, <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)))</div>
 <div class="sourceLine" id="cb9-4" data-line-number="4">
 <span class="kw">summary</span>(m.sm1)</div></code></pre>
 <pre><code>##   meals       mean         sd     median   lower_2.5 upper_97.5
-## 1  18.0 0.03161071 0.02204669 0.02578015 0.007188215 0.08969075
-## 2  74.2 0.18194983 0.03973935 0.17828271 0.113344725 0.26861570</code></pre>
+## 1  18.0 0.03161318 0.02207852 0.02562193 0.007244776 0.08909972
+## 2  74.2 0.18169155 0.03941668 0.17847417 0.112966435 0.26736271</code></pre>
 <p>Generate first differences for the effect of high versus low “meals” on the probability that a school will hold classes year round:</p>
 <pre class="sourceCode r" id="cb11"><code class="sourceCode r"><div class="sourceLine" id="cb11-1" data-line-number="1">m.sm1.diff &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m.sm1, <span class="st">"meals"</span>)</div>
 <div class="sourceLine" id="cb11-2" data-line-number="2">
 <span class="kw">summary</span>(m.sm1.diff)</div></code></pre>
 <pre><code>##        meals       mean         sd     median  lower_2.5  upper_97.5
-## 1 18 vs 74.2 -0.1503391 0.03982729 -0.1481629 -0.2330505 -0.07767617</code></pre>
+## 1 18 vs 74.2 -0.1500784 0.04000775 -0.1474838 -0.2328644 -0.07629612</code></pre>
 <p>Generate a second set of fitted values and a plot:</p>
 <pre class="sourceCode r" id="cb13"><code class="sourceCode r"><div class="sourceLine" id="cb13-1" data-line-number="1">
 <span class="kw">library</span>(ggplot2)</div>
@@ -192,12 +195,12 @@
 ## 
 ## Number of Fisher Scoring iterations: 6</code></pre>
 <p>The coefficient estimates from this model are identical to point estimates in the previous example, but the standard errors are smaller.</p>
-<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><div class="sourceLine" id="cb16-1" data-line-number="1">m.sm2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m2, <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">meals =</span> <span class="kw">quantile</span>(apistrat<span class="op">$</span>meals, <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>))))</div>
+<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><div class="sourceLine" id="cb16-1" data-line-number="1">m.sm2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m2, <span class="dt">meals =</span> <span class="kw">quantile</span>(apistrat<span class="op">$</span>meals, <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)))</div>
 <div class="sourceLine" id="cb16-2" data-line-number="2">
 <span class="kw">summary</span>(m.sm2)</div></code></pre>
-<pre><code>##   meals      mean         sd     median   lower_2.5 upper_97.5
-## 1  18.0 0.0309543 0.02160559 0.02469494 0.007441827 0.09192905
-## 2  74.2 0.1824483 0.03963590 0.17832587 0.115871290 0.26920844</code></pre>
+<pre><code>##   meals       mean         sd     median   lower_2.5 upper_97.5
+## 1  18.0 0.03127663 0.02207439 0.02584485 0.006952182 0.08708536
+## 2  74.2 0.18148118 0.03959123 0.17758124 0.113059958 0.27000292</code></pre>
 </section></section><section id="model" class="level2"><h2>Model</h2>
 <p>Let <span class="math inline">\(Y_i\)</span> be the binary dependent variable for observation <span class="math inline">\(i\)</span> which takes the value of either 0 or 1.</p>
 <ul>

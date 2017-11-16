@@ -4,16 +4,14 @@
 \alias{smargins.survreg}
 \title{Calculate average marginal effects from a fitted model object.}
 \usage{
-\method{smargins}{survreg}(model, at = list(), n = 1000, ...)
+\method{smargins}{survreg}(model, ..., n = 1000)
 }
 \arguments{
 \item{model}{A fitted model object.}
 
-\item{at}{A named list of values to set predictor variables to.}
+\item{...}{Named values to set predictor variables to.}
 
 \item{n}{Number of simulations to run.}
-
-\item{...}{Further arguments passed to or from other methods.}
 }
 \value{
 A data.frame containing predictor variables values and
