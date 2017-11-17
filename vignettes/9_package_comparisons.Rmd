@@ -133,7 +133,7 @@ summary(sim(setx(m.z, income = quantile(Prestige$income, c(.25, .5, .75)))))
 
 Like the `rms` package the `setx` function uses variable names as arguments.
 
-## The best parts
+### The best parts
 
 Each of the packages reviewed above has advantages and disadvantages relative to the others. If we were to combine the best parts of each approach into a single package it would have the following features:
 

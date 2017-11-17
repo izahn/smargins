@@ -45,6 +45,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/0_questions.html">smargins Questions and Discussion</a>
+    </li>
+    <li>
       <a href="../articles/1_about.html">About smargins</a>
     </li>
     <li>
@@ -88,7 +91,7 @@
     <div class="page-header toc-ignore">
       <h1>Expected Values for Tobit Models</h1>
             
-            <h4 class="date">2017-11-16</h4>
+            <h4 class="date">2017-11-17</h4>
           </div>
 
     
@@ -174,54 +177,7 @@
 <div class="sourceLine" id="cb13-2" data-line-number="2">
 <span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>(<span class="dt">fill =</span> <span class="st">"blue"</span>, <span class="dt">alpha =</span> <span class="fl">0.25</span>)</div></code></pre>
 <p><img src="6_tobit_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
-</section></section><section id="model" class="level2"><h2>Model</h2>
-<ul>
-<li>Let <span class="math inline">\(Y_i^*\)</span> be a latent dependent variable which is distributed with <em>stochastic</em> component</li>
-</ul>
-<p><span class="math display">\[
-    \begin{aligned}
-        Y_i^* &amp; \sim &amp; \textrm{Normal}(\mu_i, \sigma^2) \\\end{aligned}
-\]</span></p>
-<p>where <span class="math inline">\(\mu_i\)</span> is a vector means and <span class="math inline">\(\sigma^2\)</span> is a scalar variance parameter. <span class="math inline">\(Y_i^*\)</span> is not directly observed, however. Rather we observed <span class="math inline">\(Y_i\)</span> which is defined as:</p>
-<p><span class="math display">\[
-    Y_i = \left\{
-        \begin{array}{lcl}
-      Y_i^*  &amp;\textrm{if} &amp; c &lt;Y_i^* \\
-      c    &amp;\textrm{if} &amp; c \ge Y_i^*
-      \end{array}\right.
-\]</span></p>
-<p>where <span class="math inline">\(c\)</span> is the lower bound below which <span class="math inline">\(Y_i^*\)</span> is censored.</p>
-<ul>
-<li>The <em>systematic component</em> is given by</li>
-</ul>
-<p><span class="math display">\[
-    \begin{aligned}
-        \mu_{i} &amp;=&amp; x_{i} \beta,\end{aligned}
-\]</span></p>
-<p>where <span class="math inline">\(x_{i}\)</span> is the vector of <span class="math inline">\(k\)</span> explanatory variables for observation <span class="math inline">\(i\)</span> and <span class="math inline">\(\beta\)</span> is the vector of coefficients.</p>
-</section><section id="quantities-of-interest" class="level2"><h2>Quantities of Interest</h2>
-<ul>
-<li>The expected values (<code>qi$ev</code>) for the tobit regression model are the same as the expected value of <span class="math inline">\(Y*\)</span>:</li>
-</ul>
-<p><span class="math display">\[
-    E(Y^* | X) = \mu_{i} = x_{i} \beta
-\]</span></p>
-<ul>
-<li>The first difference (<code>qi$fd</code>) for the tobit regression model is defined as</li>
-</ul>
-<p><span class="math display">\[
-    \begin{aligned}
-        \text{FD}=E(Y^* \mid x_{1}) - E(Y^* \mid x).\end{aligned}
-\]</span></p>
-<ul>
-<li>In conditional prediction models, the average expected treatment effect (<code>qi$att.ev</code>) for the treatment group is</li>
-</ul>
-<p><span class="math display">\[
-    \begin{aligned}
-        \frac{1}{\sum t_{i}}\sum_{i:t_{i}=1}[E[Y^*_{i}(t_{i}=1)]-E[Y^*_{i}(t_{i}=0)]],\end{aligned}
-\]</span></p>
-<p>where <span class="math inline">\(t_{i}\)</span> is a binary explanatory variable defining the treatment (<span class="math inline">\(t_{i}=1\)</span>) and control (<span class="math inline">\(t_{i}=0\)</span>) groups.</p>
-</section>
+</section></section>
 </div>
   </div>
 
@@ -231,8 +187,6 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#examples">Examples</a></li>
-      <li><a href="#model">Model</a></li>
-      <li><a href="#quantities-of-interest">Quantities of Interest</a></li>
       </ul>
 </div>
       </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate average marginal effects from a fitted model object. — smargins.lmerMod • smargins</title>
+<title>Temporary smargins variant — smargins_v2 • smargins</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -114,15 +114,17 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate average marginal effects from a fitted model object.</h1>
+    <h1>Temporary smargins variant</h1>
     </div>
 
     
-    <p>Calculate average marginal effects from a fitted model object.</p>
+    <p>Temporary smargins variant</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for lmerMod</span>
-<span class='fu'><a href='smargins.html'>smargins</a></span>(<span class='no'>model</span>, <span class='no'>...</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1000</span>)</pre>
+    <pre class="usage"><span class='fu'>smargins_v2</span>(<span class='no'>model</span>, <span class='no'>vars</span>, <span class='kw'>xvalues</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5000</span>, <span class='kw'>coef.fun</span> <span class='kw'>=</span> <span class='no'>coef</span>,
+  <span class='kw'>sim.fun</span> <span class='kw'>=</span> <span class='no'>I</span>, <span class='kw'>linkinv.fun</span> <span class='kw'>=</span> <span class='fu'>family</span>(<span class='no'>model</span>)$<span class='no'>linkinv</span>, <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='no'>vcov</span>,
+  <span class='kw'>model.frame.fun</span> <span class='kw'>=</span> <span class='no'>model.frame</span>, <span class='kw'>model.matrix.fun</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>, <span class='no'>data</span>) {
+  <span class='fu'>model.matrix</span>(<span class='fu'>formula</span>(<span class='no'>x</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>data</span>) })</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -132,19 +134,47 @@
       <td><p>A fitted model object.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Named values to set predictor variables to.</p></td>
+      <th>vars</th>
+      <td><p>Character vector naming variables</p></td>
+    </tr>
+    <tr>
+      <th>xvalues</th>
+      <td><p>Named list of values.</p></td>
     </tr>
     <tr>
       <th>n</th>
       <td><p>Number of simulations to run.</p></td>
+    </tr>
+    <tr>
+      <th>coef.fun</th>
+      <td><p>Function to use for computing coefficients.</p></td>
+    </tr>
+    <tr>
+      <th>sim.fun</th>
+      <td><p>Function to use for adjusting simulations.</p></td>
+    </tr>
+    <tr>
+      <th>linkinv.fun</th>
+      <td><p>Function to use for cmputing the inverse link.</p></td>
+    </tr>
+    <tr>
+      <th>vcov.fun</th>
+      <td><p>Function to use for computing the variance-covariance matrix.</p></td>
+    </tr>
+    <tr>
+      <th>model.frame.fun</th>
+      <td><p>Function to use for extracting the model.frame.</p></td>
+    </tr>
+    <tr>
+      <th>model.matrix.fun</th>
+      <td><p>Function to use for extracting the model.matrix.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A data.frame containing predictor variables values and
-    expected values of the dependant variable.</p>
+        expected values of the dependant variable.</p>
     
 
   </div>

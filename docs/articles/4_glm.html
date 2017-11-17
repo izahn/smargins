@@ -45,6 +45,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/0_questions.html">smargins Questions and Discussion</a>
+    </li>
+    <li>
       <a href="../articles/1_about.html">About smargins</a>
     </li>
     <li>
@@ -88,7 +91,7 @@
     <div class="page-header toc-ignore">
       <h1>Expected Values for GLMs</h1>
             
-            <h4 class="date">2017-11-16</h4>
+            <h4 class="date">2017-11-17</h4>
           </div>
 
     
@@ -143,7 +146,7 @@
 <div class="sourceLine" id="cb8-3" data-line-number="3">
 <span class="kw">summary</span>(m.sm)</div></code></pre>
 <pre><code>##   age  race      mean         sd    median lower_2.5 upper_97.5
-## 1  36 white 0.6088009 0.02958366 0.6089339 0.5507803  0.6658784</code></pre>
+## 1  36 white 0.6089973 0.02927114 0.6090359 0.5524932  0.6650298</code></pre>
 <p>Show the results graphically:</p>
 <pre class="sourceCode r" id="cb10"><code class="sourceCode r"><div class="sourceLine" id="cb10-1" data-line-number="1">
 <span class="kw">library</span>(ggplot2)</div>
@@ -162,12 +165,12 @@
 <div class="sourceLine" id="cb11-4" data-line-number="4">
 <span class="kw">summary</span>(m2.sm)</div></code></pre>
 <pre><code>##   educate      mean         sd    median lower_2.5 upper_97.5
-## 1      10 0.6899907 0.01232601 0.6900538 0.6653420  0.7143156
-## 2      14 0.8134005 0.01038978 0.8136680 0.7923793  0.8334712</code></pre>
+## 1      10 0.6904065 0.01211355 0.6906484 0.6668200  0.7134715
+## 2      14 0.8134327 0.01040222 0.8137579 0.7922944  0.8328729</code></pre>
 <pre class="sourceCode r" id="cb13"><code class="sourceCode r"><div class="sourceLine" id="cb13-1" data-line-number="1">
 <span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="dt">var =</span> <span class="st">"educate"</span>))</div></code></pre>
-<pre><code>##    educate       mean         sd     median  lower_2.5 upper_97.5
-## 1 10 vs 14 -0.1234099 0.01184295 -0.1234884 -0.1463416 -0.1001446</code></pre>
+<pre><code>##    educate       mean         sd     median lower_2.5 upper_97.5
+## 1 10 vs 14 -0.1230262 0.01151027 -0.1231947 -0.144828 -0.1000264</code></pre>
 <pre class="sourceCode r" id="cb15"><code class="sourceCode r"><div class="sourceLine" id="cb15-1" data-line-number="1">
 <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="st">"educate"</span>)) <span class="op">+</span>
 </div>
@@ -180,51 +183,6 @@
 <div class="sourceLine" id="cb16-2" data-line-number="2">
 <span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">fill =</span> <span class="kw">factor</span>(educate)))</div></code></pre>
 <p><img src="4_glm_files/figure-html/unnamed-chunk-8-2.png" width="672"></p>
-</section><section id="model-definition" class="level2"><h2>Model Definition</h2>
-<p>Let <span class="math inline">\(Y_i\)</span> be the binary dependent variable for observation <span class="math inline">\(i\)</span> which takes the value of either 0 or 1.</p>
-<ul>
-<li>The <em>stochastic component</em> is given by</li>
-</ul>
-<p><span class="math display">\[\begin{aligned}
-Y_i &amp;\sim&amp; \textrm{Bernoulli}(y_i \mid \pi_i) \\
-    &amp;=&amp; \pi_i^{y_i} (1-\pi_i)^{1-y_i}\end{aligned}
-\]</span></p>
-<p>where <span class="math inline">\(\pi_i=\Pr(Y_i=1)\)</span>.</p>
-<ul>
-<li>The <em>systematic component</em> is given by:</li>
-</ul>
-<p><span class="math display">\[\pi_i \; = \; \frac{1}{1 + \exp(-x_i \beta)}.\]</span></p>
-<p>where <span class="math inline">\(x_i\)</span> is the vector of <span class="math inline">\(k\)</span> explanatory variables for observation <span class="math inline">\(i\)</span> and <span class="math inline">\(\beta\)</span> is the vector of coefficients.</p>
-</section><section id="quantities-of-interest" class="level2"><h2>Quantities of Interest</h2>
-<ul>
-<li>The expected values for the logit model are simulations of the predicted probability of a success:</li>
-</ul>
-<p><span class="math display">\[
-E(Y) =
-  \pi_i= \frac{1}{1 + \exp(-x_i \beta)},
-\]</span></p>
-<p>given draws of <span class="math inline">\(\beta\)</span> from its sampling distribution.</p>
-<ul>
-<li><p>The predicted values are draws from the Binomial distribution with mean equal to the simulated expected value <span class="math inline">\(\pi_i\)</span>.</p></li>
-<li><p>The first difference for the logit model is defined as</p></li>
-</ul>
-<p><span class="math display">\[\textrm{FD} = \Pr(Y = 1 \mid x_1) - \Pr(Y = 1 \mid x).\]</span></p>
-<p>The risk ratio is defined as</p>
-<p><span class="math display">\[\textrm{RR} = \Pr(Y = 1 \mid x_1) \ / \ \Pr(Y = 1 \mid x).\]</span></p>
-<p>In conditional prediction models, the average expected treatment effect (att.ev) for the treatment group is</p>
-<p><span class="math display">\[
-\frac{1}{\sum_{i=1}^n t_i}\sum_{i:t_i=1}^n \left\{ Y_i(t_i=1) -
-      E[Y_i(t_i=0)] \right\},
-\]</span></p>
-<p>where <span class="math inline">\(t_i\)</span> is a binary explanatory variable defining the treatment (<span class="math inline">\(t_i=1\)</span>) and control (<span class="math inline">\(t_i=0\)</span>) groups. Variation in the simulations are due to uncertainty in simulating <span class="math inline">\(E[Y_i(t_i=0)]\)</span>, the counterfactual expected value of <span class="math inline">\(Y_i\)</span> for observations in the treatment group, under the assumption that everything stays the same except that the treatment indicator is switched to <span class="math inline">\(t_i=0\)</span>.</p>
-<ul>
-<li>In conditional prediction models, the average predicted treatment effect (att.pr) for the treatment group is</li>
-</ul>
-<p><span class="math display">\[
-\frac{1}{\sum_{i=1}^n t_i}\sum_{i:t_i=1}^n \left\{ Y_i(t_i=1) -
-      \widehat{Y_i(t_i=0)}\right\},
-\]</span></p>
-<p>where <span class="math inline">\(t_i\)</span> is a binary explanatory variable defining the treatment (<span class="math inline">\(t_i=1\)</span>) and control (<span class="math inline">\(t_i=0\)</span>) groups. Variation in the simulations are due to uncertainty in simulating <span class="math inline">\(\widehat{Y_i(t_i=0)}\)</span>, the counterfactual predicted value of <span class="math inline">\(Y_i\)</span> for observations in the treatment group, under the assumption that everything stays the same except that the treatment indicator is switched to <span class="math inline">\(t_i=0\)</span>.</p>
 </section>
 </div>
   </div>
@@ -236,8 +194,6 @@ E(Y) =
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#examples">Examples</a></li>
       <li><a href="#first-differences">First differences</a></li>
-      <li><a href="#model-definition">Model Definition</a></li>
-      <li><a href="#quantities-of-interest">Quantities of Interest</a></li>
       </ul>
 </div>
       </div>

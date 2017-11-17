@@ -1,0 +1,59 @@
+---
+title: "smargins Questions and Discussion"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Quickstart Guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(
+        stop_on_error = 2L
+)
+```
+
+# Specify x variable names or values?
+
+```{r, echo = FALSE}
+library(smargins)
+```
+
+Given the following model:
+
+```{r}
+m <- lm(mpg ~ hp + wt, data = mtcars)
+```
+
+suppose that we wish to examine the effect of `hp` by calculating expected values at several levels of `hp` while averaging over the observed values of wt.
+
+Which do you like better?
+
+```{r}
+smargins_v1(m, hp = quantile(hp))
+```
+
+or
+
+```{r}
+smargins_v2(m, "hp")
+```
+
+?
+
+Now suppose that we want to choose the values of hp ourselves:
+
+```{r}
+smargins_v1(m, hp = seq(50, 350, by = 50))
+```
+
+or
+
+```{r}
+smargins_v2(m, "hp", xvalues = list(hp = seq(50, 350, by = 50)))
+```
+
+Now which do you prefer? 
+
+`smargins_v1` is more verbose for the simple case, but less so when the user does wish to specify values. Which one should we pick? Or is there some combination or alternative that would be even better?

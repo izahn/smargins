@@ -45,6 +45,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/0_questions.html">smargins Questions and Discussion</a>
+    </li>
+    <li>
       <a href="../articles/1_about.html">About smargins</a>
     </li>
     <li>
@@ -88,7 +91,7 @@
     <div class="page-header toc-ignore">
       <h1>Transforming Covariates</h1>
             
-            <h4 class="date">2017-11-16</h4>
+            <h4 class="date">2017-11-17</h4>
           </div>
 
     
@@ -106,9 +109,9 @@
 <div class="sourceLine" id="cb2-2" data-line-number="2"></div>
 <div class="sourceLine" id="cb2-3" data-line-number="3">
 <span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m.log, <span class="dt">distance =</span> <span class="kw">c</span>(<span class="dv">26</span>, <span class="dv">56</span>)))</div></code></pre>
-<pre><code>##   distance     mean        sd  median lower_2.5 upper_97.5
-## 1       26 13.83426 0.4526540 13.8262  12.96272   14.73930
-## 2       56 18.13222 0.5060705 18.1307  17.15518   19.13832</code></pre>
+<pre><code>##   distance     mean        sd   median lower_2.5 upper_97.5
+## 1       26 13.84258 0.4527787 13.83918  12.96433   14.75466
+## 2       56 18.13360 0.5074485 18.13195  17.13959   19.11022</code></pre>
 <p>We could also estimate the model with <code>dist</code> as a polynomial. For example:</p>
 <pre class="sourceCode r" id="cb4"><code class="sourceCode r"><div class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Find range of polynomial values</span></div>
 <div class="sourceLine" id="cb4-2" data-line-number="2"></div>
@@ -116,17 +119,17 @@
 <div class="sourceLine" id="cb4-4" data-line-number="4">
 <span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m2, <span class="dt">distance =</span> <span class="kw">quantile</span>(distance, <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">.1</span>))))</div></code></pre>
 <pre><code>##    distance     mean        sd   median lower_2.5 upper_97.5
-## 1       2.0 12.97486 0.4954689 12.96699  12.01446   13.94349
-## 2      15.8 13.97839 0.4341909 13.97207  13.15088   14.83730
-## 3      21.6 14.36397 0.4235247 14.35694  13.55683   15.19998
-## 4      26.0 14.64220 0.4198326 14.63325  13.83484   15.47358
-## 5      32.0 15.00174 0.4192487 14.99341  14.19501   15.83409
-## 6      36.0 15.22870 0.4208141 15.21953  14.41896   16.05843
-## 7      46.0 15.75153 0.4279356 15.74434  14.92560   16.59508
-## 8      54.0 16.12397 0.4340183 16.11538  15.28554   16.97351
-## 9      64.4 16.54722 0.4398386 16.54332  15.69557   17.39987
-## 10     80.4 17.06393 0.4453444 17.05751  16.21248   17.93344
-## 11    120.0 17.64195 0.5651070 17.63877  16.55353   18.74731</code></pre>
+## 1       2.0 12.98784 0.5060653 12.99483  12.00597   13.96437
+## 2      15.8 13.99358 0.4408434 13.99620  13.14711   14.85035
+## 3      21.6 14.37996 0.4285808 14.37928  13.55532   15.20996
+## 4      26.0 14.65873 0.4238075 14.65488  13.83817   15.48535
+## 5      32.0 15.01894 0.4219956 15.01722  14.20308   15.83996
+## 6      36.0 15.24630 0.4229190 15.24337  14.42804   16.07993
+## 7      46.0 15.76995 0.4290569 15.76761  14.93044   16.61875
+## 8      54.0 16.14286 0.4349294 16.14103  15.28841   16.99905
+## 9      64.4 16.56649 0.4410860 16.56894  15.70833   17.44208
+## 10     80.4 17.08326 0.4479755 17.08098  16.21480   17.96388
+## 11    120.0 17.65870 0.5689497 17.64435  16.57228   18.79874</code></pre>
 <p>Splines and other transformations should generally work as expected.</p>
 <pre class="sourceCode r" id="cb6"><code class="sourceCode r"><div class="sourceLine" id="cb6-1" data-line-number="1">
 <span class="kw">library</span>(splines)</div>
@@ -135,18 +138,18 @@
 <div class="sourceLine" id="cb6-4" data-line-number="4">
 <span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m3, <span class="dt">distance =</span> <span class="kw">seq</span>(<span class="kw">min</span>(distance), <span class="kw">max</span>(distance), <span class="dv">10</span>)))</div></code></pre>
 <pre><code>##    distance      mean        sd    median  lower_2.5 upper_97.5
-## 1         2  4.708453 2.1189073  4.701861  0.5340653   8.916322
-## 2        12  7.315442 1.0624930  7.328073  5.2264224   9.416334
-## 3        22 10.110152 0.6810988 10.114940  8.7597890  11.439203
-## 4        32 12.885887 0.5369324 12.886708 11.8405550  13.938844
-## 5        42 15.435949 0.5982194 15.437694 14.2685650  16.579739
-## 6        52 17.553642 0.7346784 17.555735 16.1162378  19.023084
-## 7        62 19.043612 0.7288479 19.050347 17.6300869  20.485590
-## 8        72 19.971352 0.8709945 19.975916 18.2899217  21.649671
-## 9        82 20.663207 1.2405347 20.652138 18.2956074  23.130493
-## 10       92 21.456864 1.4447621 21.438918 18.6503303  24.272257
-## 11      102 22.690007 1.5585851 22.668444 19.6014444  25.715591
-## 12      112 24.700322 2.8654090 24.711769 19.0889606  30.372610</code></pre>
+## 1         2  4.736606 2.1084727  4.760981  0.5907482   8.792542
+## 2        12  7.304984 1.0600557  7.309100  5.1751614   9.355259
+## 3        22 10.086723 0.6717410 10.086211  8.7547460  11.390935
+## 4        32 12.866770 0.5218796 12.869657 11.8379670  13.926415
+## 5        42 15.430070 0.5828383 15.434292 14.2945443  16.597623
+## 6        52 17.561570 0.7234041 17.565451 16.1597097  18.966400
+## 7        62 19.057760 0.7273851 19.058564 17.6537497  20.485053
+## 8        72 19.980612 0.8688503 19.978661 18.3162825  21.721517
+## 9        82 20.657583 1.2241078 20.639207 18.2914830  23.094383
+## 10       92 21.427673 1.4209764 21.434711 18.6302237  24.237779
+## 11      102 22.629883 1.5411126 22.672560 19.6068088  25.672858
+## 12      112 24.603210 2.8340450 24.589111 19.0996606  30.304192</code></pre>
 </section>
 </div>
   </div>

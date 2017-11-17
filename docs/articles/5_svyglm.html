@@ -45,6 +45,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/0_questions.html">smargins Questions and Discussion</a>
+    </li>
+    <li>
       <a href="../articles/1_about.html">About smargins</a>
     </li>
     <li>
@@ -88,7 +91,7 @@
     <div class="page-header toc-ignore">
       <h1>Expected Values for Regression with Survey Weights</h1>
             
-            <h4 class="date">2017-11-16</h4>
+            <h4 class="date">2017-11-17</h4>
           </div>
 
     
@@ -201,62 +204,7 @@
 <pre><code>##   meals       mean         sd     median   lower_2.5 upper_97.5
 ## 1  18.0 0.03127663 0.02207439 0.02584485 0.006952182 0.08708536
 ## 2  74.2 0.18148118 0.03959123 0.17758124 0.113059958 0.27000292</code></pre>
-</section></section><section id="model" class="level2"><h2>Model</h2>
-<p>Let <span class="math inline">\(Y_i\)</span> be the binary dependent variable for observation <span class="math inline">\(i\)</span> which takes the value of either 0 or 1.</p>
-<ul>
-<li>The <em>stochastic component</em> is given by</li>
-</ul>
-<p><span class="math display">\[
-    \begin{aligned}
-        Y_i &amp;\sim&amp; \textrm{Bernoulli}(y_i \mid \pi_i) \\
-          &amp;=&amp; \pi_i^{y_i} (1-\pi_i)^{1-y_i}\end{aligned}
-\]</span> where <span class="math inline">\(\pi_i=\Pr(Y_i=1)\)</span>.</p>
-<ul>
-<li>The <em>systematic component</em> is given by:</li>
-</ul>
-<p><span class="math display">\[
-    \pi_i \; = \; \frac{1}{1 + \exp(-x_i \beta)}.
-\]</span></p>
-<p>where <span class="math inline">\(x_i\)</span> is the vector of <span class="math inline">\(k\)</span> explanatory variables for observation <span class="math inline">\(i\)</span> and <span class="math inline">\(\beta\)</span> is the vector of coefficients.</p>
-</section><section id="quantities-of-interest" class="level2"><h2>Quantities of Interest</h2>
-<ul>
-<li>The expected values (<code>qi$ev</code>) for the logit model are simulations of the predicted probability of a success:</li>
-</ul>
-<p><span class="math display">\[
-    E(Y) =
-        \pi_i= \frac{1}{1 + \exp(-x_i \beta)},
-\]</span></p>
-<p>given draws of <span class="math inline">\(\beta\)</span> from its sampling distribution.</p>
-<ul>
-<li><p>The predicted values (<code>qi$pr</code>) are draws from the Binomial distribution with mean equal to the simulated expected value <span class="math inline">\(\pi_i\)</span>.</p></li>
-<li><p>The first difference (qi$fd) for the logit model is defined as</p></li>
-</ul>
-<p><span class="math display">\[
-    \textrm{FD} = \Pr(Y = 1 \mid x_1) - \Pr(Y = 1 \mid x).
-\]</span></p>
-<ul>
-<li>The risk ratio (qi$rr) is defined as</li>
-</ul>
-<p><span class="math display">\[
-    \textrm{RR} = \Pr(Y = 1 \mid x_1) \ / \ \Pr(Y = 1 \mid x).
-\]</span></p>
-<ul>
-<li>In conditional prediction models, the average expected treatment effect (att.ev) for the treatment group is</li>
-</ul>
-<p><span class="math display">\[
-    \frac{1}{\sum_{i=1}^n t_i}\sum_{i:t_i=1}^n \left\{ Y_i(t_i=1) -
-        E[Y_i(t_i=0)] \right\},
-\]</span></p>
-<p>where <span class="math inline">\(t_i\)</span> is a binary explanatory variable defining the treatment (<span class="math inline">\(t_i=1\)</span>) and control (<span class="math inline">\(t_i=0\)</span>) groups. Variation in the simulations are due to uncertainty in simulating <span class="math inline">\(E[Y_i(t_i=0)]\)</span>, the counterfactual expected value of <span class="math inline">\(Y_i\)</span> for observations in the treatment group, under the assumption that everything stays the same except that the treatment indicator is switched to <span class="math inline">\(t_i=0\)</span>.</p>
-<ul>
-<li>In conditional prediction models, the average predicted treatment effect (att.pr) for the treatment group is</li>
-</ul>
-<p><span class="math display">\[
-    \frac{1}{\sum_{i=1}^n t_i}\sum_{i:t_i=1}^n \left\{ Y_i(t_i=1) -
-        \widehat{Y_i(t_i=0)}\right\},
-\]</span></p>
-<p>where <span class="math inline">\(t_i\)</span> is a binary explanatory variable defining the treatment (<span class="math inline">\(t_i=1\)</span>) and control (<span class="math inline">\(t_i=0\)</span>) groups. Variation in the simulations are due to uncertainty in simulating <span class="math inline">\(\widehat{Y_i(t_i=0)}\)</span>, the counterfactual predicted value of <span class="math inline">\(Y_i\)</span> for observations in the treatment group, under the assumption that everything stays the same except that the treatment indicator is switched to <span class="math inline">\(t_i=0\)</span>.</p>
-</section>
+</section></section>
 </div>
   </div>
 
@@ -266,8 +214,6 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#examples">Examples</a></li>
-      <li><a href="#model">Model</a></li>
-      <li><a href="#quantities-of-interest">Quantities of Interest</a></li>
       </ul>
 </div>
       </div>

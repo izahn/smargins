@@ -76,7 +76,7 @@ Estimate a model with fixed effects for each country.
 m2 <- lm(unem ~ gdp + trade + capmob + country, data = macro)
 ```
 
-Calculate AMEs for each country.
+Calculate expected values for each country.
 
 ```{r}
 m2.sm <- smargins(m2, country = unique(country))
@@ -95,53 +95,3 @@ ggplot(m2.sm.comp, aes(y = country, x = median)) +
     geom_point() +
     geom_errorbarh(aes(xmin = lower_2.5, xmax = upper_97.5), height = .2)
 ```
-
-## Model Definition
-
--  The *stochastic component* is described by a density with mean
-   $\mu_i$ and the common variance $\sigma^2$
-
-$$
-    Y_i \; \sim \; f(y_i \mid \mu_i, \sigma^2).
-$$
-
--  The *systematic component* models the conditional mean as
-
-$$
-   \mu_i =  x_i \beta,
-$$
-
-   where $x_i$ is the vector of covariates, and $\beta$ is
-   the vector of coefficients.
-
-   The least squares estimator is the best linear predictor of a
-   dependent variable given $x_i$, and minimizes the sum of
-   squared residuals, $\sum_{i=1}^n (Y_i-x_i \beta)^2$.
-
-## Quantities of Interest Definition
-
--  The expected value (`qi$ev`) is the mean of simulations from the
-   stochastic component,
-
-$$
-   E(Y) = x_i \beta,
-$$
-
-  given a draw of $\beta$ from its sampling distribution.
-
--  In conditional prediction models, the average expected treatment
-  effect (`att.ev`) for the treatment group is
-
-$$
-   \frac{1}{\sum_{i=1}^n t_i}\sum_{i:t_i=1}^n \left\{ Y_i(t_i=1) -
-           E[Y_i(t_i=0)] \right\},
-$$
-
-   where $t_i$ is a binary explanatory variable defining the
-   treatment ($t_i=1$) and control ($t_i=0$) groups.
-   Variation in the simulations are due to uncertainty in simulating
-   $E[Y_i(t_i=0)]$, the counterfactual expected value of
-   $Y_i$ for observations in the treatment group, under the
-   assumption that everything stays the same except that the treatment
-   indicator is switched to :math: $t_i=0$.
-
