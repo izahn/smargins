@@ -124,7 +124,7 @@
 ## 
 ## -- Imputation 4 --
 ## 
-##   1  2
+##   1  2  3
 ## 
 ## -- Imputation 5 --
 ## 
@@ -137,24 +137,24 @@
 <div class="sourceLine" id="cb7-2" data-line-number="2">        <span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/reduce">reduce</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(models, <span class="op">~</span><span class="st"> </span><span class="kw">coef</span>(<span class="kw">summary</span>(.))[, <span class="st">"Std. Error"</span>]), rbind))</div></code></pre>
 <pre><code>## $q.mi
 ##      (Intercept)    trade    civlib
-## [1,]    118.6602 18.13188 -632.4253
+## [1,]    119.3297 18.09531 -638.0639
 ## 
 ## $se.mi
 ##      (Intercept)    trade   civlib
-## [1,]    102.9085 1.304704 191.8067</code></pre>
+## [1,]    97.25429 1.246933 183.2497</code></pre>
 <p>Nicer output is available from several of the available multiple-imputation packages in R, including the <em>mice</em> and <em>mitools</em>.</p>
 <pre class="sourceCode r" id="cb9"><code class="sourceCode r"><div class="sourceLine" id="cb9-1" data-line-number="1">
 <span class="kw">library</span>(mice)</div></code></pre>
 <pre><code>## Loading required package: lattice</code></pre>
 <pre class="sourceCode r" id="cb11"><code class="sourceCode r"><div class="sourceLine" id="cb11-1" data-line-number="1">(foo &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/mice/topics/pool">pool</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/mice/topics/as.mira">as.mira</a></span>(models))))</div></code></pre>
 <pre><code>##                    est         se         t       df    Pr(&gt;|t|)
-## (Intercept)  118.66017 102.908503  1.153065 82.28926 0.252222200
-## trade         18.13188   1.304704 13.897313 88.56452 0.000000000
-## civlib      -632.42532 191.806745 -3.297201 90.90602 0.001394349
-##                   lo 95      hi 95 nmis       fmi     lambda
-## (Intercept)   -86.04685  323.36719   NA 0.1210181 0.09991133
-## trade          15.53929   20.72448   NA 0.1047199 0.08472806
-## civlib      -1013.43117 -251.41948   NA 0.0986683 0.07905410</code></pre>
+## (Intercept)  119.32971  97.254291  1.226987 114.0295 0.222354929
+## trade         18.09531   1.246933 14.511863 113.9321 0.000000000
+## civlib      -638.06385 183.249709 -3.481937 112.7152 0.000709346
+##                   lo 95      hi 95 nmis        fmi      lambda
+## (Intercept)   -73.32976  311.98918   NA 0.02430788 0.007343677
+## trade          15.62513   20.56549   NA 0.02490472 0.007936531
+## civlib      -1001.12451 -275.00320   NA 0.03150855 0.014474918</code></pre>
 <section id="quantities-of-interest-for-mi" class="level2"><h2>Quantities of interest for MI</h2>
 <p>Using simulations to estimate uncertainty makes it pretty easy to incorporate additional uncertainty from imputed values.</p>
 <pre class="sourceCode r" id="cb13"><code class="sourceCode r"><div class="sourceLine" id="cb13-1" data-line-number="1">
@@ -168,15 +168,14 @@
 <div class="sourceLine" id="cb13-8" data-line-number="8">
 <span class="kw">summary</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/reduce">reduce</a></span>(models.sm, rbind))</div></code></pre>
 <pre><code>##     trade      mean       sd    median lower_2.5 upper_97.5
-## 1 38.4075  627.3184 42.06098  627.5134  544.7959   708.3615
-## 2 59.1900  639.1087 42.38757  639.1548  556.0253   722.9622
-## 3 80.7875  633.3600 42.94911  632.6884  549.6704   719.3235
-## 4 38.5325  628.6988 46.41383  628.7136  537.5951   722.1792
-## 5 81.1050 1000.7748 31.53822 1000.5937  937.7270  1061.7548
-## 6 38.4650 1011.9870 32.86565 1011.6297  949.2804  1077.0732
-## 7 59.5300 1007.7177 31.87069 1007.2448  946.7157  1071.3154
-## 8 38.2575 1396.2968 39.54684 1396.3321 1319.5038  1474.4930
-## 9 58.8350 1413.0034 43.11656 1412.4705 1330.7549  1498.8951</code></pre>
+## 1 38.4075  633.7670 42.49966  633.5810  549.5714   716.7810
+## 2 58.8350  631.9261 43.06150  632.3326  546.5418   716.3719
+## 3 80.7875  629.0484 43.83790  629.0255  543.4112   716.0407
+## 4 38.5325 1000.3666 32.18668 1000.0054  936.8338  1063.3879
+## 5 59.5300 1007.5490 32.28565 1007.6143  944.6115  1070.2317
+## 6 81.1050 1007.0593 32.23842 1007.1371  943.7359  1069.1166
+## 7 38.4650 1395.0950 39.87896 1395.2586 1317.3656  1473.6712
+## 8 59.1900 1404.9867 40.59854 1404.7074 1325.5369  1485.6282</code></pre>
 </section>
 </div>
   </div>

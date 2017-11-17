@@ -92,7 +92,7 @@
 <div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <section id="overview" class="level2"><h2>Overview</h2>
-<p><code>smargins</code> is a package that aids in calculating Average Marginal Effects for models of various kinds. There are many packages like it (e.g., <a href="https://cran.r-project.org/web/packages/coreSim/">coreSim</a>, <a href="https://cran.rstudio.com/web/packages/effects/">effects</a>, <a href="https://cran.rstudio.com/web/packages/lsmeans/">lsmeans</a>, <a href="https://cran.rstudio.com/web/packages/margins/">margins</a>, <a href="https://cran.rstudio.com/web/packages/rms/">rms</a> and <a href="https://cran.rstudio.com/web/packages/Zelig/">Zelig</a>) but this one is mine.</p>
+<p><code>smargins</code> is a package that aids in calculating expected values for models of various kinds. There are many packages like it (e.g., <a href="https://cran.r-project.org/web/packages/coreSim/">coreSim</a>, <a href="https://cran.rstudio.com/web/packages/effects/">effects</a>, <a href="https://cran.rstudio.com/web/packages/lsmeans/">lsmeans</a>, <a href="https://cran.rstudio.com/web/packages/margins/">margins</a>, <a href="https://cran.rstudio.com/web/packages/rms/">rms</a> and <a href="https://cran.rstudio.com/web/packages/Zelig/">Zelig</a>) but this one is mine.</p>
 <p>The main functions provided by this package are: * <code><a href="reference/smargins.html">smargins()</a></code> calculates average marginal effects * <code><a href="reference/scompare.html">scompare()</a></code> performs pairwise comparisons of the average marginal effects produced by <code>smargins</code>.</p>
 <p>Some examples are available at (<a href="https://izahn.github.io/smargins/" class="uri">https://izahn.github.io/smargins/</a>)</p>
 </section><section id="purpose" class="level2"><h2>Purpose</h2>
@@ -112,16 +112,16 @@
 <div class="sourceLine" id="cb2-7" data-line-number="7">
 <span class="kw">summary</span>(m.sm)</div>
 <div class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;   gear     mean       sd   median lower_2.5 upper_97.5</span></div>
-<div class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 1    3 16.10184 1.196163 16.10793  13.76746   18.44260</span></div>
-<div class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 2    4 24.56514 1.377065 24.55769  21.84441   27.26491</span></div>
-<div class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 3    5 21.38451 2.078568 21.37752  17.29383   25.47433</span></div>
+<div class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; 1    3 16.12373 1.199969 16.12880  13.79879   18.50444</span></div>
+<div class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; 2    4 24.53465 1.373260 24.53963  21.88530   27.21632</span></div>
+<div class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; 3    5 21.39464 2.126133 21.41790  17.23844   25.61274</span></div>
 <div class="sourceLine" id="cb2-12" data-line-number="12"></div>
 <div class="sourceLine" id="cb2-13" data-line-number="13">
 <span class="kw">summary</span>(<span class="kw"><a href="reference/scompare.html">scompare</a></span>(m.sm, <span class="st">"gear"</span>))</div>
 <div class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt;     gear      mean       sd    median  lower_2.5 upper_97.5</span></div>
-<div class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; 1 3 vs 4 -8.463297 1.826897 -8.444128 -12.063901 -4.9336163</span></div>
-<div class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; 2 3 vs 5 -5.282667 2.391233 -5.293220  -9.898590 -0.6220126</span></div>
-<div class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; 3 4 vs 5  3.180630 2.490539  3.183832  -1.793357  7.9659960</span></div></code></pre>
+<div class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; 1 3 vs 4 -8.410919 1.837841 -8.391714 -12.014628 -4.8572932</span></div>
+<div class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; 2 3 vs 5 -5.270913 2.440816 -5.304873  -9.917053 -0.5753371</span></div>
+<div class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; 3 4 vs 5  3.140006 2.522935  3.162209  -1.886205  7.9577935</span></div></code></pre>
 </section>
 </div>
   </div>

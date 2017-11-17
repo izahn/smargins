@@ -63,12 +63,14 @@ Although the `predict` function is useful these combined issues are enough to ma
 
 The `effects`, `emmeans`, and `prediction` packages address many of the issues with calculating expected values using the `predict` function:
 
-```{r}
+```{r, message = FALSE}
 library(dplyr)
 library(effects)
 library(prediction)
 library(emmeans)
+```
 
+```{r}
 as.data.frame(Effect(c("income"), m))
 
 emmeans(m, ~ income)
@@ -103,9 +105,11 @@ Whereas the `effects`, `emmeans` and `prediction` packages provide methods for c
 
 The `rms` package takes a somewhat strange approach to specifying the values at which expected values are calculated. Defaults are set by generating a `datadist` object, and then setting an option to use this object as the default values when generating predictions. It looks like this:
 
-```{r}
+```{r, message = FALSE}
 library(rms)
+```
 
+```{r}
 dd <- datadist(Prestige)
 options(datadist = "dd")
 
@@ -117,9 +121,11 @@ I dislike almost everything about this, but specifying predictor variable values
 
 The `Zelig` package similarly requires using it's own wrapper function to fit the model. Then x-values can be set using the `setx` function. Finally, expected values can be calculated using the `sim` function.
 
-```{r}
+```{r, message = FALSE}
 library(Zelig)
+```
 
+```{r}
 m.z <- zelig(prestige ~ income + type, data = Prestige, model = "ls", cite = FALSE)
 
 summary(sim(setx(m.z, income = quantile(Prestige$income, c(.25, .5, .75)))))
