@@ -16,9 +16,9 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-`smargins` is a package that aids in calculating Average Marginal
-Effects for models of various kinds. There are many packages like it
-(e.g., [coreSim](https://cran.r-project.org/web/packages/coreSim/),
+`smargins` is a package that aids in calculating expected values for
+models of various kinds. There are many packages like it (e.g.,
+[coreSim](https://cran.r-project.org/web/packages/coreSim/),
 [effects](https://cran.rstudio.com/web/packages/effects/),
 [lsmeans](https://cran.rstudio.com/web/packages/lsmeans/),
 [margins](https://cran.rstudio.com/web/packages/margins/),
