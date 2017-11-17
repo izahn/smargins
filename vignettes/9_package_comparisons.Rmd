@@ -42,9 +42,11 @@ data(Prestige, package = "car")
 Prestige <- na.omit(Prestige)
 
 m <- lm(prestige ~ income + type, data = Prestige)
+
 xvals <- expand.grid(income = quantile(Prestige$income, c(.25, .50, .75)),
                      women = mean(Prestige$women),
                      type = "bc")
+
 data.frame(xvals, predict(m, newdata = xvals, se.fit = TRUE))
 ```
 This is not a terrible interface and it has the advantage of working with most models. There are however a few annoying niggles:
@@ -62,11 +64,10 @@ Although the `predict` function is useful these combined issues are enough to ma
 The `effects`, `emmeans`, and `prediction` packages address many of the issues with calculating expected values using the `predict` function:
 
 ```{r}
-library(effects)
-library(emmeans)
-library(prediction)
-library(margins)
 library(dplyr)
+library(effects)
+library(prediction)
+library(emmeans)
 
 as.data.frame(Effect(c("income"), m))
 
@@ -172,31 +173,61 @@ The nice thing about this approach is that it is transparent and flexible. Users
 ```
 The `summary` method is just a convenience that makes it easier to do this. The simplicity and transparency of this operation is a direct consequence of the decision to return expected values in a simple `data.frame` structure that is familiar to R users and is easy for them to manipulate.
 
-## Comparisons and transformations
+## Comparisons and other transformations
 
-Some of the packages reviewed above provide some tools for calculating differences among expected values. 
-
-TOOD: brief package comparison.
-
-The summary method shows expected values for each value specified in
-the `...` arguments, but frequently we want some transformation of these
-values. There is a `scompare` function that gives pairwise
-differences:
+Some of the packages reviewed above provide some tools for calculating differences among expected values. For example the `emmeans` package provides some pre-defined contrasts and allows for user written contrast functions as well:
 
 ```{r}
-m.sm <- smargins(m, type = unique(type))
+m.em <- emmeans(m, ~ type, at = list(income = mean(Prestige$income)))
+
+emmeans::contrast(m.em, method = "pairwise")
+
+last_vs_others <- function(...) {
+    data.frame("wc vs other" = c(-.5, -.5, 1))
+}
+
+emmeans::contrast(m.em, method = last_vs_others)
+
+```
+
+The `Zelig` package also provides some limited support for this by allowing for computing differences between quantities of interest at two different sets of predictor variable values. That is:
+
+
+```{r}
+library(Zelig)
+
+m.z <- zelig(prestige ~ income + type, data = Prestige, model = "ls", cite = FALSE)
+
+summary(sim(m.z,
+            setx(m.z, type = "bc"),
+            setx(m.z, type = "wc")))
+
+summary(sim(m.z,
+            setx(m.z, type = "bc"),
+            setx(m.z, type = "prof")))
+```
+
+Unlike `emmeans` there is no simple way to perform arbitrary comparisons (e.g., to compare the average of `type = "bc"` and `type = "prof"` to `type = "wc"`).
+
+All in all, current implementations don't do a great job of making it easy to compare expected values in a simple and flexibly ways. Figuring out a nice interface for this in the `smargins` package is an on-going project, but already some progress has been made.
+
+The `scompare` function that gives pairwise differences:
+
+```{r}
+m.sm <- smargins(m, type = unique(type), income = mean(income))
 summary(scompare(m.sm, "type"))
 ```
 
-but the really great thing is that the structure is simple enough that the user can perform their own arbitrary transformations. For example, we can compare the average of white collar and professional with blue collar:
+For custom comparisons the structure produced by `smargins` is simple enough that the user can perform their own arbitrary transformations. For example, we can compare the average of blue collar and professional with white collar:
 
 ```{r}
-bc <- subset(m.sm, type == "bc")$.smargin_qi
-wc_prof <- subset(m.sm, type == "wc")$.smargin_qi +
-           subset(m.sm, type == "wc")$.smargin_qi
-sumstats(bc - wc_prof)
+wc <- subset(m.sm, type == "wc")$.smargin_qi
+bc_prof <- (subset(m.sm, type == "bc")$.smargin_qi +
+            subset(m.sm, type == "prof")$.smargin_qi)/2
+sumstats(wc - bc_prof)
 ```
 
+While the simple structure allows users to compute arbitrary transformations without too much difficulty, it would be nice to have some convenience functions for this. The `scompare` function needs more work, starting with conceptual work to hammer out a description of the desired interface. The `emmeans::contrast` approach is one source of inspiration; other places to look include `car::lht` / `multcomp::glht` and https://github.com/goshevs/effcomp .
 
 ## Plots
 

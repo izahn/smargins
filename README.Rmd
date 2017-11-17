@@ -50,9 +50,9 @@ devtools::install_github("izahn/smargins")
 ```{r}
 library(smargins)
 
-mtcars <- transform(mtcars, gear = factor(gear))
+mtc <- transform(mtcars, gear = factor(gear))
 
-m.sm <- smargins(lm(mpg ~ gear, data = mtcars),
+m.sm <- smargins(lm(mpg ~ gear, data = mtc),
                  gear = levels(gear))
 summary(m.sm)
 
