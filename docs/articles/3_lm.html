@@ -91,7 +91,7 @@
     <div class="page-header toc-ignore">
       <h1>Expected Values for LMs</h1>
             
-            <h4 class="date">2017-11-17</h4>
+            <h4 class="date">2017-11-30</h4>
           </div>
 
     
@@ -100,13 +100,11 @@
 <section id="examples" class="level2"><h2>Examples</h2>
 <section id="simple-first-differences" class="level3"><h3>Simple first differences</h3>
 <p>Load Zelig and attach example data frame:</p>
-<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">
-<span class="kw">data</span>(macro, <span class="dt">package =</span> <span class="st">"Zelig"</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">data</span>(macro, <span class="dt">package =</span> <span class="st">"Zelig"</span>)</a></code></pre>
 <p>Estimate model:</p>
-<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><div class="sourceLine" id="cb2-1" data-line-number="1">m1 &lt;-<span class="st"> </span><span class="kw">lm</span>(unem <span class="op">~</span><span class="st"> </span>gdp <span class="op">+</span><span class="st"> </span>capmob <span class="op">+</span><span class="st"> </span>trade, <span class="dt">data =</span> macro)</div></code></pre>
+<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">m1 &lt;-<span class="st"> </span><span class="kw">lm</span>(unem <span class="op">~</span><span class="st"> </span>gdp <span class="op">+</span><span class="st"> </span>capmob <span class="op">+</span><span class="st"> </span>trade, <span class="dt">data =</span> macro)</a></code></pre>
 <p>Summarize regression coefficients:</p>
-<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><div class="sourceLine" id="cb3-1" data-line-number="1">
-<span class="kw">summary</span>(m1)</div></code></pre>
+<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">summary</span>(m1)</a></code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = unem ~ gdp + capmob + trade, data = macro)
@@ -128,256 +126,240 @@
 ## Multiple R-squared:  0.2878, Adjusted R-squared:  0.2817 
 ## F-statistic: 46.61 on 3 and 346 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Set explanatory variables to their default (mean/mode) values, with high (80th percentile) and low (20th percentile) values for the trade variable:</p>
-<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><div class="sourceLine" id="cb5-1" data-line-number="1">
-<span class="kw">library</span>(smargins)</div>
-<div class="sourceLine" id="cb5-2" data-line-number="2">m1.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">trade =</span> <span class="kw">quantile</span>(trade, <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)))</div>
-<div class="sourceLine" id="cb5-3" data-line-number="3">
-<span class="kw">summary</span>(m1.sm)</div></code></pre>
+<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">library</span>(smargins)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">m1.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">trade =</span> <span class="kw">quantile</span>(trade, <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)))</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw">summary</span>(m1.sm)</a></code></pre>
 <pre><code>##      trade     mean        sd   median lower_2.5 upper_97.5
-## 1 37.29106 4.598680 0.1831097 4.601972  4.238191    4.95330
-## 2 79.10131 5.433413 0.1896618 5.432258  5.059056    5.80188</code></pre>
+## 1 37.29106 4.601566 0.1818411 4.601409  4.243517   4.956673
+## 2 79.10131 5.433986 0.1943271 5.434106  5.056218   5.815167</code></pre>
 <p>Calculate first differences for the effect of high versus low trade on GDP:</p>
-<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><div class="sourceLine" id="cb7-1" data-line-number="1">
-<span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m1.sm, <span class="dt">var =</span> <span class="st">"trade"</span>))</div></code></pre>
+<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m1.sm, <span class="dt">var =</span> <span class="st">"trade"</span>))</a></code></pre>
 <pre><code>##                     trade       mean        sd     median lower_2.5
-## 1 37.291064 vs 79.1013138 -0.8347332 0.2339367 -0.8315166  -1.30407
+## 1 37.291064 vs 79.1013138 -0.8324204 0.2350089 -0.8357742 -1.292853
 ##   upper_97.5
-## 1 -0.3819192</code></pre>
+## 1 -0.3787632</code></pre>
 <p>Plot the simulated distributions:</p>
-<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><div class="sourceLine" id="cb9-1" data-line-number="1">
-<span class="kw">library</span>(ggplot2)</div>
-<div class="sourceLine" id="cb9-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb9-3" data-line-number="3">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(m1.sm, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> .smargin_qi, <span class="dt">fill =</span> <span class="kw">factor</span>(trade))) <span class="op">+</span>
-</div>
-<div class="sourceLine" id="cb9-4" data-line-number="4">
-<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>(<span class="dt">alpha =</span> <span class="fl">0.25</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(m1.sm, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> .smargin_qi, <span class="dt">fill =</span> <span class="kw">factor</span>(trade))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>(<span class="dt">alpha =</span> <span class="fl">0.25</span>)</a></code></pre>
 <p><img src="3_lm_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
-<pre class="sourceCode r" id="cb10"><code class="sourceCode r"><div class="sourceLine" id="cb10-1" data-line-number="1">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m1.sm, <span class="dt">var =</span> <span class="st">"trade"</span>), <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> .smargin_qi, <span class="dt">fill =</span> <span class="kw">factor</span>(trade))) <span class="op">+</span>
-</div>
-<div class="sourceLine" id="cb10-2" data-line-number="2">
-<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>()</div></code></pre>
+<pre class="sourceCode r" id="cb10"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m1.sm, <span class="dt">var =</span> <span class="st">"trade"</span>), <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> .smargin_qi, <span class="dt">fill =</span> <span class="kw">factor</span>(trade))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>()</a></code></pre>
 <p><img src="3_lm_files/figure-html/unnamed-chunk-6-2.png" width="672"></p>
 </section><section id="categorical-variables-including-fixed-effects" class="level3"><h3>Categorical variables, including fixed effects</h3>
 <p>Estimate a model with fixed effects for each country.</p>
-<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><div class="sourceLine" id="cb11-1" data-line-number="1">m2 &lt;-<span class="st"> </span><span class="kw">lm</span>(unem <span class="op">~</span><span class="st"> </span>gdp <span class="op">+</span><span class="st"> </span>trade <span class="op">+</span><span class="st"> </span>capmob <span class="op">+</span><span class="st"> </span>country, <span class="dt">data =</span> macro)</div></code></pre>
+<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">m2 &lt;-<span class="st"> </span><span class="kw">lm</span>(unem <span class="op">~</span><span class="st"> </span>gdp <span class="op">+</span><span class="st"> </span>trade <span class="op">+</span><span class="st"> </span>capmob <span class="op">+</span><span class="st"> </span>country, <span class="dt">data =</span> macro)</a></code></pre>
 <p>Calculate expected values for each country.</p>
-<pre class="sourceCode r" id="cb12"><code class="sourceCode r"><div class="sourceLine" id="cb12-1" data-line-number="1">m2.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m2, <span class="dt">country =</span> <span class="kw">unique</span>(country))</div>
-<div class="sourceLine" id="cb12-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb12-3" data-line-number="3">
-<span class="kw">summary</span>(m2.sm)</div></code></pre>
-<pre><code>##           country       mean        sd     median  lower_2.5 upper_97.5
-## 1   United States  6.7613749 0.5151424  6.7503045  5.7590203  7.7903247
-## 2          Canada  6.1047256 0.4919564  6.1064809  5.1519263  7.0662075
-## 3  United Kingdom -0.2822373 0.6439336 -0.2923912 -1.5625024  0.9882395
-## 4     Netherlands 11.3565039 0.6693490 11.3457533 10.0376535 12.6657473
-## 5         Belgium -1.4529426 0.5098760 -1.4559544 -2.4383982 -0.4461905
-## 6          France  8.2099498 0.4146113  8.2054260  7.3986474  9.0095781
-## 7    West Germany -0.1397533 0.5860458 -0.1379085 -1.2748737  1.0297135
-## 8         Austria  4.6557704 0.4112650  4.6487435  3.8610114  5.4655671
-## 9           Italy  5.6165382 0.3741728  5.6162099  4.8769798  6.3582751
-## 10        Finland  6.9015716 0.3683617  6.9053022  6.1792152  7.6080464
-## 11         Sweden  2.2309520 0.3739765  2.2300733  1.4786419  2.9623864
-## 12         Norway  8.0680055 0.4179447  8.0628885  7.2499493  8.8935955
-## 13        Denmark  1.3097978 0.3975601  1.3102150  0.5479537  2.0892101
-## 14          Japan 10.5873241 0.4012695 10.5926650  9.7948118 11.3537743</code></pre>
-<pre class="sourceCode r" id="cb14"><code class="sourceCode r"><div class="sourceLine" id="cb14-1" data-line-number="1">(m2.sm.comp &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="dt">var =</span> <span class="st">"country"</span>)))</div></code></pre>
+<pre class="sourceCode r" id="cb12"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">m2.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m2, <span class="dt">country =</span> <span class="kw">unique</span>(country))</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="kw">summary</span>(m2.sm)</a></code></pre>
+<pre><code>##           country       mean        sd     median lower_2.5 upper_97.5
+## 1   United States  6.7770943 0.5093901  6.7833254  5.759767  7.7548292
+## 2          Canada  6.1105407 0.4967884  6.1158917  5.141188  7.0967564
+## 3  United Kingdom -0.3101700 0.6474246 -0.3103790 -1.578256  0.9433541
+## 4     Netherlands 11.3818880 0.6625751 11.3883691 10.090710 12.6946933
+## 5         Belgium -1.4565033 0.5033438 -1.4630383 -2.454177 -0.4589427
+## 6          France  8.2081289 0.4097036  8.2098566  7.413762  9.0365512
+## 7    West Germany -0.1638861 0.5801583 -0.1637992 -1.305161  0.9848147
+## 8         Austria  4.6712183 0.4038173  4.6743953  3.876531  5.4600039
+## 9           Italy  5.6165601 0.3775287  5.6171489  4.883414  6.3553990
+## 10        Finland  6.9059423 0.3783979  6.9088216  6.178981  7.6445119
+## 11         Sweden  2.2301817 0.3706619  2.2314575  1.505136  2.9608765
+## 12         Norway  8.0626900 0.4164158  8.0586547  7.265486  8.8931212
+## 13        Denmark  1.3015400 0.3930251  1.3026731  0.545270  2.0713794
+## 14          Japan 10.5938064 0.4021088 10.5895833  9.819418 11.3874537</code></pre>
+<pre class="sourceCode r" id="cb14"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">(m2.sm.comp &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="dt">var =</span> <span class="st">"country"</span>)))</a></code></pre>
 <pre><code>##                            country        mean        sd      median
-## 1          United States vs Canada  -4.5951289 0.5627467  -4.6015391
-## 2  United States vs United Kingdom   8.2143176 0.8830643   8.2161289
-## 3     United States vs Netherlands   6.9011282 0.9685146   6.8900604
-## 4         United States vs Belgium   2.1056045 0.5798041   2.1143895
-## 5          United States vs France  -0.1401967 0.5722651  -0.1522759
-## 6    United States vs West Germany   4.5304230 0.6593338   4.5231753
-## 7         United States vs Austria  -0.6566493 0.7668689  -0.6588646
-## 8           United States vs Italy  -5.2517782 0.9472610  -5.2493260
-## 9         United States vs Finland   7.5576683 0.6249290   7.5623278
-## 10         United States vs Sweden  -2.1052241 0.6800279  -2.1096633
-## 11         United States vs Norway   6.2444789 0.7142568   6.2500145
-## 12        United States vs Denmark   1.4489552 0.7351783   1.4365430
-## 13          United States vs Japan  -0.7968460 0.6466414  -0.8093714
-## 14        Canada vs United Kingdom   3.8737737 0.5669260   3.8763522
-## 15           Canada vs Netherlands  -4.4825984 0.6534534  -4.4881657
-## 16               Canada vs Belgium  -7.0436122 1.0262307  -7.0357811
-## 17                Canada vs France  -6.3869629 0.7913877  -6.3934582
-## 18          Canada vs West Germany -11.6387412 1.1850734 -11.6258872
-## 19               Canada vs Austria   1.1707054 0.5594131   1.1615726
-## 20                 Canada vs Italy  -8.4921870 0.8992040  -8.4980572
-## 21               Canada vs Finland  -0.1424840 0.5162421  -0.1418131
-## 22                Canada vs Sweden  -4.9380077 0.8358458  -4.9406657
-## 23                Canada vs Norway  -5.8987754 0.6906991  -5.8901863
-## 24               Canada vs Denmark  -7.1838089 0.8141616  -7.1830207
-## 25                 Canada vs Japan  -2.5131892 0.7425872  -2.5158178
-## 26   United Kingdom vs Netherlands  -8.3502427 0.8564778  -8.3504871
-## 27       United Kingdom vs Belgium -10.8695613 0.8819240 -10.8852717
-## 28        United Kingdom vs France   6.7007335 0.6547419   6.7086351
-## 29  United Kingdom vs West Germany -12.8094465 1.0559547 -12.8250600
-## 30       United Kingdom vs Austria  -6.1087130 0.7380871  -6.1132562
-## 31         United Kingdom vs Italy  -8.3545142 0.6946622  -8.3616568
-## 32       United Kingdom vs Finland  -3.6838946 0.6180942  -3.6936026
-## 33        United Kingdom vs Sweden   1.4485748 0.5354944   1.4517432
-## 34        United Kingdom vs Norway  -3.1465541 0.6268469  -3.1425816
-## 35       United Kingdom vs Denmark   9.6628924 0.7609106   9.6549818
-## 36         United Kingdom vs Japan   8.3497030 0.8434022   8.3415381
-## 37          Netherlands vs Belgium   3.5541794 0.5381465   3.5615079
-## 38           Netherlands vs France   1.3083782 0.5128915   1.3003570
-## 39     Netherlands vs West Germany   5.9789978 0.5687954   5.9798206
-## 40          Netherlands vs Austria  -2.3773743 0.5033744  -2.3928162
-## 41            Netherlands vs Italy -11.4962571 1.1333422 -11.4924087
-## 42          Netherlands vs Finland   1.3131894 0.5256910   1.3145512
-## 43           Netherlands vs Sweden  -4.7955237 0.7900889  -4.8014077
-## 44           Netherlands vs Norway  -7.0413249 0.7600009  -7.0322735
-## 45          Netherlands vs Denmark  -2.3707052 0.6871386  -2.3655504
-## 46            Netherlands vs Japan  -1.1448368 0.6961503  -1.1414262
-## 47               Belgium vs France  -0.4881875 0.5636963  -0.4862091
-## 48         Belgium vs West Germany  -5.7399657 0.8405355  -5.7439559
-## 49              Belgium vs Austria   7.0694808 0.5663305   7.0736652
-## 50                Belgium vs Italy  -2.5934116 0.5952957  -2.5901853
-## 51              Belgium vs Finland   5.7562914 0.6334393   5.7574423
-## 52               Belgium vs Sweden   0.9607678 0.5995209   0.9530839
-## 53               Belgium vs Norway  -1.2850334 0.5458965  -1.2884511
-## 54              Belgium vs Denmark   3.3855862 0.5113673   3.3850955
-## 55                Belgium vs Japan  -4.9707859 0.5753786  -4.9711476
-## 56          France vs West Germany  -4.4549323 0.6741142  -4.4595368
-## 57               France vs Austria   2.2458012 0.5134509   2.2456351
-## 58                 France vs Italy  -9.1255519 0.7924729  -9.1350687
-## 59               France vs Finland  -2.4248184 0.5836195  -2.4261877
-## 60                France vs Sweden  -4.6706196 0.5277216  -4.6654928
-## 61                France vs Norway   1.3066305 0.5545499   1.3127290
-## 62               France vs Denmark   1.9632798 0.7408823   1.9665271
-## 63                 France vs Japan  -3.2884984 0.6256267  -3.2808617
-## 64         West Germany vs Austria   9.5209481 0.7530789   9.5221993
-## 65           West Germany vs Italy  -0.1419443 0.5177865  -0.1519775
-## 66         West Germany vs Finland   8.2077587 0.8127234   8.2037001
-## 67          West Germany vs Sweden   3.4122351 0.5041944   3.4089658
-## 68          West Germany vs Norway   2.4514673 0.6104159   2.4580172
-## 69         West Germany vs Denmark   1.1664339 0.5156247   1.1635461
-## 70           West Germany vs Japan   5.8370535 0.5958907   5.8415563
-## 71                Austria vs Italy  -2.5193186 0.5271733  -2.5205331
-## 72              Austria vs Finland  -5.4515771 0.7273509  -5.4327297
-## 73               Austria vs Sweden  -4.7949278 0.5591558  -4.7986547
-## 74               Austria vs Norway   1.5920351 0.6601491   1.5943422
-## 75              Austria vs Denmark -10.0467061 0.8942610 -10.0398375
-## 76                Austria vs Japan   2.7627405 0.5499686   2.7564332
-## 77                Italy vs Finland  -6.9001519 0.6291059  -6.8967618
-## 78                 Italy vs Sweden   1.4495511 0.6133323   1.4482445
-## 79                 Italy vs Norway  -3.3459726 0.6236243  -3.3495992
-## 80                Italy vs Denmark  -4.3067403 0.5130860  -4.3045771
-## 81                  Italy vs Japan  -5.5917738 0.5761719  -5.5917104
-## 82               Finland vs Sweden  -0.9211541 0.5260563  -0.9273761
-## 83               Finland vs Norway  -6.7582076 0.6424444  -6.7571670
-## 84              Finland vs Denmark  -9.2775262 0.6141694  -9.2796746
-## 85                Finland vs Japan   3.8259491 0.5418864   3.8292438
-## 86                Sweden vs Norway  -0.7691798 0.6365962  -0.7679358
-## 87               Sweden vs Denmark  12.0402667 0.7413063  12.0450173
-## 88                 Sweden vs Japan  10.7270773 0.8262038  10.7290171
-## 89               Norway vs Denmark   5.9315537 0.5384740   5.9308378
-## 90                 Norway vs Japan   3.6857525 0.5039111   3.6854958
-## 91                Denmark vs Japan   8.3563721 0.5493472   8.3566717
-##        lower_2.5  upper_97.5
-## 1  -5.696586e+00  -3.4847065
-## 2   6.499082e+00   9.9348180
-## 3   5.068880e+00   8.8473406
-## 4   9.591414e-01   3.2280683
-## 5  -1.275269e+00   0.9829625
-## 6   3.254603e+00   5.8224706
-## 7  -2.168485e+00   0.8193823
-## 8  -7.094586e+00  -3.3762277
-## 9   6.320732e+00   8.7712560
-## 10 -3.463032e+00  -0.7697289
-## 11  4.856870e+00   7.6551084
-## 12  7.688151e-04   2.8995070
-## 13 -2.070909e+00   0.4529032
-## 14  2.773590e+00   4.9894087
-## 15 -5.766811e+00  -3.2182926
-## 16 -9.063804e+00  -5.0470019
-## 17 -7.929156e+00  -4.8578879
-## 18 -1.396676e+01  -9.3136140
-## 19  5.419228e-02   2.2358889
-## 20 -1.024416e+01  -6.6976070
-## 21 -1.154249e+00   0.8651804
-## 22 -6.516757e+00  -3.2680650
-## 23 -7.256238e+00  -4.5251380
-## 24 -8.802642e+00  -5.6261486
-## 25 -3.990446e+00  -1.0561033
-## 26 -1.003776e+01  -6.6610255
-## 27 -1.256376e+01  -9.1264678
-## 28  5.405933e+00   7.9765913
-## 29 -1.486696e+01 -10.7322960
-## 30 -7.542309e+00  -4.6476214
-## 31 -9.721722e+00  -6.9849492
-## 32 -4.902961e+00  -2.4647146
-## 33  3.857901e-01   2.4757895
-## 34 -4.364294e+00  -1.9035957
-## 35  8.179489e+00  11.1853885
-## 36  6.684029e+00  10.0028786
-## 37  2.506086e+00   4.5885312
-## 38  3.062733e-01   2.3184823
-## 39  4.861169e+00   7.0889676
-## 40 -3.350325e+00  -1.3938722
-## 41 -1.366196e+01  -9.2430080
-## 42  2.835102e-01   2.3244895
-## 43 -6.312261e+00  -3.2144521
-## 44 -8.523264e+00  -5.5543351
-## 45 -3.712735e+00  -1.0412839
-## 46 -2.496402e+00   0.2066736
-## 47 -1.579693e+00   0.6075605
-## 48 -7.376855e+00  -4.0521084
-## 49  5.947719e+00   8.1575113
-## 50 -3.758327e+00  -1.4564026
-## 51  4.507082e+00   6.9726392
-## 52 -2.048315e-01   2.1528276
-## 53 -2.342855e+00  -0.2081330
-## 54  2.405183e+00   4.3697852
-## 55 -6.114809e+00  -3.8200447
-## 56 -5.770371e+00  -3.1324080
-## 57  1.233006e+00   3.2455655
-## 58 -1.064848e+01  -7.5643231
-## 59 -3.566706e+00  -1.2777151
-## 60 -5.724430e+00  -3.6267112
-## 61  2.175662e-01   2.4120878
-## 62  5.315155e-01   3.4038117
-## 63 -4.520938e+00  -2.0546673
-## 64  8.016256e+00  11.0069475
-## 65 -1.137421e+00   0.8686808
-## 66  6.582693e+00   9.8156297
-## 67  2.426241e+00   4.4038725
-## 68  1.250747e+00   3.6609506
-## 69  1.668694e-01   2.1666937
-## 70  4.645184e+00   6.9814831
-## 71 -3.579647e+00  -1.4645456
-## 72 -6.933460e+00  -4.0608857
-## 73 -5.914500e+00  -3.7098249
-## 74  3.104488e-01   2.8438622
-## 75 -1.178577e+01  -8.2948685
-## 76  1.678182e+00   3.8300412
-## 77 -8.168560e+00  -5.6784747
-## 78  2.344777e-01   2.6633880
-## 79 -4.593541e+00  -2.1198541
-## 80 -5.296675e+00  -3.2983564
-## 81 -6.730816e+00  -4.4851457
-## 82 -1.978558e+00   0.1039145
-## 83 -7.996631e+00  -5.4966773
-## 84 -1.047509e+01  -8.0834909
-## 85  2.772125e+00   4.8764465
-## 86 -2.027942e+00   0.4819592
-## 87  1.058509e+01  13.4469704
-## 88  9.073168e+00  12.3137683
-## 89  4.890931e+00   7.0030939
-## 90  2.684834e+00   4.6377287
-## 91  7.287583e+00   9.4550214</code></pre>
+## 1          United States vs Canada  -4.6047937 0.5658390  -4.5968919
+## 2  United States vs United Kingdom   8.2335976 0.8673376   8.2381539
+## 3     United States vs Netherlands   6.9409803 0.9597652   6.9394708
+## 4         United States vs Belgium   2.1058760 0.5688072   2.1098889
+## 5          United States vs France  -0.1288481 0.5689649  -0.1335257
+## 6    United States vs West Germany   4.5469125 0.6538398   4.5411191
+## 7         United States vs Austria  -0.6665536 0.7684098  -0.6604925
+## 8           United States vs Italy  -5.2713473 0.9398901  -5.2819823
+## 9         United States vs Finland   7.5670440 0.6300971   7.5641688
+## 10         United States vs Sweden  -2.0975882 0.6717862  -2.0988596
+## 11         United States vs Norway   6.2744267 0.7223542   6.2666169
+## 12        United States vs Denmark   1.4393224 0.7307570   1.4502240
+## 13          United States vs Japan  -0.7954016 0.6612172  -0.7921998
+## 14        Canada vs United Kingdom   3.8803589 0.5650559   3.8832005
+## 15           Canada vs Netherlands  -4.4832658 0.6533320  -4.4669973
+## 16               Canada vs Belgium  -7.0872643 1.0183449  -7.0823707
+## 17                Canada vs France  -6.4207107 0.8068542  -6.4129451
+## 18          Canada vs West Germany -11.6920580 1.1827486 -11.7025897
+## 19               Canada vs Austria   1.1463333 0.5678877   1.1526749
+## 20                 Canada vs Italy  -8.5182990 0.9067137  -8.5099450
+## 21               Canada vs Finland  -0.1462840 0.5063121  -0.1388520
+## 22                Canada vs Sweden  -4.9813883 0.8244760  -4.9797865
+## 23                Canada vs Norway  -5.9267302 0.7054680  -5.9143226
+## 24               Canada vs Denmark  -7.2161124 0.8182789  -7.2064895
+## 25                 Canada vs Japan  -2.5403518 0.7449337  -2.5326554
+## 26   United Kingdom vs Netherlands  -8.3728601 0.8509464  -8.3854299
+## 27       United Kingdom vs Belgium -10.9039765 0.8918105 -10.8996517
+## 28        United Kingdom vs France   6.7106697 0.6551186   6.7141458
+## 29  United Kingdom vs West Germany -12.8383913 1.0432266 -12.8343383
+## 30       United Kingdom vs Austria  -6.1277216 0.7207523  -6.1340836
+## 31         United Kingdom vs Italy  -8.3624456 0.6966583  -8.3703208
+## 32       United Kingdom vs Finland  -3.6866851 0.6094929  -3.6872125
+## 33        United Kingdom vs Sweden   1.4310347 0.5300674   1.4230605
+## 34        United Kingdom vs Norway  -3.1737591 0.6094661  -3.1807817
+## 35       United Kingdom vs Denmark   9.6646322 0.7590049   9.6647076
+## 36         United Kingdom vs Japan   8.3720150 0.8365020   8.3828030
+## 37          Netherlands vs Belgium   3.5369106 0.5216996   3.5342842
+## 38           Netherlands vs France   1.3021866 0.5168238   1.3044849
+## 39     Netherlands vs West Germany   5.9779472 0.5601834   5.9739353
+## 40          Netherlands vs Austria  -2.3856775 0.4940199  -2.3829479
+## 41            Netherlands vs Italy -11.5457740 1.1214503 -11.5381469
+## 42          Netherlands vs Finland   1.2926173 0.5256821   1.2995619
+## 43           Netherlands vs Sweden  -4.8351044 0.7780406  -4.8416596
+## 44           Netherlands vs Norway  -7.0698284 0.7590468  -7.0577065
+## 45          Netherlands vs Denmark  -2.3940678 0.6806277  -2.3874157
+## 46            Netherlands vs Japan  -1.1605341 0.6892246  -1.1591499
+## 47               Belgium vs France  -0.4939806 0.5687205  -0.4921822
+## 48         Belgium vs West Germany  -5.7653279 0.8315541  -5.7646957
+## 49              Belgium vs Austria   7.0730634 0.5742459   7.0746307
+## 50                Belgium vs Italy  -2.5915688 0.5804802  -2.5862794
+## 51              Belgium vs Finland   5.7804462 0.6387250   5.7795793
+## 52               Belgium vs Sweden   0.9453418 0.5891085   0.9560636
+## 53               Belgium vs Norway  -1.2893822 0.5575652  -1.2862496
+## 54              Belgium vs Denmark   3.3863784 0.5069941   3.3886096
+## 55                Belgium vs Japan  -4.9772463 0.5795189  -4.9697388
+## 56          France vs West Germany  -4.4759457 0.6645629  -4.4846572
+## 57               France vs Austria   2.2347240 0.5114710   2.2409431
+## 58                 France vs Italy  -9.1517062 0.7895778  -9.1623089
+## 59               France vs Finland  -2.4410366 0.5749268  -2.4384268
+## 60                France vs Sweden  -4.6757606 0.5324506  -4.6765813
+## 61                France vs Norway   1.2855958 0.5573551   1.2784331
+## 62               France vs Denmark   1.9521494 0.7476579   1.9462871
+## 63                 France vs Japan  -3.3191979 0.6366352  -3.3185150
+## 64         West Germany vs Austria   9.5191934 0.7482719   9.5203438
+## 65           West Germany vs Italy  -0.1454389 0.5249373  -0.1526454
+## 66         West Germany vs Finland   8.2265761 0.7988124   8.2230631
+## 67          West Germany vs Sweden   3.3914717 0.4991364   3.3902293
+## 68          West Germany vs Norway   2.4461299 0.6044318   2.4471902
+## 69         West Germany vs Denmark   1.1567477 0.5179354   1.1546679
+## 70           West Germany vs Japan   5.8325083 0.5909202   5.8239129
+## 71                Austria vs Italy  -2.5311164 0.5288102  -2.5340325
+## 72              Austria vs Finland  -5.4755542 0.7214087  -5.4705249
+## 73               Austria vs Sweden  -4.8090006 0.5626241  -4.8205388
+## 74               Austria vs Norway   1.6117101 0.6624858   1.6076387
+## 75              Austria vs Denmark -10.0803479 0.8799062 -10.0806934
+## 76                Austria vs Japan   2.7580434 0.5506834   2.7612672
+## 77                Italy vs Finland  -6.9065889 0.6199705  -6.9070877
+## 78                 Italy vs Sweden   1.4654261 0.6057617   1.4745786
+## 79                 Italy vs Norway  -3.3696783 0.6239690  -3.3710870
+## 80                Italy vs Denmark  -4.3150201 0.5086934  -4.3210600
+## 81                  Italy vs Japan  -5.6044023 0.5805682  -5.6099571
+## 82               Finland vs Sweden  -0.9286417 0.5162084  -0.9228589
+## 83               Finland vs Norway  -6.7611500 0.6323207  -6.7629446
+## 84              Finland vs Denmark  -9.2922664 0.6064438  -9.2798444
+## 85                Finland vs Japan   3.8167122 0.5381229   3.8003423
+## 86                Sweden vs Norway  -0.7880815 0.6302940  -0.7983347
+## 87               Sweden vs Denmark  12.0503098 0.7380240  12.0556496
+## 88                 Sweden vs Japan  10.7576925 0.8203278  10.7557302
+## 89               Norway vs Denmark   5.9225881 0.5346359   5.9177946
+## 90                 Norway vs Japan   3.6878641 0.5128036   3.6802230
+## 91                Denmark vs Japan   8.3636247 0.5500995   8.3615901
+##        lower_2.5   upper_97.5
+## 1   -5.729111581  -3.50033232
+## 2    6.477601786   9.93287146
+## 3    5.036137298   8.81171578
+## 4    0.981844359   3.23005304
+## 5   -1.260254466   0.98616308
+## 6    3.243678663   5.82500843
+## 7   -2.166960196   0.82763849
+## 8   -7.093407379  -3.40863751
+## 9    6.330801077   8.80315617
+## 10  -3.422424342  -0.79409485
+## 11   4.827602015   7.71880070
+## 12   0.003034523   2.84000847
+## 13  -2.109166835   0.45524690
+## 14   2.735577255   4.98311912
+## 15  -5.766779662  -3.22766638
+## 16  -9.077625498  -5.11649077
+## 17  -7.990231237  -4.87758962
+## 18 -14.042778690  -9.36869026
+## 19   0.044386371   2.26641459
+## 20 -10.330715162  -6.77830854
+## 21  -1.156988820   0.83353596
+## 22  -6.609466935  -3.39334880
+## 23  -7.326561953  -4.55234409
+## 24  -8.827044329  -5.59877361
+## 25  -4.037298126  -1.11968002
+## 26 -10.002772606  -6.69957496
+## 27 -12.716771915  -9.16728446
+## 28   5.400488538   7.94861742
+## 29 -14.859330715 -10.73923071
+## 30  -7.517215320  -4.71725507
+## 31  -9.774443551  -6.99882580
+## 32  -4.894216334  -2.48846582
+## 33   0.419781852   2.49045400
+## 34  -4.366509478  -1.93907686
+## 35   8.168339722  11.13844178
+## 36   6.730862282  10.00616501
+## 37   2.496394783   4.56893151
+## 38   0.277003962   2.32492219
+## 39   4.845253103   7.10202873
+## 40  -3.356767156  -1.42503342
+## 41 -13.793944513  -9.33517431
+## 42   0.272265436   2.32191571
+## 43  -6.378887089  -3.30774772
+## 44  -8.537842739  -5.58904745
+## 45  -3.731562625  -1.05553460
+## 46  -2.499366378   0.22783131
+## 47  -1.617303583   0.62188257
+## 48  -7.399267113  -4.08986216
+## 49   5.941623546   8.20398163
+## 50  -3.711021585  -1.45754602
+## 51   4.537467380   7.02513385
+## 52  -0.193668515   2.11337620
+## 53  -2.380354084  -0.18874334
+## 54   2.375440185   4.36451744
+## 55  -6.126867705  -3.84094282
+## 56  -5.768341740  -3.15198224
+## 57   1.218805829   3.24002643
+## 58 -10.689152425  -7.59726476
+## 59  -3.576535417  -1.31260918
+## 60  -5.733382239  -3.64024382
+## 61   0.202719389   2.41440137
+## 62   0.489337166   3.41363502
+## 63  -4.576603120  -2.04226371
+## 64   8.029803241  10.98024689
+## 65  -1.144392135   0.89511350
+## 66   6.685328213   9.78659921
+## 67   2.404796205   4.38564463
+## 68   1.282573632   3.63887658
+## 69   0.163697856   2.18404274
+## 70   4.660794303   7.00366168
+## 71  -3.551383212  -1.48292147
+## 72  -6.909904640  -4.03150867
+## 73  -5.919207337  -3.71959069
+## 74   0.351984521   2.97650720
+## 75 -11.804786324  -8.37366949
+## 76   1.664227212   3.85200080
+## 77  -8.151741284  -5.73887481
+## 78   0.300697512   2.65221267
+## 79  -4.554374317  -2.14200376
+## 80  -5.296682093  -3.30822216
+## 81  -6.758968813  -4.45920174
+## 82  -1.937999905   0.04702357
+## 83  -8.002312452  -5.53948389
+## 84 -10.495777933  -8.11070634
+## 85   2.773850751   4.89905243
+## 86  -2.020673853   0.43736175
+## 87  10.616760607  13.51121762
+## 88   9.148180049  12.40573826
+## 89   4.875752061   6.99224983
+## 90   2.689740429   4.68252796
+## 91   7.288058858   9.44250075</code></pre>
 <p>Plot.</p>
-<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><div class="sourceLine" id="cb16-1" data-line-number="1">m2.sm.comp<span class="op">$</span>country &lt;-<span class="st"> </span><span class="kw">reorder</span>(m2.sm.comp<span class="op">$</span>country, m2.sm.comp<span class="op">$</span>median)</div>
-<div class="sourceLine" id="cb16-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb16-3" data-line-number="3">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(m2.sm.comp, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">y =</span> country, <span class="dt">x =</span> median)) <span class="op">+</span>
-</div>
-<div class="sourceLine" id="cb16-4" data-line-number="4">
-<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_point">geom_point</a></span>() <span class="op">+</span>
-</div>
-<div class="sourceLine" id="cb16-5" data-line-number="5">
-<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_errorbarh">geom_errorbarh</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">xmin =</span> lower_<span class="fl">2.5</span>, <span class="dt">xmax =</span> upper_<span class="fl">97.5</span>), <span class="dt">height =</span> <span class="fl">.2</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">m2.sm.comp<span class="op">$</span>country &lt;-<span class="st"> </span><span class="kw">reorder</span>(m2.sm.comp<span class="op">$</span>country, m2.sm.comp<span class="op">$</span>median)</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(m2.sm.comp, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">y =</span> country, <span class="dt">x =</span> median)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_point">geom_point</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_errorbarh">geom_errorbarh</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">xmin =</span> lower_<span class="fl">2.5</span>, <span class="dt">xmax =</span> upper_<span class="fl">97.5</span>), <span class="dt">height =</span> <span class="fl">.2</span>)</a></code></pre>
 <p><img src="3_lm_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 </section></section>
 </div>

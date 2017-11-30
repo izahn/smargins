@@ -91,7 +91,7 @@
     <div class="page-header toc-ignore">
       <h1>Comparison of R Packges for Calculating Expected Values</h1>
             
-            <h4 class="date">2017-11-17</h4>
+            <h4 class="date">2017-11-30</h4>
           </div>
 
     
@@ -112,18 +112,16 @@
 <p>The comparisons below are designed to provide an overview of currently available packages, to identify good ideas that should be copied, and possibly to find areas where new approaches would be beneficial.</p>
 <section id="calculating-expected-values" class="level2"><h2>Calculating expected values</h2>
 <p>The standard way to calculate expected values in R is to use the <code>predict</code> function along with a <code>newdata</code> argument.</p>
-<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">
-<span class="kw">data</span>(Prestige, <span class="dt">package =</span> <span class="st">"car"</span>)</div>
-<div class="sourceLine" id="cb1-2" data-line-number="2">Prestige &lt;-<span class="st"> </span><span class="kw">na.omit</span>(Prestige)</div>
-<div class="sourceLine" id="cb1-3" data-line-number="3"></div>
-<div class="sourceLine" id="cb1-4" data-line-number="4">m &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige)</div>
-<div class="sourceLine" id="cb1-5" data-line-number="5"></div>
-<div class="sourceLine" id="cb1-6" data-line-number="6">xvals &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">income =</span> <span class="kw">quantile</span>(Prestige<span class="op">$</span>income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.50</span>, <span class="fl">.75</span>)),</div>
-<div class="sourceLine" id="cb1-7" data-line-number="7">                     <span class="dt">women =</span> <span class="kw">mean</span>(Prestige<span class="op">$</span>women),</div>
-<div class="sourceLine" id="cb1-8" data-line-number="8">                     <span class="dt">type =</span> <span class="st">"bc"</span>)</div>
-<div class="sourceLine" id="cb1-9" data-line-number="9"></div>
-<div class="sourceLine" id="cb1-10" data-line-number="10">
-<span class="kw">data.frame</span>(xvals, <span class="kw">predict</span>(m, <span class="dt">newdata =</span> xvals, <span class="dt">se.fit =</span> <span class="ot">TRUE</span>))</div></code></pre>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">data</span>(Prestige, <span class="dt">package =</span> <span class="st">"car"</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">Prestige &lt;-<span class="st"> </span><span class="kw">na.omit</span>(Prestige)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">m &lt;-<span class="st"> </span><span class="kw">lm</span>(prestige <span class="op">~</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">xvals &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">income =</span> <span class="kw">quantile</span>(Prestige<span class="op">$</span>income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.50</span>, <span class="fl">.75</span>)),</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">                     <span class="dt">women =</span> <span class="kw">mean</span>(Prestige<span class="op">$</span>women),</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">                     <span class="dt">type =</span> <span class="st">"bc"</span>)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">data.frame</span>(xvals, <span class="kw">predict</span>(m, <span class="dt">newdata =</span> xvals, <span class="dt">se.fit =</span> <span class="ot">TRUE</span>))</a></code></pre>
 <pre><code>##    income    women type      fit   se.fit df residual.scale
 ## 1 4250.50 28.98571   bc 33.95284 1.267627 94       8.210495
 ## 2 6035.50 28.98571   bc 36.45397 1.248200 94       8.210495
@@ -139,44 +137,35 @@
 <p>Although the <code>predict</code> function is useful these combined issues are enough to make us look for a more convenient alternative.</p>
 <section id="easier-predict-like-methods" class="level3"><h3>Easier predict-like methods</h3>
 <p>The <code>effects</code>, <code>emmeans</code>, and <code>prediction</code> packages address many of the issues with calculating expected values using the <code>predict</code> function:</p>
-<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><div class="sourceLine" id="cb3-1" data-line-number="1">
-<span class="kw">library</span>(dplyr)</div>
-<div class="sourceLine" id="cb3-2" data-line-number="2">
-<span class="kw">library</span>(effects)</div>
-<div class="sourceLine" id="cb3-3" data-line-number="3">
-<span class="kw">library</span>(prediction)</div>
-<div class="sourceLine" id="cb3-4" data-line-number="4">
-<span class="kw">library</span>(emmeans)</div></code></pre>
-<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><div class="sourceLine" id="cb4-1" data-line-number="1">
-<span class="kw">as.data.frame</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/effects/topics/effect">Effect</a></span>(<span class="kw">c</span>(<span class="st">"income"</span>), m))</div></code></pre>
+<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(effects)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">library</span>(prediction)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw">library</span>(emmeans)</a></code></pre>
+<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">as.data.frame</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/effects/topics/effect">Effect</a></span>(<span class="kw">c</span>(<span class="st">"income"</span>), m))</a></code></pre>
 <pre><code>##   income      fit       se    lower    upper
 ## 1   2000 40.40725 1.460364 37.50766 43.30683
 ## 2   8000 48.81442 0.868663 47.08967 50.53917
 ## 3  10000 51.61681 1.114859 49.40323 53.83039
 ## 4  20000 65.62877 3.285165 59.10599 72.15154
 ## 5  30000 79.64072 5.673440 68.37597 90.90547</code></pre>
-<pre class="sourceCode r" id="cb6"><code class="sourceCode r"><div class="sourceLine" id="cb6-1" data-line-number="1">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/emmeans/topics/emmeans">emmeans</a></span>(m, <span class="op">~</span><span class="st"> </span>income)</div></code></pre>
+<pre class="sourceCode r" id="cb6"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/emmeans/topics/emmeans">emmeans</a></span>(m, <span class="op">~</span><span class="st"> </span>income)</a></code></pre>
 <pre><code>##    income   emmean        SE df lower.CL upper.CL
 ##  6938.857 48.46063 0.8588977 94 46.75527 50.16599
 ## 
 ## Results are averaged over the levels of: type 
 ## Confidence level used: 0.95</code></pre>
-<pre class="sourceCode r" id="cb8"><code class="sourceCode r"><div class="sourceLine" id="cb8-1" data-line-number="1">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/prediction/topics/prediction">prediction</a></span>(m)</div></code></pre>
+<pre class="sourceCode r" id="cb8"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/prediction/topics/prediction">prediction</a></span>(m)</a></code></pre>
 <pre><code>## Average prediction for 98 observations: 47.3276</code></pre>
 <p>By default <code>Effect</code> gives expected values over a range of predictors, while <code>emmeans</code> gives expected values at the mean by default. <code>prediction</code> does not allow for specifying a focal predictor without specifying values for it. All three methods allow for specifying arbitrary predictor variable values:</p>
-<pre class="sourceCode r" id="cb10"><code class="sourceCode r"><div class="sourceLine" id="cb10-1" data-line-number="1">
-<span class="kw">as.data.frame</span>(</div>
-<div class="sourceLine" id="cb10-2" data-line-number="2">    <span class="kw"><a href="http://www.rdocumentation.org/packages/effects/topics/effect">Effect</a></span>(<span class="kw">c</span>(<span class="st">"income"</span>), m,</div>
-<div class="sourceLine" id="cb10-3" data-line-number="3">           <span class="dt">xlevels =</span> <span class="kw">list</span>(<span class="dt">income =</span> <span class="kw">quantile</span>(Prestige<span class="op">$</span>income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>)))))</div></code></pre>
+<pre class="sourceCode r" id="cb10"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">as.data.frame</span>(</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">    <span class="kw"><a href="http://www.rdocumentation.org/packages/effects/topics/effect">Effect</a></span>(<span class="kw">c</span>(<span class="st">"income"</span>), m,</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">           <span class="dt">xlevels =</span> <span class="kw">list</span>(<span class="dt">income =</span> <span class="kw">quantile</span>(Prestige<span class="op">$</span>income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>)))))</a></code></pre>
 <pre><code>##    income      fit        se    lower    upper
 ## 1 4250.50 43.56064 1.0563892 41.46315 45.65812
 ## 2 6035.50 46.06177 0.8580300 44.35813 47.76541
 ## 3 8226.25 49.13144 0.8865936 47.37109 50.89179</code></pre>
-<pre class="sourceCode r" id="cb12"><code class="sourceCode r"><div class="sourceLine" id="cb12-1" data-line-number="1">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/emmeans/topics/emmeans">emmeans</a></span>(m, <span class="op">~</span><span class="st"> </span>income,</div>
-<div class="sourceLine" id="cb12-2" data-line-number="2">        <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">income =</span> <span class="kw">quantile</span>(Prestige<span class="op">$</span>income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>))))</div></code></pre>
+<pre class="sourceCode r" id="cb12"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/emmeans/topics/emmeans">emmeans</a></span>(m, <span class="op">~</span><span class="st"> </span>income,</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">        <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">income =</span> <span class="kw">quantile</span>(Prestige<span class="op">$</span>income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>))))</a></code></pre>
 <pre><code>##   income   emmean        SE df lower.CL upper.CL
 ##  4250.50 44.69371 1.0880065 94 42.53345 46.85398
 ##  6035.50 47.19485 0.8899893 94 45.42775 48.96194
@@ -184,11 +173,10 @@
 ## 
 ## Results are averaged over the levels of: type 
 ## Confidence level used: 0.95</code></pre>
-<pre class="sourceCode r" id="cb14"><code class="sourceCode r"><div class="sourceLine" id="cb14-1" data-line-number="1">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/summarise">summarise</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/group_by">group_by</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/prediction/topics/prediction">prediction</a></span>(m, <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">income =</span> <span class="kw">quantile</span>(Prestige<span class="op">$</span>income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>)))),</div>
-<div class="sourceLine" id="cb14-2" data-line-number="2">                   income),</div>
-<div class="sourceLine" id="cb14-3" data-line-number="3">          <span class="kw">mean</span>(fitted),</div>
-<div class="sourceLine" id="cb14-4" data-line-number="4">          <span class="kw">mean</span>(se.fitted))</div></code></pre>
+<pre class="sourceCode r" id="cb14"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="http://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/prediction/topics/prediction">prediction</a></span>(m, <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">income =</span> <span class="kw">quantile</span>(Prestige<span class="op">$</span>income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>)))),</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">                   income),</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">          <span class="kw">mean</span>(fitted),</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">          <span class="kw">mean</span>(se.fitted))</a></code></pre>
 <pre><code>## # A tibble: 3 x 3
 ##    income `mean(fitted)` `mean(se.fitted)`
 ##     &lt;dbl&gt;          &lt;dbl&gt;             &lt;dbl&gt;
@@ -200,15 +188,12 @@
 </section><section id="self-contained-systems" class="level3"><h3>Self-contained systems</h3>
 <p>Whereas the <code>effects</code>, <code>emmeans</code> and <code>prediction</code> packages provide methods for calculating expected values for a range of model types, some packages attempt to provide a more self-contained model-fitting ecosystem that includes functionality for computing expected values. Notable examples include the <code>rms</code> and <code>Zelig</code> packages.</p>
 <p>The <code>rms</code> package takes a somewhat strange approach to specifying the values at which expected values are calculated. Defaults are set by generating a <code>datadist</code> object, and then setting an option to use this object as the default values when generating predictions. It looks like this:</p>
-<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><div class="sourceLine" id="cb16-1" data-line-number="1">
-<span class="kw">library</span>(rms)</div></code></pre>
-<pre class="sourceCode r" id="cb17"><code class="sourceCode r"><div class="sourceLine" id="cb17-1" data-line-number="1">dd &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/rms/topics/datadist">datadist</a></span>(Prestige)</div>
-<div class="sourceLine" id="cb17-2" data-line-number="2">
-<span class="kw">options</span>(<span class="dt">datadist =</span> <span class="st">"dd"</span>)</div>
-<div class="sourceLine" id="cb17-3" data-line-number="3"></div>
-<div class="sourceLine" id="cb17-4" data-line-number="4">m.rms &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/rms/topics/ols">ols</a></span>(prestige <span class="op">~</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige)</div>
-<div class="sourceLine" id="cb17-5" data-line-number="5">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/rms/topics/Predict">Predict</a></span>(m.rms, <span class="dt">income =</span> <span class="kw">quantile</span>(Prestige<span class="op">$</span>income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>)))</div></code></pre>
+<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">library</span>(rms)</a></code></pre>
+<pre class="sourceCode r" id="cb17"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">dd &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/rms/topics/datadist">datadist</a></span>(Prestige)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw">options</span>(<span class="dt">datadist =</span> <span class="st">"dd"</span>)</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb17-4" data-line-number="4">m.rms &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/rms/topics/ols">ols</a></span>(prestige <span class="op">~</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige)</a>
+<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="kw"><a href="http://www.rdocumentation.org/packages/rms/topics/Predict">Predict</a></span>(m.rms, <span class="dt">income =</span> <span class="kw">quantile</span>(Prestige<span class="op">$</span>income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>)))</a></code></pre>
 <pre><code>##    income type     yhat    lower    upper
 ## 1 4250.50   bc 33.95284 31.43594 36.46974
 ## 2 6035.50   bc 36.45397 33.97564 38.93230
@@ -221,12 +206,10 @@
 ## Limits are 0.95 confidence limits</code></pre>
 <p>I dislike almost everything about this, but specifying predictor variable values as named arguments is quite nice.</p>
 <p>The <code>Zelig</code> package similarly requires using it’s own wrapper function to fit the model. Then x-values can be set using the <code>setx</code> function. Finally, expected values can be calculated using the <code>sim</code> function.</p>
-<pre class="sourceCode r" id="cb19"><code class="sourceCode r"><div class="sourceLine" id="cb19-1" data-line-number="1">
-<span class="kw">library</span>(Zelig)</div></code></pre>
-<pre class="sourceCode r" id="cb20"><code class="sourceCode r"><div class="sourceLine" id="cb20-1" data-line-number="1">m.z &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/zelig">zelig</a></span>(prestige <span class="op">~</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige, <span class="dt">model =</span> <span class="st">"ls"</span>, <span class="dt">cite =</span> <span class="ot">FALSE</span>)</div>
-<div class="sourceLine" id="cb20-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb20-3" data-line-number="3">
-<span class="kw">summary</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/sim">sim</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/setx">setx</a></span>(m.z, <span class="dt">income =</span> <span class="kw">quantile</span>(Prestige<span class="op">$</span>income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>)))))</div></code></pre>
+<pre class="sourceCode r" id="cb19"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">library</span>(Zelig)</a></code></pre>
+<pre class="sourceCode r" id="cb20"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">m.z &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/zelig">zelig</a></span>(prestige <span class="op">~</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige, <span class="dt">model =</span> <span class="st">"ls"</span>, <span class="dt">cite =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="kw">summary</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/sim">sim</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/setx">setx</a></span>(m.z, <span class="dt">income =</span> <span class="kw">quantile</span>(Prestige<span class="op">$</span>income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>)))))</a></code></pre>
 <pre><code>## 
 ## [1] 4250.5
 ## 
@@ -234,11 +217,11 @@
 ##  sim range :
 ##  -----
 ## ev
-##       mean       sd      50%     2.5%    97.5%
-## 1 33.93098 1.207437 33.91947 31.62795 36.25621
+##       mean       sd      50%    2.5%   97.5%
+## 1 33.94015 1.260541 33.91229 31.5386 36.3292
 ## pv
-##          mean       sd      50%     2.5%    97.5%
-## [1,] 34.05226 8.463425 33.94153 18.18494 51.07829
+##          mean       sd      50%     2.5%   97.5%
+## [1,] 33.53437 8.430228 33.67397 17.11984 50.0863
 ## 
 ## 
 ## [1] 6035.5
@@ -247,11 +230,11 @@
 ##  sim range :
 ##  -----
 ## ev
-##       mean      sd      50%     2.5%    97.5%
-## 1 36.47799 1.21047 36.45198 34.19024 38.91963
+##       mean       sd      50%     2.5%   97.5%
+## 1 36.41173 1.251673 36.38515 34.00182 38.6987
 ## pv
-##          mean       sd      50%     2.5%    97.5%
-## [1,] 36.46047 8.287547 36.37303 20.45193 52.64271
+##          mean       sd     50%     2.5%    97.5%
+## [1,] 36.66637 8.028599 36.3499 21.31035 52.30943
 ## 
 ## 
 ## [1] 8226.25
@@ -261,10 +244,10 @@
 ##  -----
 ## ev
 ##       mean       sd      50%     2.5%    97.5%
-## 1 39.60397 1.423258 39.53368 37.00719 42.44747
+## 1 39.44513 1.426595 39.43038 36.74529 42.18922
 ## pv
-##          mean       sd      50%     2.5%    97.5%
-## [1,] 39.66221 8.289601 39.54625 23.65196 55.48415</code></pre>
+##          mean       sd     50%    2.5%    97.5%
+## [1,] 39.46351 8.176157 39.8994 23.7598 54.54389</code></pre>
 <p>Like the <code>rms</code> package the <code>setx</code> function uses variable names as arguments.</p>
 </section><section id="the-best-parts" class="level3"><h3>The best parts</h3>
 <p>Each of the packages reviewed above has advantages and disadvantages relative to the others. If we were to combine the best parts of each approach into a single package it would have the following features:</p>
@@ -277,151 +260,139 @@
 <li>variable names as arguments (as done by <code>rmd::Predict</code> and <code><a href="http://www.rdocumentation.org/packages/Zelig/topics/setx">Zelig::setx</a></code>)</li>
 </ul>
 <p>Taking these considerations into account, the<code>smargins</code> function calculates expected values averaging over the observed values of non-specified predictors. Thus by default the expected values are the same as those obtained by <code>Effect</code> and <code>prediction</code>:</p>
-<pre class="sourceCode r" id="cb22"><code class="sourceCode r"><div class="sourceLine" id="cb22-1" data-line-number="1">
-<span class="kw">library</span>(smargins)</div>
-<div class="sourceLine" id="cb22-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb22-3" data-line-number="3">
-<span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m,</div>
-<div class="sourceLine" id="cb22-4" data-line-number="4">                 <span class="dt">income =</span> <span class="kw">quantile</span>(income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>))))</div></code></pre>
+<pre class="sourceCode r" id="cb22"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">library</span>(smargins)</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m,</a>
+<a class="sourceLine" id="cb22-4" data-line-number="4">                 <span class="dt">income =</span> <span class="kw">quantile</span>(income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>))))</a></code></pre>
 <pre><code>##    income     mean        sd   median lower_2.5 upper_97.5
-## 1 4250.50 43.55520 1.0520112 43.53483  41.51237   45.65904
-## 2 6035.50 46.05171 0.8523999 46.03955  44.35693   47.73868
-## 3 8226.25 49.11572 0.8865247 49.11517  47.34783   50.80662</code></pre>
+## 1 4250.50 43.55905 1.0579371 43.54674  41.51207   45.67733
+## 2 6035.50 46.06557 0.8645084 46.06415  44.36079   47.75499
+## 3 8226.25 49.14185 0.8972690 49.12912  47.38658   50.89534</code></pre>
 <p>Producing the expected values at specific values of the predictors as <code>Zelig</code> and <code>rms</code> do is also easy, as one simply needs to specify values for all the predictors:</p>
-<pre class="sourceCode r" id="cb24"><code class="sourceCode r"><div class="sourceLine" id="cb24-1" data-line-number="1">
-<span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m,</div>
-<div class="sourceLine" id="cb24-2" data-line-number="2">                 <span class="dt">income =</span> <span class="kw">quantile</span>(income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>)),</div>
-<div class="sourceLine" id="cb24-3" data-line-number="3">                 <span class="dt">type =</span> <span class="st">"bc"</span>))</div></code></pre>
+<pre class="sourceCode r" id="cb24"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m,</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2">                 <span class="dt">income =</span> <span class="kw">quantile</span>(income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>)),</a>
+<a class="sourceLine" id="cb24-3" data-line-number="3">                 <span class="dt">type =</span> <span class="st">"bc"</span>))</a></code></pre>
 <pre><code>##    income type     mean       sd   median lower_2.5 upper_97.5
-## 1 4250.50   bc 33.98844 1.265618 34.01176  31.52258   36.37680
-## 2 6035.50   bc 36.48777 1.236826 36.49088  34.05950   38.89309
-## 3 8226.25   bc 39.55523 1.396607 39.56368  36.82545   42.25400</code></pre>
+## 1 4250.50   bc 33.96728 1.265714 33.95143  31.53334   36.49634
+## 2 6035.50   bc 36.46001 1.244556 36.45214  34.05153   38.91799
+## 3 8226.25   bc 39.51937 1.415448 39.49144  36.79841   42.29350</code></pre>
 <p>Obtaining marginal means as computed by <code>emmeans</code> is a simple matter of computing all the expected values and then averaging as desired. For example the <code>emmeans</code> result above can be produced with <code>smargins</code> and <code>summary</code> as follows:</p>
-<pre class="sourceCode r" id="cb26"><code class="sourceCode r"><div class="sourceLine" id="cb26-1" data-line-number="1">
-<span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m,</div>
-<div class="sourceLine" id="cb26-2" data-line-number="2">                 <span class="dt">income =</span> <span class="kw">quantile</span>(income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>))),</div>
-<div class="sourceLine" id="cb26-3" data-line-number="3">        <span class="dt">vars =</span> <span class="st">"income"</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb26"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m,</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2">                 <span class="dt">income =</span> <span class="kw">quantile</span>(income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>))),</a>
+<a class="sourceLine" id="cb26-3" data-line-number="3">        <span class="dt">vars =</span> <span class="st">"income"</span>)</a></code></pre>
 <pre><code>##    income     mean        sd   median lower_2.5 upper_97.5
-## 1 4250.50 43.54179 1.0630842 43.53765  41.38193   45.60162
-## 2 6035.50 46.04627 0.8521789 46.05053  44.34247   47.73002
-## 3 8226.25 49.12005 0.8686584 49.12104  47.44132   50.86660</code></pre>
+## 1 4250.50 43.56573 1.0643665 43.56465  41.48133   45.63509
+## 2 6035.50 46.06762 0.8652948 46.06005  44.36114   47.74898
+## 3 8226.25 49.13822 0.8882034 49.14169  47.38774   50.85301</code></pre>
 <p>The nice thing about this approach is that it is transparent and flexible. Users can specify any combination of variables to average over. In fact, users can easily do it themselves if desired:</p>
-<pre class="sourceCode r" id="cb28"><code class="sourceCode r"><div class="sourceLine" id="cb28-1" data-line-number="1">(all.ev &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m,</div>
-<div class="sourceLine" id="cb28-2" data-line-number="2">                           <span class="dt">income =</span> <span class="kw">quantile</span>(income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>)),</div>
-<div class="sourceLine" id="cb28-3" data-line-number="3">                           <span class="dt">type =</span> <span class="kw">unique</span>(type))))</div></code></pre>
+<pre class="sourceCode r" id="cb28"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">(all.ev &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m,</a>
+<a class="sourceLine" id="cb28-2" data-line-number="2">                           <span class="dt">income =</span> <span class="kw">quantile</span>(income, <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.5</span>, <span class="fl">.75</span>)),</a>
+<a class="sourceLine" id="cb28-3" data-line-number="3">                           <span class="dt">type =</span> <span class="kw">unique</span>(type))))</a></code></pre>
 <pre><code>##    income type     mean       sd   median lower_2.5 upper_97.5
-## 1 4250.50 prof 59.02383 2.110529 59.00474  54.95550   63.25455
-## 2 6035.50 prof 61.52482 1.827355 61.50347  57.98246   65.16946
-## 3 8226.25 prof 64.59432 1.575247 64.59675  61.56952   67.78779
-## 4 4250.50   bc 33.97595 1.265060 33.99161  31.49687   36.48190
-## 5 6035.50   bc 36.47695 1.242197 36.46808  34.04140   38.91944
-## 6 8226.25   bc 39.54645 1.408353 39.57290  36.78227   42.28527
-## 7 4250.50   wc 41.12541 1.720553 41.13263  37.74630   44.47781
-## 8 6035.50   wc 43.62640 1.731801 43.64360  40.24493   46.99250
-## 9 8226.25   wc 46.69590 1.886147 46.71768  42.98420   50.42386</code></pre>
-<pre class="sourceCode r" id="cb30"><code class="sourceCode r"><div class="sourceLine" id="cb30-1" data-line-number="1">(em.inc.ev &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/summarise_all">summarise_all</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/group_by">group_by</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/select">select</a></span>(all.ev, <span class="op">-</span>type), income), <span class="kw"><a href="http://www.rdocumentation.org/packages/dplyr/topics/funs">funs</a></span>(mean)))</div></code></pre>
+## 1 4250.50 prof 59.03939 2.098723 59.02382  54.82578   63.16282
+## 2 6035.50 prof 61.53864 1.815454 61.52603  57.97406   65.03036
+## 3 8226.25 prof 64.60598 1.562650 64.62953  61.57253   67.65888
+## 4 4250.50   bc 33.98641 1.289994 33.99129  31.49728   36.51830
+## 5 6035.50   bc 36.48565 1.273495 36.47621  34.03638   38.98321
+## 6 8226.25   bc 39.55300 1.441070 39.53388  36.78485   42.39304
+## 7 4250.50   wc 41.12169 1.738350 41.13074  37.66872   44.51200
+## 8 6035.50   wc 43.62094 1.739351 43.61987  40.24952   47.03434
+## 9 8226.25   wc 46.68828 1.880535 46.70482  43.09058   50.37952</code></pre>
+<pre class="sourceCode r" id="cb30"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">(em.inc.ev &lt;-<span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/summarise_all.html">summarise_all</a></span>(<span class="kw"><a href="http://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(all.ev, <span class="op">-</span>type), income), <span class="kw"><a href="http://dplyr.tidyverse.org/reference/funs.html">funs</a></span>(mean)))</a></code></pre>
 <pre><code>## # A tibble: 3 x 6
 ##    income     mean       sd   median lower_2.5 upper_97.5
 ##     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
-## 1 4250.50 44.70840 1.698714 44.70966  41.39956   48.07142
-## 2 6035.50 47.20939 1.600451 47.20505  44.08960   50.36047
-## 3 8226.25 50.27889 1.623249 50.29578  47.11200   53.49897</code></pre>
+## 1 4250.50 44.71583 1.709022 44.71528  41.33059   48.06437
+## 2 6035.50 47.21508 1.609434 47.20737  44.08665   50.34931
+## 3 8226.25 50.28242 1.628085 50.28941  47.14932   53.47715</code></pre>
 <p>The <code>summary</code> method is just a convenience that makes it easier to do this. The simplicity and transparency of this operation is a direct consequence of the decision to return expected values in a simple <code>data.frame</code> structure that is familiar to R users and is easy for them to manipulate.</p>
 </section></section><section id="comparisons-and-other-transformations" class="level2"><h2>Comparisons and other transformations</h2>
 <p>Some of the packages reviewed above provide some tools for calculating differences among expected values. For example the <code>emmeans</code> package provides some pre-defined contrasts and allows for user written contrast functions as well:</p>
-<pre class="sourceCode r" id="cb32"><code class="sourceCode r"><div class="sourceLine" id="cb32-1" data-line-number="1">m.em &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/emmeans/topics/emmeans">emmeans</a></span>(m, <span class="op">~</span><span class="st"> </span>type, <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">income =</span> <span class="kw">mean</span>(Prestige<span class="op">$</span>income)))</div>
-<div class="sourceLine" id="cb32-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb32-3" data-line-number="3">emmeans<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/emmeans/topics/contrast">contrast</a></span>(m.em, <span class="dt">method =</span> <span class="st">"pairwise"</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb32"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">m.em &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/emmeans/topics/emmeans">emmeans</a></span>(m, <span class="op">~</span><span class="st"> </span>type, <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">income =</span> <span class="kw">mean</span>(Prestige<span class="op">$</span>income)))</a>
+<a class="sourceLine" id="cb32-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb32-3" data-line-number="3">emmeans<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/emmeans/topics/contrast">contrast</a></span>(m.em, <span class="dt">method =</span> <span class="st">"pairwise"</span>)</a></code></pre>
 <pre><code>##  contrast    estimate       SE df t.ratio p.value
 ##  bc - prof -25.055474 2.302012 94 -10.884  &lt;.0001
 ##  bc - wc    -7.167155 2.114048 94  -3.390  0.0029
 ##  prof - wc  17.888319 2.627157 94   6.809  &lt;.0001
 ## 
 ## P value adjustment: tukey method for comparing a family of 3 estimates</code></pre>
-<pre class="sourceCode r" id="cb34"><code class="sourceCode r"><div class="sourceLine" id="cb34-1" data-line-number="1">last_vs_others &lt;-<span class="st"> </span><span class="cf">function</span>(...) {</div>
-<div class="sourceLine" id="cb34-2" data-line-number="2">    <span class="kw">data.frame</span>(<span class="st">"wc vs other"</span> =<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span>.<span class="dv">5</span>, <span class="fl">-.5</span>, <span class="dv">1</span>))</div>
-<div class="sourceLine" id="cb34-3" data-line-number="3">}</div>
-<div class="sourceLine" id="cb34-4" data-line-number="4"></div>
-<div class="sourceLine" id="cb34-5" data-line-number="5">emmeans<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/emmeans/topics/contrast">contrast</a></span>(m.em, <span class="dt">method =</span> last_vs_others)</div></code></pre>
+<pre class="sourceCode r" id="cb34"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">last_vs_others &lt;-<span class="st"> </span><span class="cf">function</span>(...) {</a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">    <span class="kw">data.frame</span>(<span class="st">"wc vs other"</span> =<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span>.<span class="dv">5</span>, <span class="fl">-.5</span>, <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb34-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb34-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb34-5" data-line-number="5">emmeans<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/emmeans/topics/contrast">contrast</a></span>(m.em, <span class="dt">method =</span> last_vs_others)</a></code></pre>
 <pre><code>##  contrast     estimate       SE df t.ratio p.value
 ##  wc.vs.other -5.360582 2.088243 94  -2.567  0.0118</code></pre>
 <p>The <code>Zelig</code> package also provides some limited support for this by allowing for computing differences between quantities of interest at two different sets of predictor variable values. That is:</p>
-<pre class="sourceCode r" id="cb36"><code class="sourceCode r"><div class="sourceLine" id="cb36-1" data-line-number="1">
-<span class="kw">library</span>(Zelig)</div>
-<div class="sourceLine" id="cb36-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb36-3" data-line-number="3">m.z &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/zelig">zelig</a></span>(prestige <span class="op">~</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige, <span class="dt">model =</span> <span class="st">"ls"</span>, <span class="dt">cite =</span> <span class="ot">FALSE</span>)</div>
-<div class="sourceLine" id="cb36-4" data-line-number="4"></div>
-<div class="sourceLine" id="cb36-5" data-line-number="5">
-<span class="kw">summary</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/sim">sim</a></span>(m.z,</div>
-<div class="sourceLine" id="cb36-6" data-line-number="6">            <span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/setx">setx</a></span>(m.z, <span class="dt">type =</span> <span class="st">"bc"</span>),</div>
-<div class="sourceLine" id="cb36-7" data-line-number="7">            <span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/setx">setx</a></span>(m.z, <span class="dt">type =</span> <span class="st">"wc"</span>)))</div></code></pre>
+<pre class="sourceCode r" id="cb36"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">library</span>(Zelig)</a>
+<a class="sourceLine" id="cb36-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb36-3" data-line-number="3">m.z &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/zelig">zelig</a></span>(prestige <span class="op">~</span><span class="st"> </span>income <span class="op">+</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige, <span class="dt">model =</span> <span class="st">"ls"</span>, <span class="dt">cite =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb36-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb36-5" data-line-number="5"><span class="kw">summary</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/sim">sim</a></span>(m.z,</a>
+<a class="sourceLine" id="cb36-6" data-line-number="6">            <span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/setx">setx</a></span>(m.z, <span class="dt">type =</span> <span class="st">"bc"</span>),</a>
+<a class="sourceLine" id="cb36-7" data-line-number="7">            <span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/setx">setx</a></span>(m.z, <span class="dt">type =</span> <span class="st">"wc"</span>)))</a></code></pre>
 <pre><code>## 
 ##  sim x :
 ##  -----
 ## ev
 ##       mean       sd      50%     2.5%    97.5%
-## 1 37.70754 1.327594 37.66286 35.23938 40.39285
-## pv
-##          mean       sd     50%     2.5%    97.5%
-## [1,] 37.79411 8.111096 37.4226 22.42809 52.95802
-## 
-##  sim x1 :
-##  -----
-## ev
-##       mean       sd      50%     2.5%    97.5%
-## 1 44.85194 1.757131 44.81287 41.44593 48.23581
-## pv
-##          mean       sd      50%     2.5%   97.5%
-## [1,] 44.18381 8.341742 44.32235 27.61162 60.3423
-## fd
-##       mean       sd     50%     2.5%    97.5%
-## 1 7.144404 2.132514 7.09775 2.982422 11.17215</code></pre>
-<pre class="sourceCode r" id="cb38"><code class="sourceCode r"><div class="sourceLine" id="cb38-1" data-line-number="1">
-<span class="kw">summary</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/sim">sim</a></span>(m.z,</div>
-<div class="sourceLine" id="cb38-2" data-line-number="2">            <span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/setx">setx</a></span>(m.z, <span class="dt">type =</span> <span class="st">"bc"</span>),</div>
-<div class="sourceLine" id="cb38-3" data-line-number="3">            <span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/setx">setx</a></span>(m.z, <span class="dt">type =</span> <span class="st">"prof"</span>)))</div></code></pre>
-<pre><code>## 
-##  sim x :
-##  -----
-## ev
-##       mean       sd      50%     2.5%    97.5%
-## 1 37.76397 1.263115 37.76054 35.19117 40.15275
-## pv
-##         mean       sd      50%    2.5%    97.5%
-## [1,] 37.6281 8.215045 37.71323 21.7601 54.15416
-## 
-##  sim x1 :
-##  -----
-## ev
-##      mean       sd      50%    2.5%    97.5%
-## 1 62.8586 1.753234 62.87905 59.4346 66.27294
+## 1 37.71203 1.298691 37.71687 35.08198 40.23926
 ## pv
 ##          mean       sd      50%     2.5%    97.5%
-## [1,] 63.12503 8.483842 63.35538 46.38458 79.01221
+## [1,] 37.75361 8.164555 37.75922 22.08763 53.83791
+## 
+##  sim x1 :
+##  -----
+## ev
+##     mean       sd      50%     2.5%   97.5%
+## 1 44.924 1.789329 44.87778 41.44071 48.3718
+## pv
+##          mean       sd     50%     2.5%    97.5%
+## [1,] 44.95738 8.499289 45.1114 28.34521 62.40538
 ## fd
 ##       mean       sd      50%     2.5%    97.5%
-## 1 25.09463 2.321437 25.03453 20.79683 29.74966</code></pre>
+## 1 7.211964 2.119651 7.225363 3.253274 11.47379</code></pre>
+<pre class="sourceCode r" id="cb38"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/sim">sim</a></span>(m.z,</a>
+<a class="sourceLine" id="cb38-2" data-line-number="2">            <span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/setx">setx</a></span>(m.z, <span class="dt">type =</span> <span class="st">"bc"</span>),</a>
+<a class="sourceLine" id="cb38-3" data-line-number="3">            <span class="kw"><a href="http://www.rdocumentation.org/packages/Zelig/topics/setx">setx</a></span>(m.z, <span class="dt">type =</span> <span class="st">"prof"</span>)))</a></code></pre>
+<pre><code>## 
+##  sim x :
+##  -----
+## ev
+##      mean       sd      50%     2.5%    97.5%
+## 1 37.6962 1.319735 37.62663 35.16222 40.33941
+## pv
+##          mean       sd      50%    2.5%    97.5%
+## [1,] 37.73146 8.486386 37.78191 21.5981 54.32265
+## 
+##  sim x1 :
+##  -----
+## ev
+##      mean       sd      50%     2.5%    97.5%
+## 1 62.8219 1.724949 62.83088 59.57897 66.12308
+## pv
+##          mean       sd      50%     2.5%    97.5%
+## [1,] 62.82759 8.243318 62.88594 46.99385 78.74305
+## fd
+##      mean       sd      50%     2.5%    97.5%
+## 1 25.1257 2.347652 25.07631 20.52625 29.83049</code></pre>
 <p>Unlike <code>emmeans</code> there is no simple way to perform arbitrary comparisons (e.g., to compare the average of <code>type = "bc"</code> and <code>type = "prof"</code> to <code>type = "wc"</code>).</p>
 <p>All in all, current implementations don’t do a great job of making it easy to compare expected values in a simple and flexibly ways. Figuring out a nice interface for this in the <code>smargins</code> package is an on-going project, but already some progress has been made.</p>
 <p>The <code>scompare</code> function that gives pairwise differences:</p>
-<pre class="sourceCode r" id="cb40"><code class="sourceCode r"><div class="sourceLine" id="cb40-1" data-line-number="1">m.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m, <span class="dt">type =</span> <span class="kw">unique</span>(type), <span class="dt">income =</span> <span class="kw">mean</span>(income))</div>
-<div class="sourceLine" id="cb40-2" data-line-number="2">
-<span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m.sm, <span class="st">"type"</span>))</div></code></pre>
+<pre class="sourceCode r" id="cb40"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">m.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m, <span class="dt">type =</span> <span class="kw">unique</span>(type), <span class="dt">income =</span> <span class="kw">mean</span>(income))</a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m.sm, <span class="st">"type"</span>))</a></code></pre>
 <pre><code>##         type       mean       sd     median lower_2.5 upper_97.5
-## 1 prof vs bc  17.890519 2.597234  17.899358  12.79542  23.033384
-## 2 prof vs wc -25.088944 2.257638 -25.096156 -29.61231 -20.716087
-## 3   bc vs wc  -7.198425 2.071464  -7.174093 -11.20020  -3.170949</code></pre>
+## 1 prof vs bc  17.888964 2.637739  17.944760  12.73358  22.939995
+## 2 prof vs wc -25.079098 2.255290 -25.071333 -29.56264 -20.629882
+## 3   bc vs wc  -7.190135 2.136761  -7.171302 -11.42944  -3.092968</code></pre>
 <p>For custom comparisons the structure produced by <code>smargins</code> is simple enough that the user can perform their own arbitrary transformations. For example, we can compare the average of blue collar and professional with white collar:</p>
-<pre class="sourceCode r" id="cb42"><code class="sourceCode r"><div class="sourceLine" id="cb42-1" data-line-number="1">wc &lt;-<span class="st"> </span><span class="kw">subset</span>(m.sm, type <span class="op">==</span><span class="st"> "wc"</span>)<span class="op">$</span>.smargin_qi</div>
-<div class="sourceLine" id="cb42-2" data-line-number="2">bc_prof &lt;-<span class="st"> </span>(<span class="kw">subset</span>(m.sm, type <span class="op">==</span><span class="st"> "bc"</span>)<span class="op">$</span>.smargin_qi <span class="op">+</span>
-</div>
-<div class="sourceLine" id="cb42-3" data-line-number="3">
-<span class="st">            </span><span class="kw">subset</span>(m.sm, type <span class="op">==</span><span class="st"> "prof"</span>)<span class="op">$</span>.smargin_qi)<span class="op">/</span><span class="dv">2</span>
-</div>
-<div class="sourceLine" id="cb42-4" data-line-number="4">
-<span class="kw"><a href="../reference/sumstats.html">sumstats</a></span>(wc <span class="op">-</span><span class="st"> </span>bc_prof)</div></code></pre>
+<pre class="sourceCode r" id="cb42"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">wc &lt;-<span class="st"> </span><span class="kw">subset</span>(m.sm, type <span class="op">==</span><span class="st"> "wc"</span>)<span class="op">$</span>.smargin_qi</a>
+<a class="sourceLine" id="cb42-2" data-line-number="2">bc_prof &lt;-<span class="st"> </span>(<span class="kw">subset</span>(m.sm, type <span class="op">==</span><span class="st"> "bc"</span>)<span class="op">$</span>.smargin_qi <span class="op">+</span></a>
+<a class="sourceLine" id="cb42-3" data-line-number="3"><span class="st">            </span><span class="kw">subset</span>(m.sm, type <span class="op">==</span><span class="st"> "prof"</span>)<span class="op">$</span>.smargin_qi)<span class="op">/</span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="kw"><a href="../reference/sumstats.html">sumstats</a></span>(wc <span class="op">-</span><span class="st"> </span>bc_prof)</a></code></pre>
 <pre><code>##       mean         sd     median  lower_2.5 upper_97.5 
-##  -5.346047   2.060249  -5.360955  -9.403011  -1.300312</code></pre>
+##  -5.349415   2.119133  -5.380570  -9.315853  -1.098056</code></pre>
 <p>While the simple structure allows users to compute arbitrary transformations without too much difficulty, it would be nice to have some convenience functions for this. The <code>scompare</code> function needs more work, starting with conceptual work to hammer out a description of the desired interface. The <code><a href="http://www.rdocumentation.org/packages/emmeans/topics/contrast">emmeans::contrast</a></code> approach is one source of inspiration; other places to look include <code><a href="http://www.rdocumentation.org/packages/car/topics/linearHypothesis">car::lht</a></code> / <code><a href="http://www.rdocumentation.org/packages/multcomp/topics/glht">multcomp::glht</a></code> and <a href="https://github.com/goshevs/effcomp" class="uri">https://github.com/goshevs/effcomp</a> .</p>
 </section><section id="plots" class="level2"><h2>Plots</h2>
 <p>TODO</p>

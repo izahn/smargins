@@ -91,7 +91,7 @@
     <div class="page-header toc-ignore">
       <h1>smargins Quickstart Guide</h1>
             
-            <h4 class="date">2017-11-17</h4>
+            <h4 class="date">2017-11-30</h4>
           </div>
 
     
@@ -103,20 +103,17 @@
 <p>Let’s walk through an example. This example uses the Prestige dataset. It contains data on 102 occupations. We will model the effect of education and type on income.</p>
 <section id="building-models" class="level2"><h2>Building Models</h2>
 <p>Since income is a continuous variable, least squares is an appropriate model choice. To estimate our model, we call the <code>lm</code> function:</p>
-<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># load data</span></div>
-<div class="sourceLine" id="cb1-2" data-line-number="2">
-<span class="kw">options</span>(<span class="dt">StringsAsFactors =</span> <span class="ot">FALSE</span>)</div>
-<div class="sourceLine" id="cb1-3" data-line-number="3">
-<span class="kw">data</span>(Prestige, <span class="dt">package =</span> <span class="st">"car"</span>)</div>
-<div class="sourceLine" id="cb1-4" data-line-number="4"></div>
-<div class="sourceLine" id="cb1-5" data-line-number="5">Prestige &lt;-<span class="st"> </span><span class="kw">na.omit</span>(Prestige)</div>
-<div class="sourceLine" id="cb1-6" data-line-number="6"></div>
-<div class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># estimate ls model</span></div>
-<div class="sourceLine" id="cb1-8" data-line-number="8">m1 &lt;-<span class="st"> </span><span class="kw">lm</span>(income <span class="op">~</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige)</div>
-<div class="sourceLine" id="cb1-9" data-line-number="9"></div>
-<div class="sourceLine" id="cb1-10" data-line-number="10"><span class="co"># model summary</span></div>
-<div class="sourceLine" id="cb1-11" data-line-number="11">
-<span class="kw">summary</span>(m1)</div></code></pre>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># load data</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">options</span>(<span class="dt">StringsAsFactors =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">data</span>(Prestige, <span class="dt">package =</span> <span class="st">"car"</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">Prestige &lt;-<span class="st"> </span><span class="kw">na.omit</span>(Prestige)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co"># estimate ls model</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">m1 &lt;-<span class="st"> </span><span class="kw">lm</span>(income <span class="op">~</span><span class="st"> </span>education <span class="op">+</span><span class="st"> </span>type, <span class="dt">data =</span> Prestige)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co"># model summary</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="kw">summary</span>(m1)</a></code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = income ~ education + type, data = Prestige)
@@ -139,87 +136,69 @@
 ## F-statistic: 21.35 on 3 and 94 DF,  p-value: 1.249e-10</code></pre>
 <p>Since this is an ordinary least squares regression, the coefficients are themselves quantities of interest. The <code>education</code> coefficient tells us that (holding occupation type constant) every additional year of education is associated with an $887.9 increase in income. The coefficients for <code>typeprof</code> and <code>typewc</code> are slightly more difficult to interpret. They are dummy codes that tell us the expected difference between blue-collar and professional incomes, and between blue-collar and white-collar incomes.</p>
 <p>Although the model coefficients are not difficult to interpret, expected values are even more straight-forward. We can calculate them using the <code>smargins</code> function.</p>
-<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><div class="sourceLine" id="cb3-1" data-line-number="1">
-<span class="kw">library</span>(smargins)</div>
-<div class="sourceLine" id="cb3-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb3-3" data-line-number="3">ppred1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">type =</span> <span class="kw">unique</span>(type))</div>
-<div class="sourceLine" id="cb3-4" data-line-number="4"></div>
-<div class="sourceLine" id="cb3-5" data-line-number="5">ppred1</div></code></pre>
+<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(smargins)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">ppred1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">type =</span> <span class="kw">unique</span>(type))</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">ppred1</a></code></pre>
 <pre><code>##       type .sim_number .smargin_qi
-## 1     prof           1    7769.784
-## 2     prof           2    7023.276
-## 3     prof           3    7122.839
-## 4     prof           4    8751.365
-## 5     prof           5    8844.066
-## 6     prof           6    7161.654
+## 1     prof           1    7151.514
+## 2     prof           2    8050.182
+## 3     prof           3    7255.230
+## 4     prof           4    8156.508
+## 5     prof           5    7916.429
+## 6     prof           6    6599.368
 ## # - - - - - - - - - - - - - - - - -                                  
-## 14995   wc        4995    3935.477
-## 14996   wc        4996    4823.815
-## 14997   wc        4997    6047.566
-## 14998   wc        4998    4649.266
-## 14999   wc        4999    5145.214
-## 15000   wc        5000    5150.837</code></pre>
+## 14995   wc        4995    5408.238
+## 14996   wc        4996    3748.062
+## 14997   wc        4997    6084.383
+## 14998   wc        4998    4087.340
+## 14999   wc        4999    3383.563
+## 15000   wc        5000    5079.580</code></pre>
 <p>The print method shows us how the result is organized. There is a summary method that gives a default set of statistics for each combination of values specified in the <code>at</code> argument:</p>
-<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><div class="sourceLine" id="cb5-1" data-line-number="1">
-<span class="kw">summary</span>(ppred1)</div></code></pre>
+<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">summary</span>(ppred1)</a></code></pre>
 <pre><code>##   type     mean        sd   median lower_2.5 upper_97.5
-## 1 prof 7658.303 1136.2371 7669.369  5433.109   9868.010
-## 2   bc 7520.248  860.4343 7501.150  5842.621   9212.944
-## 3   wc 4854.842  699.0080 4846.795  3488.242   6229.274</code></pre>
+## 1 prof 7661.685 1116.0225 7681.219  5464.401   9837.795
+## 2   bc 7507.832  860.7438 7503.322  5787.217   9189.032
+## 3   wc 4848.797  686.6272 4844.074  3486.729   6195.688</code></pre>
 </section><section id="comparisons" class="level2"><h2>Comparisons</h2>
 <p>The summary method shows expected values for each value specified in the <code>...</code> arguments, but frequently we want some transformation of these values. There is a <code>scompare</code> function that gives pairwise differences:</p>
-<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><div class="sourceLine" id="cb7-1" data-line-number="1">
-<span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(ppred1, <span class="st">"type"</span>))</div></code></pre>
+<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(ppred1, <span class="st">"type"</span>))</a></code></pre>
 <pre><code>##         type      mean       sd    median  lower_2.5 upper_97.5
-## 1 prof vs bc 2803.4605 1284.462 2818.6423   290.0366   5339.553
-## 2 prof vs wc -138.0545 1839.424 -160.0768 -3692.0686   3538.575
-## 3   bc vs wc 2665.4060 1152.804 2649.6872   362.5064   4974.687</code></pre>
+## 1 prof vs bc 2812.8882 1261.658 2801.9937   325.9580   5381.704
+## 2 prof vs wc -153.8531 1816.049 -181.7767 -3659.4786   3468.618
+## 3   bc vs wc 2659.0351 1145.382 2670.1833   418.2804   4873.649</code></pre>
 <p>but the really great thing is that the structure is simple enough that the user can perform their own arbitrary transformations. For example, we can compare the average of white collar and professional with blue collar:</p>
-<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><div class="sourceLine" id="cb9-1" data-line-number="1">bc &lt;-<span class="st"> </span><span class="kw">subset</span>(ppred1, type <span class="op">==</span><span class="st"> "bc"</span>)<span class="op">$</span>.smargin_qi</div>
-<div class="sourceLine" id="cb9-2" data-line-number="2">wc_prof &lt;-<span class="st"> </span><span class="kw">subset</span>(ppred1, type <span class="op">==</span><span class="st"> "wc"</span>)<span class="op">$</span>.smargin_qi <span class="op">+</span>
-</div>
-<div class="sourceLine" id="cb9-3" data-line-number="3">
-<span class="st">           </span><span class="kw">subset</span>(ppred1, type <span class="op">==</span><span class="st"> "wc"</span>)<span class="op">$</span>.smargin_qi</div>
-<div class="sourceLine" id="cb9-4" data-line-number="4">
-<span class="kw"><a href="../reference/sumstats.html">sumstats</a></span>(bc <span class="op">-</span><span class="st"> </span>wc_prof)</div></code></pre>
+<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">bc &lt;-<span class="st"> </span><span class="kw">subset</span>(ppred1, type <span class="op">==</span><span class="st"> "bc"</span>)<span class="op">$</span>.smargin_qi</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">wc_prof &lt;-<span class="st"> </span><span class="kw">subset</span>(ppred1, type <span class="op">==</span><span class="st"> "wc"</span>)<span class="op">$</span>.smargin_qi <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">           </span><span class="kw">subset</span>(ppred1, type <span class="op">==</span><span class="st"> "wc"</span>)<span class="op">$</span>.smargin_qi</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="kw"><a href="../reference/sumstats.html">sumstats</a></span>(bc <span class="op">-</span><span class="st"> </span>wc_prof)</a></code></pre>
 <pre><code>##       mean         sd     median  lower_2.5 upper_97.5 
-##  -2051.382   1728.095  -2039.129  -5450.651   1379.486</code></pre>
+##  -2035.909   1697.467  -2039.357  -5297.427   1388.126</code></pre>
 </section><section id="visualizations" class="level2"><h2>Visualizations</h2>
 <p>Another advantage of the simple data structure returned by <code>smargins</code> is that it makes creating plots using standard graphics packages in R easy. For example, we can graph the expected values by type:</p>
-<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><div class="sourceLine" id="cb11-1" data-line-number="1">
-<span class="kw">library</span>(ggplot2)</div>
-<div class="sourceLine" id="cb11-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb11-3" data-line-number="3">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw">summary</span>(ppred1),</div>
-<div class="sourceLine" id="cb11-4" data-line-number="4">       <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> mean, <span class="dt">y =</span> type)) <span class="op">+</span>
-</div>
-<div class="sourceLine" id="cb11-5" data-line-number="5">
-<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_point">geom_point</a></span>() <span class="op">+</span>
-</div>
-<div class="sourceLine" id="cb11-6" data-line-number="6">
-<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_errorbarh">geom_errorbarh</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">xmin =</span> lower_<span class="fl">2.5</span>, <span class="dt">xmax =</span> upper_<span class="fl">97.5</span>),</div>
-<div class="sourceLine" id="cb11-7" data-line-number="7">                   <span class="dt">height =</span> <span class="fl">0.25</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw">summary</span>(ppred1),</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">       <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> mean, <span class="dt">y =</span> type)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_point">geom_point</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_errorbarh">geom_errorbarh</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">xmin =</span> lower_<span class="fl">2.5</span>, <span class="dt">xmax =</span> upper_<span class="fl">97.5</span>),</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">                   <span class="dt">height =</span> <span class="fl">0.25</span>)</a></code></pre>
 <p><img src="2_quickstart_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
-<pre class="sourceCode r" id="cb12"><code class="sourceCode r"><div class="sourceLine" id="cb12-1" data-line-number="1">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(ppred1,</div>
-<div class="sourceLine" id="cb12-2" data-line-number="2">       <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> .smargin_qi)) <span class="op">+</span>
-</div>
-<div class="sourceLine" id="cb12-3" data-line-number="3">
-<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">fill =</span> type), <span class="dt">alpha =</span> <span class="fl">0.25</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb12"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(ppred1,</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">       <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> .smargin_qi)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">fill =</span> type), <span class="dt">alpha =</span> <span class="fl">0.25</span>)</a></code></pre>
 <p><img src="2_quickstart_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 <p>This is especially useful for plotting interactions:</p>
-<pre class="sourceCode r" id="cb13"><code class="sourceCode r"><div class="sourceLine" id="cb13-1" data-line-number="1">m2 &lt;-<span class="st"> </span><span class="kw">lm</span>(income <span class="op">~</span><span class="st"> </span>education<span class="op">*</span>type, <span class="dt">data =</span> Prestige)</div>
-<div class="sourceLine" id="cb13-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb13-3" data-line-number="3">m2.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m2, <span class="dt">education =</span> <span class="dv">6</span><span class="op">:</span><span class="dv">16</span>, <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">"bc"</span>, <span class="st">"prof"</span>, <span class="st">"wc"</span>))</div>
-<div class="sourceLine" id="cb13-4" data-line-number="4"></div>
-<div class="sourceLine" id="cb13-5" data-line-number="5">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw">summary</span>(m2.sm),</div>
-<div class="sourceLine" id="cb13-6" data-line-number="6">       <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> education, <span class="dt">y =</span> mean, <span class="dt">color =</span> type)) <span class="op">+</span>
-</div>
-<div class="sourceLine" id="cb13-7" data-line-number="7">
-<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_smooth">geom_smooth</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">ymin =</span> lower_<span class="fl">2.5</span>, <span class="dt">ymax =</span> upper_<span class="fl">97.5</span>),</div>
-<div class="sourceLine" id="cb13-8" data-line-number="8">                <span class="dt">stat =</span> <span class="st">"identity"</span>,</div>
-<div class="sourceLine" id="cb13-9" data-line-number="9">                <span class="dt">alpha =</span> <span class="fl">0.25</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap">facet_wrap</a></span>(<span class="op">~</span>type)</div></code></pre>
+<pre class="sourceCode r" id="cb13"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">m2 &lt;-<span class="st"> </span><span class="kw">lm</span>(income <span class="op">~</span><span class="st"> </span>education<span class="op">*</span>type, <span class="dt">data =</span> Prestige)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">m2.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m2, <span class="dt">education =</span> <span class="dv">6</span><span class="op">:</span><span class="dv">16</span>, <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">"bc"</span>, <span class="st">"prof"</span>, <span class="st">"wc"</span>))</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw">summary</span>(m2.sm),</a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">       <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> education, <span class="dt">y =</span> mean, <span class="dt">color =</span> type)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_smooth">geom_smooth</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">ymin =</span> lower_<span class="fl">2.5</span>, <span class="dt">ymax =</span> upper_<span class="fl">97.5</span>),</a>
+<a class="sourceLine" id="cb13-8" data-line-number="8">                <span class="dt">stat =</span> <span class="st">"identity"</span>,</a>
+<a class="sourceLine" id="cb13-9" data-line-number="9">                <span class="dt">alpha =</span> <span class="fl">0.25</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap">facet_wrap</a></span>(<span class="op">~</span>type)</a></code></pre>
 <pre><code>## Warning: Ignoring unknown aesthetics: ymin, ymax</code></pre>
 <p><img src="2_quickstart_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </section></section>

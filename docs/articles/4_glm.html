@@ -91,7 +91,7 @@
     <div class="page-header toc-ignore">
       <h1>Expected Values for GLMs</h1>
             
-            <h4 class="date">2017-11-17</h4>
+            <h4 class="date">2017-11-30</h4>
           </div>
 
     
@@ -100,13 +100,11 @@
 <section id="examples" class="level2"><h2>Examples</h2>
 <section id="basic-example" class="level3"><h3>Basic example</h3>
 <p>Attach the sample turnout dataset:</p>
-<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">
-<span class="kw">data</span>(turnout, <span class="dt">package =</span> <span class="st">"Zelig"</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">data</span>(turnout, <span class="dt">package =</span> <span class="st">"Zelig"</span>)</a></code></pre>
 <p>Estimating parameter values for the logistic regression:</p>
-<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><div class="sourceLine" id="cb2-1" data-line-number="1">m1 &lt;-<span class="st"> </span><span class="kw">glm</span>(vote <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>race, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">"logit"</span>), <span class="dt">data =</span> turnout)</div></code></pre>
+<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">m1 &lt;-<span class="st"> </span><span class="kw">glm</span>(vote <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>race, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">"logit"</span>), <span class="dt">data =</span> turnout)</a></code></pre>
 <p>Summarize estimated parameters:</p>
-<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><div class="sourceLine" id="cb3-1" data-line-number="1">
-<span class="kw">summary</span>(m1)</div></code></pre>
+<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">summary</span>(m1)</a></code></pre>
 <pre><code>## 
 ## Call:
 ## glm(formula = vote ~ age + race, family = binomial(link = "logit"), 
@@ -132,56 +130,41 @@
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
 <p>For <code>logit</code> models you may wish to calculate odds ratios:</p>
-<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><div class="sourceLine" id="cb5-1" data-line-number="1">
-<span class="kw">cbind</span>(<span class="dt">OR =</span> <span class="kw">exp</span>(<span class="kw">coef</span>(m1)), <span class="kw">exp</span>(<span class="kw">confint</span>(m1)))</div></code></pre>
+<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">cbind</span>(<span class="dt">OR =</span> <span class="kw">exp</span>(<span class="kw">coef</span>(m1)), <span class="kw">exp</span>(<span class="kw">confint</span>(m1)))</a></code></pre>
 <pre><code>## Waiting for profiling to be done...</code></pre>
 <pre><code>##                   OR     2.5 %   97.5 %
 ## (Intercept) 1.039111 0.7347714 1.470780
 ## age         1.011327 1.0053346 1.017445
 ## racewhite   1.907038 1.4622538 2.478341</code></pre>
 <p>Set values for the explanatory variables and simulate quantities of interest from the posterior distribution:</p>
-<pre class="sourceCode r" id="cb8"><code class="sourceCode r"><div class="sourceLine" id="cb8-1" data-line-number="1">
-<span class="kw">library</span>(smargins)</div>
-<div class="sourceLine" id="cb8-2" data-line-number="2">m.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">age =</span> <span class="dv">36</span>, <span class="dt">race =</span> <span class="st">"white"</span>)</div>
-<div class="sourceLine" id="cb8-3" data-line-number="3">
-<span class="kw">summary</span>(m.sm)</div></code></pre>
+<pre class="sourceCode r" id="cb8"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">library</span>(smargins)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">m.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">age =</span> <span class="dv">36</span>, <span class="dt">race =</span> <span class="st">"white"</span>)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw">summary</span>(m.sm)</a></code></pre>
 <pre><code>##   age  race      mean         sd    median lower_2.5 upper_97.5
-## 1  36 white 0.6089973 0.02927114 0.6090359 0.5524932  0.6650298</code></pre>
+## 1  36 white 0.6091556 0.02925852 0.6095709 0.5503798  0.6651414</code></pre>
 <p>Show the results graphically:</p>
-<pre class="sourceCode r" id="cb10"><code class="sourceCode r"><div class="sourceLine" id="cb10-1" data-line-number="1">
-<span class="kw">library</span>(ggplot2)</div>
-<div class="sourceLine" id="cb10-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb10-3" data-line-number="3">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(m.sm, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> .smargin_qi)) <span class="op">+</span>
-</div>
-<div class="sourceLine" id="cb10-4" data-line-number="4">
-<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">fill =</span> <span class="kw">interaction</span>(age, race)))</div></code></pre>
+<pre class="sourceCode r" id="cb10"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(m.sm, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> .smargin_qi)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">fill =</span> <span class="kw">interaction</span>(age, race)))</a></code></pre>
 <p><img src="4_glm_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 </section></section><section id="first-differences" class="level2"><h2>First differences</h2>
 <p>Estimating the risk difference (and risk ratio) between low education (25th percentile) and high education (75th percentile) while all the other variables averaged over their observed values.</p>
-<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><div class="sourceLine" id="cb11-1" data-line-number="1">m2 &lt;-<span class="st"> </span><span class="kw">glm</span>(vote <span class="op">~</span><span class="st"> </span>educate, <span class="dt">data =</span> turnout, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">"logit"</span>))</div>
-<div class="sourceLine" id="cb11-2" data-line-number="2">m2.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m2, <span class="dt">educate =</span> <span class="kw">quantile</span>(educate, <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>)))</div>
-<div class="sourceLine" id="cb11-3" data-line-number="3"></div>
-<div class="sourceLine" id="cb11-4" data-line-number="4">
-<span class="kw">summary</span>(m2.sm)</div></code></pre>
+<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">m2 &lt;-<span class="st"> </span><span class="kw">glm</span>(vote <span class="op">~</span><span class="st"> </span>educate, <span class="dt">data =</span> turnout, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">"logit"</span>))</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">m2.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m2, <span class="dt">educate =</span> <span class="kw">quantile</span>(educate, <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>)))</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="kw">summary</span>(m2.sm)</a></code></pre>
 <pre><code>##   educate      mean         sd    median lower_2.5 upper_97.5
-## 1      10 0.6904065 0.01211355 0.6906484 0.6668200  0.7134715
-## 2      14 0.8134327 0.01040222 0.8137579 0.7922944  0.8328729</code></pre>
-<pre class="sourceCode r" id="cb13"><code class="sourceCode r"><div class="sourceLine" id="cb13-1" data-line-number="1">
-<span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="dt">var =</span> <span class="st">"educate"</span>))</div></code></pre>
-<pre><code>##    educate       mean         sd     median lower_2.5 upper_97.5
-## 1 10 vs 14 -0.1230262 0.01151027 -0.1231947 -0.144828 -0.1000264</code></pre>
-<pre class="sourceCode r" id="cb15"><code class="sourceCode r"><div class="sourceLine" id="cb15-1" data-line-number="1">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="st">"educate"</span>)) <span class="op">+</span>
-</div>
-<div class="sourceLine" id="cb15-2" data-line-number="2">
-<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> .smargin_qi, <span class="dt">fill =</span> <span class="kw">factor</span>(educate)))</div></code></pre>
+## 1      10 0.6902521 0.01210330 0.6902468 0.6654436  0.7138264
+## 2      14 0.8134816 0.01047298 0.8135955 0.7920693  0.8338647</code></pre>
+<pre class="sourceCode r" id="cb13"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="dt">var =</span> <span class="st">"educate"</span>))</a></code></pre>
+<pre><code>##    educate       mean        sd     median  lower_2.5 upper_97.5
+## 1 10 vs 14 -0.1232295 0.0115573 -0.1231777 -0.1459548 -0.1006645</code></pre>
+<pre class="sourceCode r" id="cb15"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="st">"educate"</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> .smargin_qi, <span class="dt">fill =</span> <span class="kw">factor</span>(educate)))</a></code></pre>
 <p><img src="4_glm_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
-<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><div class="sourceLine" id="cb16-1" data-line-number="1">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(m2.sm, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> .smargin_qi)) <span class="op">+</span>
-</div>
-<div class="sourceLine" id="cb16-2" data-line-number="2">
-<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">fill =</span> <span class="kw">factor</span>(educate)))</div></code></pre>
+<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(m2.sm, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> .smargin_qi)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">fill =</span> <span class="kw">factor</span>(educate)))</a></code></pre>
 <p><img src="4_glm_files/figure-html/unnamed-chunk-8-2.png" width="672"></p>
 </section>
 </div>

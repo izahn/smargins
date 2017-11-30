@@ -91,7 +91,7 @@
     <div class="page-header toc-ignore">
       <h1>Expected Values for Tobit Models</h1>
             
-            <h4 class="date">2017-11-17</h4>
+            <h4 class="date">2017-11-30</h4>
           </div>
 
     
@@ -101,17 +101,14 @@
 <section id="examples" class="level2"><h2>Examples</h2>
 <section id="basic-example" class="level3"><h3>Basic Example</h3>
 <p>Attaching the sample dataset:</p>
-<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">
-<span class="kw">library</span>(survival)</div>
-<div class="sourceLine" id="cb1-2" data-line-number="2">
-<span class="kw">data</span>(tobin)</div></code></pre>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(survival)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">data</span>(tobin)</a></code></pre>
 <p>Estimating linear regression using <code>tobit</code>:</p>
-<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><div class="sourceLine" id="cb2-1" data-line-number="1">## consider these two models:</div>
-<div class="sourceLine" id="cb2-2" data-line-number="2">m1 &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/survival/topics/survreg">survreg</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(durable, durable<span class="op">&gt;</span><span class="dv">0</span>, <span class="dt">type=</span><span class="st">'left'</span>) <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>quant,</div>
-<div class="sourceLine" id="cb2-3" data-line-number="3">              <span class="dt">data=</span>tobin, <span class="dt">dist=</span><span class="st">'gaussian'</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">## consider these two models:</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">m1 &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/survival/topics/survreg">survreg</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(durable, durable<span class="op">&gt;</span><span class="dv">0</span>, <span class="dt">type=</span><span class="st">'left'</span>) <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>quant,</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">              <span class="dt">data=</span>tobin, <span class="dt">dist=</span><span class="st">'gaussian'</span>)</a></code></pre>
 <p>Summarize estimated paramters:</p>
-<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><div class="sourceLine" id="cb3-1" data-line-number="1">
-<span class="kw">summary</span>(m1)</div></code></pre>
+<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">summary</span>(m1)</a></code></pre>
 <pre><code>## 
 ## Call:
 ## survreg(formula = Surv(durable, durable &gt; 0, type = "left") ~ 
@@ -130,13 +127,11 @@
 ## Number of Newton-Raphson Iterations: 3 
 ## n= 20</code></pre>
 <p>Setting values for the explanatory variables to their sample averages and simulating quantity of interest.</p>
-<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><div class="sourceLine" id="cb5-1" data-line-number="1">
-<span class="kw">library</span>(smargins)</div>
-<div class="sourceLine" id="cb5-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb5-3" data-line-number="3">m.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">quant =</span> <span class="kw">seq</span>(<span class="dv">210</span>, <span class="dv">280</span>, <span class="dv">10</span>))</div>
-<div class="sourceLine" id="cb5-4" data-line-number="4"></div>
-<div class="sourceLine" id="cb5-5" data-line-number="5">
-<span class="kw">summary</span>(m.sm)</div></code></pre>
+<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">library</span>(smargins)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">m.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">quant =</span> <span class="kw">seq</span>(<span class="dv">210</span>, <span class="dv">280</span>, <span class="dv">10</span>))</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="kw">summary</span>(m.sm)</a></code></pre>
 <pre><code>##   quant       mean       sd    median lower_2.5 upper_97.5
 ## 1   210 -0.6283012 2.725337 -0.606587 -5.878629   4.556931
 ## 2   220 -1.0615717 2.351930 -1.047042 -5.471870   3.446931
@@ -146,36 +141,27 @@
 ## 6   260 -2.7946540 2.181938 -2.898043 -6.962013   1.678773
 ## 7   270 -3.2279245 2.504271 -3.267990 -7.778296   1.839742
 ## 8   280 -3.6611951 2.909155 -3.711762 -9.082322   2.153392</code></pre>
-<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><div class="sourceLine" id="cb7-1" data-line-number="1">
-<span class="kw">library</span>(ggplot2)</div>
-<div class="sourceLine" id="cb7-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb7-3" data-line-number="3">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw">summary</span>(m.sm), <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> quant, <span class="dt">y =</span> mean)) <span class="op">+</span>
-</div>
-<div class="sourceLine" id="cb7-4" data-line-number="4">
-<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_smooth">geom_smooth</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">ymin =</span> lower_<span class="fl">2.5</span>, <span class="dt">ymax =</span> upper_<span class="fl">97.5</span>),</div>
-<div class="sourceLine" id="cb7-5" data-line-number="5">                <span class="dt">stat =</span> <span class="st">"identity"</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw">summary</span>(m.sm), <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> quant, <span class="dt">y =</span> mean)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_smooth">geom_smooth</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">ymin =</span> lower_<span class="fl">2.5</span>, <span class="dt">ymax =</span> upper_<span class="fl">97.5</span>),</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">                <span class="dt">stat =</span> <span class="st">"identity"</span>)</a></code></pre>
 <pre><code>## Warning: Ignoring unknown aesthetics: ymin, ymax</code></pre>
 <p><img src="6_tobit_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </section><section id="simulating-first-differences" class="level3"><h3>Simulating First Differences</h3>
 <p>Set explanatory variables to their default(mean/mode) values, with high (80th percentile) and low (20th percentile) liquidity ratio (<code>quant</code>):</p>
-<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><div class="sourceLine" id="cb9-1" data-line-number="1">m.sm2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">quant =</span> <span class="kw">quantile</span>(tobin<span class="op">$</span>quant, <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)))</div>
-<div class="sourceLine" id="cb9-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb9-3" data-line-number="3">
-<span class="kw">summary</span>(m.sm2)</div></code></pre>
+<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">m.sm2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">quant =</span> <span class="kw">quantile</span>(tobin<span class="op">$</span>quant, <span class="dt">prob =</span> <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)))</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw">summary</span>(m.sm2)</a></code></pre>
 <pre><code>##   quant      mean       sd    median lower_2.5 upper_97.5
 ## 1 218.4 -1.004966 2.375453 -1.017309 -5.629625   3.476961
 ## 2 270.2 -3.311252 2.567358 -3.319656 -8.382085   1.743507</code></pre>
 <p>Estimating the first difference for the effect of high versus low liquidity ratio on duration( <code>durable</code>):</p>
-<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><div class="sourceLine" id="cb11-1" data-line-number="1">
-<span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m.sm2, <span class="st">"quant"</span>))</div></code></pre>
+<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m.sm2, <span class="st">"quant"</span>))</a></code></pre>
 <pre><code>##            quant     mean       sd   median lower_2.5 upper_97.5
 ## 1 218.4 vs 270.2 2.306287 3.043227 2.277627 -3.627821   8.411845</code></pre>
-<pre class="sourceCode r" id="cb13"><code class="sourceCode r"><div class="sourceLine" id="cb13-1" data-line-number="1">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m.sm2, <span class="st">"quant"</span>), <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> .smargin_qi)) <span class="op">+</span>
-</div>
-<div class="sourceLine" id="cb13-2" data-line-number="2">
-<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>(<span class="dt">fill =</span> <span class="st">"blue"</span>, <span class="dt">alpha =</span> <span class="fl">0.25</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb13"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m.sm2, <span class="st">"quant"</span>), <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> .smargin_qi)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>(<span class="dt">fill =</span> <span class="st">"blue"</span>, <span class="dt">alpha =</span> <span class="fl">0.25</span>)</a></code></pre>
 <p><img src="6_tobit_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 </section></section>
 </div>

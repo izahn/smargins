@@ -57,3 +57,13 @@ smargins_v2(m, "hp", xvalues = list(hp = seq(50, 350, by = 50)))
 Now which do you prefer? 
 
 `smargins_v1` is more verbose for the simple case, but less so when the user does wish to specify values. Which one should we pick? Or is there some combination or alternative that would be even better?
+
+# Interface for comparisons
+
+Some options:
+
+- matrix based, like `car::lht`, and https://github.com/goshevs/effcomp
+- character representation, like `car::lht`
+- function based, like `emmeans::contrast`
+- function based, but function does computation directly
+

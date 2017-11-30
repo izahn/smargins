@@ -91,7 +91,7 @@
     <div class="page-header toc-ignore">
       <h1>Using smargins with Amelia</h1>
             
-            <h4 class="date">2017-11-17</h4>
+            <h4 class="date">2017-11-30</h4>
           </div>
 
     
@@ -99,10 +99,8 @@
 <div class="contents">
 <hr>
 <p>First, using the Amelia package, we multiply impute a dataset with missing values:</p>
-<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">
-<span class="kw">library</span>(purrr)</div>
-<div class="sourceLine" id="cb1-2" data-line-number="2">
-<span class="kw">library</span>(Amelia)</div></code></pre>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(purrr)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(Amelia)</a></code></pre>
 <pre><code>## Loading required package: Rcpp</code></pre>
 <pre><code>## ## 
 ## ## Amelia II: Multiple Imputation
@@ -110,16 +108,15 @@
 ## ## Copyright (C) 2005-2017 James Honaker, Gary King and Matthew Blackwell
 ## ## Refer to http://gking.harvard.edu/amelia/ for more information
 ## ##</code></pre>
-<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><div class="sourceLine" id="cb4-1" data-line-number="1">
-<span class="kw">data</span>(africa)</div>
-<div class="sourceLine" id="cb4-2" data-line-number="2">a.out &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/Amelia/topics/amelia">amelia</a></span>(<span class="dt">x =</span> africa, <span class="dt">cs =</span> <span class="st">"country"</span>, <span class="dt">ts =</span> <span class="st">"year"</span>, <span class="dt">logs =</span> <span class="st">"gdp_pc"</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">data</span>(africa)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">a.out &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/Amelia/topics/amelia">amelia</a></span>(<span class="dt">x =</span> africa, <span class="dt">cs =</span> <span class="st">"country"</span>, <span class="dt">ts =</span> <span class="st">"year"</span>, <span class="dt">logs =</span> <span class="st">"gdp_pc"</span>)</a></code></pre>
 <pre><code>## -- Imputation 1 --
 ## 
 ##   1  2
 ## 
 ## -- Imputation 2 --
 ## 
-##   1  2
+##   1  2  3
 ## 
 ## -- Imputation 3 --
 ## 
@@ -131,55 +128,49 @@
 ## 
 ## -- Imputation 5 --
 ## 
-##   1  2  3</code></pre>
+##   1  2</code></pre>
 <p>Then we can use the output object from the Amelia package to fit a list of models:</p>
-<pre class="sourceCode r" id="cb6"><code class="sourceCode r"><div class="sourceLine" id="cb6-1" data-line-number="1">models &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(a.out<span class="op">$</span>imputations, <span class="op">~</span><span class="st"> </span><span class="kw">lm</span>(gdp_pc <span class="op">~</span><span class="st"> </span>trade <span class="op">+</span><span class="st"> </span>civlib, <span class="dt">data =</span> .))</div></code></pre>
+<pre class="sourceCode r" id="cb6"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">models &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(a.out<span class="op">$</span>imputations, <span class="op">~</span><span class="st"> </span><span class="kw">lm</span>(gdp_pc <span class="op">~</span><span class="st"> </span>trade <span class="op">+</span><span class="st"> </span>civlib, <span class="dt">data =</span> .))</a></code></pre>
 <p>Amelia includes a <code>mi.meld</code> function that can be used to combine the results:</p>
-<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><div class="sourceLine" id="cb7-1" data-line-number="1">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/Amelia/topics/mi.meld">mi.meld</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/reduce">reduce</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(models, coef), rbind),</div>
-<div class="sourceLine" id="cb7-2" data-line-number="2">        <span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/reduce">reduce</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(models, <span class="op">~</span><span class="st"> </span><span class="kw">coef</span>(<span class="kw">summary</span>(.))[, <span class="st">"Std. Error"</span>]), rbind))</div></code></pre>
+<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/Amelia/topics/mi.meld">mi.meld</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/reduce">reduce</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(models, coef), rbind),</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">        <span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/reduce">reduce</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(models, <span class="op">~</span><span class="st"> </span><span class="kw">coef</span>(<span class="kw">summary</span>(.))[, <span class="st">"Std. Error"</span>]), rbind))</a></code></pre>
 <pre><code>## $q.mi
 ##      (Intercept)    trade    civlib
-## [1,]    121.4061 18.06951 -646.3822
+## [1,]    114.9887 18.09119 -633.9077
 ## 
 ## $se.mi
 ##      (Intercept)    trade   civlib
-## [1,]    98.47349 1.253242 182.3937</code></pre>
+## [1,]     98.1241 1.255935 185.7855</code></pre>
 <p>Nicer output is available from several of the available multiple-imputation packages in R, including the <em>mice</em> and <em>mitools</em>.</p>
-<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><div class="sourceLine" id="cb9-1" data-line-number="1">
-<span class="kw">library</span>(mice)</div></code></pre>
+<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">library</span>(mice)</a></code></pre>
 <pre><code>## Loading required package: lattice</code></pre>
-<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><div class="sourceLine" id="cb11-1" data-line-number="1">(foo &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/mice/topics/pool">pool</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/mice/topics/as.mira">as.mira</a></span>(models))))</div></code></pre>
-<pre><code>##                    est         se         t       df    Pr(&gt;|t|)
-## (Intercept)  121.40613  98.473495  1.232881 108.5558 0.220283295
-## trade         18.06951   1.253242 14.418217 112.3749 0.000000000
-## civlib      -646.38219 182.393709 -3.543884 113.7864 0.000573108
+<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">(foo &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/mice/topics/pool">pool</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/mice/topics/as.mira">as.mira</a></span>(models))))</a></code></pre>
+<pre><code>##                    est         se         t       df     Pr(&gt;|t|)
+## (Intercept)  114.98871  98.124104  1.171870 113.9335 0.2436938765
+## trade         18.09119   1.255935 14.404563 114.4086 0.0000000000
+## civlib      -633.90770 185.785486 -3.412041 107.2762 0.0009103158
 ##                   lo 95      hi 95 nmis        fmi      lambda
-## (Intercept)   -73.77410  316.58636   NA 0.04843830 0.031067033
-## trade          15.58647   20.55256   NA 0.03314870 0.016092873
-## civlib      -1007.71000 -285.05438   NA 0.02577448 0.008799896</code></pre>
+## (Intercept)   -79.39560  309.37303   NA 0.02489632 0.007928188
+## trade          15.60329   20.57909   NA 0.02184438 0.004893214
+## civlib      -1002.19492 -265.62049   NA 0.05280639 0.035310514</code></pre>
 <section id="quantities-of-interest-for-mi" class="level2"><h2>Quantities of interest for MI</h2>
 <p>Using simulations to estimate uncertainty makes it pretty easy to incorporate additional uncertainty from imputed values.</p>
-<pre class="sourceCode r" id="cb13"><code class="sourceCode r"><div class="sourceLine" id="cb13-1" data-line-number="1">
-<span class="kw">library</span>(smargins)</div>
-<div class="sourceLine" id="cb13-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb13-3" data-line-number="3">models.sm &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(models,</div>
-<div class="sourceLine" id="cb13-4" data-line-number="4">                 <span class="op">~</span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(., <span class="dt">trade =</span> <span class="kw">quantile</span>(trade,</div>
-<div class="sourceLine" id="cb13-5" data-line-number="5">                                               <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.50</span>, <span class="fl">.75</span>),</div>
-<div class="sourceLine" id="cb13-6" data-line-number="6">                                               <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)))</div>
-<div class="sourceLine" id="cb13-7" data-line-number="7"></div>
-<div class="sourceLine" id="cb13-8" data-line-number="8">
-<span class="kw">summary</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/reduce">reduce</a></span>(models.sm, rbind))</div></code></pre>
+<pre class="sourceCode r" id="cb13"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">library</span>(smargins)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">models.sm &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(models,</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">                 <span class="op">~</span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(., <span class="dt">trade =</span> <span class="kw">quantile</span>(trade,</a>
+<a class="sourceLine" id="cb13-5" data-line-number="5">                                               <span class="kw">c</span>(.<span class="dv">25</span>, <span class="fl">.50</span>, <span class="fl">.75</span>),</a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">                                               <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)))</a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="kw">summary</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/reduce">reduce</a></span>(models.sm, rbind))</a></code></pre>
 <pre><code>##     trade      mean       sd    median lower_2.5 upper_97.5
-## 1 38.5325  641.2604 41.82716  641.5251  558.8874   722.9228
-## 2 59.1900  628.3339 43.36669  628.2698  544.0200   713.4611
-## 3 80.7875  634.6628 43.25480  633.7612  548.4167   721.4155
-## 4 38.4650  627.6285 43.73238  628.0725  541.4491   713.3281
-## 5 59.5300 1005.5324 31.99325 1005.3000  943.4912  1069.1532
-## 6 81.1050 1002.8869 32.59754 1002.8358  939.2120  1066.9437
-## 7 38.4075 1008.1521 32.45789 1008.6994  944.5758  1072.4054
-## 8 58.8350 1395.4163 39.73113 1395.3465 1317.3819  1473.6805
-## 9 38.7000 1397.1659 39.86088 1396.7049 1321.6322  1476.8271</code></pre>
+## 1 38.5325  628.7885 43.25057  628.2606  544.3476   714.7878
+## 2 59.5300  628.5344 44.15742  628.0618  542.1988   715.3780
+## 3 81.1050  630.8922 44.06268  631.3492  544.9058   716.7130
+## 4 38.4075 1004.8990 32.09179 1004.4314  942.3108  1068.4141
+## 5 59.1900 1005.4066 32.54967 1005.3414  942.4076  1068.4465
+## 6 80.7875 1394.9110 39.66198 1394.7071 1317.9139  1472.7663
+## 7 38.7000 1393.7872 39.31925 1393.1614 1316.5203  1470.1587</code></pre>
 </section>
 </div>
   </div>

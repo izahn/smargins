@@ -91,7 +91,7 @@
     <div class="page-header toc-ignore">
       <h1>smargins Questions and Discussion</h1>
             
-            <h4 class="date">2017-11-17</h4>
+            <h4 class="date">2017-11-30</h4>
           </div>
 
     
@@ -99,80 +99,86 @@
 <div class="contents">
 <section id="specify-x-variable-names-or-values" class="level1"><h1>Specify x variable names or values?</h1>
 <p>Given the following model:</p>
-<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt, <span class="dt">data =</span> mtcars)</div></code></pre>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt, <span class="dt">data =</span> mtcars)</a></code></pre>
 <p>suppose that we wish to examine the effect of <code>hp</code> by calculating expected values at several levels of <code>hp</code> while averaging over the observed values of wt.</p>
 <p>Which do you like better?</p>
-<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><div class="sourceLine" id="cb2-1" data-line-number="1">
-<span class="kw">smargins_v1</span>(m, <span class="dt">hp =</span> <span class="kw">quantile</span>(hp))</div></code></pre>
+<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">smargins_v1</span>(m, <span class="dt">hp =</span> <span class="kw">quantile</span>(hp))</a></code></pre>
 <pre><code>##       hp .sim_number .smargin_qi
-## 1     52           1    21.97407
-## 2     52           2    23.96503
-## 3     52           3    22.48332
-## 4     52           4    21.89098
-## 5     52           5    23.57139
-## 6     52           6    22.38506
+## 1     52           1    23.43415
+## 2     52           2    22.06762
+## 3     52           3    21.93736
+## 4     52           4    20.79450
+## 5     52           5    22.91710
+## 6     52           6    22.57741
 ## # - - - - - - - - - - - - - - - -                                 
-## 24995 335        4995    13.36943
-## 24996 335        4996    13.73412
-## 24997 335        4997    15.59957
-## 24998 335        4998    15.87856
-## 24999 335        4999    12.27776
-## 25000 335        5000    12.84393</code></pre>
+## 24995 335        4995    16.44750
+## 24996 335        4996    12.72099
+## 24997 335        4997    14.28981
+## 24998 335        4998    13.01697
+## 24999 335        4999    12.82070
+## 25000 335        5000    16.61789</code></pre>
 <p>or</p>
-<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><div class="sourceLine" id="cb4-1" data-line-number="1">
-<span class="kw">smargins_v2</span>(m, <span class="st">"hp"</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/smargins_v2.html">smargins_v2</a></span>(m, <span class="st">"hp"</span>)</a></code></pre>
 <pre><code>##       hp .sim_number .smargin_qi
-## 1     52           1    22.68868
-## 2     52           2    22.92714
-## 3     52           3    23.61668
-## 4     52           4    21.04832
-## 5     52           5    21.42625
-## 6     52           6    21.31860
+## 1     52           1    22.00846
+## 2     52           2    23.29410
+## 3     52           3    22.47808
+## 4     52           4    21.68294
+## 5     52           5    21.58904
+## 6     52           6    22.26535
 ## # - - - - - - - - - - - - - - - -                                 
-## 24995 335        4995    16.38439
-## 24996 335        4996    16.18415
-## 24997 335        4997    13.02228
-## 24998 335        4998    11.23566
-## 24999 335        4999    18.58491
-## 25000 335        5000    15.69146</code></pre>
+## 24995 335        4995    13.03139
+## 24996 335        4996    16.04784
+## 24997 335        4997    13.13492
+## 24998 335        4998    12.69117
+## 24999 335        4999    12.44544
+## 25000 335        5000    10.45215</code></pre>
 <p>?</p>
 <p>Now suppose that we want to choose the values of hp ourselves:</p>
-<pre class="sourceCode r" id="cb6"><code class="sourceCode r"><div class="sourceLine" id="cb6-1" data-line-number="1">
-<span class="kw">smargins_v1</span>(m, <span class="dt">hp =</span> <span class="kw">seq</span>(<span class="dv">50</span>, <span class="dv">350</span>, <span class="dt">by =</span> <span class="dv">50</span>))</div></code></pre>
+<pre class="sourceCode r" id="cb6"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">smargins_v1</span>(m, <span class="dt">hp =</span> <span class="kw">seq</span>(<span class="dv">50</span>, <span class="dv">350</span>, <span class="dt">by =</span> <span class="dv">50</span>))</a></code></pre>
 <pre><code>##       hp .sim_number .smargin_qi
-## 1     50           1    23.88214
-## 2     50           2    22.98180
-## 3     50           3    23.55576
-## 4     50           4    21.97559
-## 5     50           5    21.45884
-## 6     50           6    22.94064
+## 1     50           1    24.04149
+## 2     50           2    22.48656
+## 3     50           3    25.43862
+## 4     50           4    23.65238
+## 5     50           5    22.86388
+## 6     50           6    21.95825
 ## # - - - - - - - - - - - - - - - -                                 
-## 34995 350        4995    15.58560
-## 34996 350        4996    14.49089
-## 34997 350        4997    13.31861
-## 34998 350        4998    11.59527
-## 34999 350        4999    14.46449
-## 35000 350        5000    15.03300</code></pre>
+## 34995 350        4995    12.79141
+## 34996 350        4996    15.22682
+## 34997 350        4997    14.75734
+## 34998 350        4998    15.97615
+## 34999 350        4999    12.12507
+## 35000 350        5000    13.29887</code></pre>
 <p>or</p>
-<pre class="sourceCode r" id="cb8"><code class="sourceCode r"><div class="sourceLine" id="cb8-1" data-line-number="1">
-<span class="kw">smargins_v2</span>(m, <span class="st">"hp"</span>, <span class="dt">xvalues =</span> <span class="kw">list</span>(<span class="dt">hp =</span> <span class="kw">seq</span>(<span class="dv">50</span>, <span class="dv">350</span>, <span class="dt">by =</span> <span class="dv">50</span>)))</div></code></pre>
+<pre class="sourceCode r" id="cb8"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/smargins_v2.html">smargins_v2</a></span>(m, <span class="st">"hp"</span>, <span class="dt">xvalues =</span> <span class="kw">list</span>(<span class="dt">hp =</span> <span class="kw">seq</span>(<span class="dv">50</span>, <span class="dv">350</span>, <span class="dt">by =</span> <span class="dv">50</span>)))</a></code></pre>
 <pre><code>##       hp .sim_number .smargin_qi
-## 1     50           1    23.71535
-## 2     50           2    24.35932
-## 3     50           3    21.37553
-## 4     50           4    24.70782
-## 5     50           5    23.18573
-## 6     50           6    24.51646
+## 1     50           1    24.55306
+## 2     50           2    21.56957
+## 3     50           3    23.36404
+## 4     50           4    21.78855
+## 5     50           5    23.38039
+## 6     50           6    22.60272
 ## # - - - - - - - - - - - - - - - -                                 
-## 34995 350        4995    13.48421
-## 34996 350        4996    12.05715
-## 34997 350        4997    11.19626
-## 34998 350        4998    10.75879
-## 34999 350        4999    12.17630
-## 35000 350        5000    13.64790</code></pre>
+## 34995 350        4995    11.07827
+## 34996 350        4996    14.36518
+## 34997 350        4997    15.10669
+## 34998 350        4998    13.68474
+## 34999 350        4999    12.83843
+## 35000 350        5000    13.69062</code></pre>
 <p>Now which do you prefer?</p>
 <p><code>smargins_v1</code> is more verbose for the simple case, but less so when the user does wish to specify values. Which one should we pick? Or is there some combination or alternative that would be even better?</p>
-</section>
+</section><section id="interface-for-comparisons" class="level1"><h1>Interface for comparisons</h1>
+<p>Some options:</p>
+<ul>
+<li>matrix based, like <code><a href="http://www.rdocumentation.org/packages/car/topics/linearHypothesis">car::lht</a></code>, and <a href="https://github.com/goshevs/effcomp" class="uri">https://github.com/goshevs/effcomp</a>
+</li>
+<li>character representation, like <code><a href="http://www.rdocumentation.org/packages/car/topics/linearHypothesis">car::lht</a></code>
+</li>
+<li>function based, like <code><a href="http://www.rdocumentation.org/packages/emmeans/topics/contrast">emmeans::contrast</a></code>
+</li>
+<li>function based, but function does computation directly</li>
+</ul></section>
 </div>
   </div>
 
@@ -182,6 +188,7 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#specify-x-variable-names-or-values">Specify x variable names or values?</a></li>
+      <li><a href="#interface-for-comparisons">Interface for comparisons</a></li>
       </ul>
 </div>
       </div>

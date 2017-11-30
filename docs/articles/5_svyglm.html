@@ -91,7 +91,7 @@
     <div class="page-header toc-ignore">
       <h1>Expected Values for Regression with Survey Weights</h1>
             
-            <h4 class="date">2017-11-17</h4>
+            <h4 class="date">2017-11-30</h4>
           </div>
 
     
@@ -103,11 +103,9 @@
 <section id="examples" class="level2"><h2>Examples</h2>
 <section id="example-1-user-has-existing-sample-weights" class="level3"><h3>Example 1: User has Existing Sample Weights</h3>
 <p>Our example dataset comes from the survey package:</p>
-<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">
-<span class="kw">data</span>(api, <span class="dt">package =</span> <span class="st">"survey"</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">data</span>(api, <span class="dt">package =</span> <span class="st">"survey"</span>)</a></code></pre>
 <p>In this example, we will estimate a model using the percentages of students who receive subsidized lunch and the percentage who are new to a school to predict whether each California public school attends classes year round. We first make a numeric version of the variable in the example dataset, which you may not need to do in another dataset.</p>
-<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><div class="sourceLine" id="cb2-1" data-line-number="1">
-<span class="kw">library</span>(survey)</div></code></pre>
+<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(survey)</a></code></pre>
 <pre><code>## Loading required package: grid</code></pre>
 <pre><code>## Loading required package: Matrix</code></pre>
 <pre><code>## 
@@ -115,14 +113,13 @@
 <pre><code>## The following object is masked from 'package:graphics':
 ## 
 ##     dotchart</code></pre>
-<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><div class="sourceLine" id="cb7-1" data-line-number="1">apistrat.design &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/survey/topics/svydesign">svydesign</a></span>(<span class="dt">ids =</span> <span class="op">~</span><span class="dv">1</span>, <span class="dt">weights =</span> <span class="op">~</span>pw, <span class="dt">data =</span> apistrat)</div>
-<div class="sourceLine" id="cb7-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb7-3" data-line-number="3">m1 &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/survey/topics/svyglm">svyglm</a></span>(yr.rnd <span class="op">~</span><span class="st"> </span>meals <span class="op">+</span><span class="st"> </span>mobility,</div>
-<div class="sourceLine" id="cb7-4" data-line-number="4">             <span class="dt">design =</span> apistrat.design,</div>
-<div class="sourceLine" id="cb7-5" data-line-number="5">             <span class="dt">family =</span> <span class="kw">quasibinomial</span>())</div>
-<div class="sourceLine" id="cb7-6" data-line-number="6"></div>
-<div class="sourceLine" id="cb7-7" data-line-number="7">
-<span class="kw">summary</span>(m1)</div></code></pre>
+<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">apistrat.design &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/survey/topics/svydesign">svydesign</a></span>(<span class="dt">ids =</span> <span class="op">~</span><span class="dv">1</span>, <span class="dt">weights =</span> <span class="op">~</span>pw, <span class="dt">data =</span> apistrat)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">m1 &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/survey/topics/svyglm">svyglm</a></span>(yr.rnd <span class="op">~</span><span class="st"> </span>meals <span class="op">+</span><span class="st"> </span>mobility,</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">             <span class="dt">design =</span> apistrat.design,</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">             <span class="dt">family =</span> <span class="kw">quasibinomial</span>())</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="kw">summary</span>(m1)</a></code></pre>
 <pre><code>## 
 ## Call:
 ## svyglm(formula = yr.rnd ~ meals + mobility, design = apistrat.design, 
@@ -143,41 +140,33 @@
 ## 
 ## Number of Fisher Scoring iterations: 6</code></pre>
 <p>Set explanatory variables to their observed values, and set a high (80th percentile) and low (20th percentile) value for “meals,” the percentage of students who receive subsidized meals:</p>
-<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><div class="sourceLine" id="cb9-1" data-line-number="1">
-<span class="kw">library</span>(smargins)</div>
-<div class="sourceLine" id="cb9-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb9-3" data-line-number="3">m.sm1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">meals =</span> <span class="kw">quantile</span>(meals, <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)))</div>
-<div class="sourceLine" id="cb9-4" data-line-number="4">
-<span class="kw">summary</span>(m.sm1)</div></code></pre>
+<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">library</span>(smargins)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">m.sm1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">meals =</span> <span class="kw">quantile</span>(meals, <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)))</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="kw">summary</span>(m.sm1)</a></code></pre>
 <pre><code>##   meals       mean         sd     median   lower_2.5 upper_97.5
 ## 1  18.0 0.03161318 0.02207852 0.02562193 0.007244776 0.08909972
 ## 2  74.2 0.18169155 0.03941668 0.17847417 0.112966435 0.26736271</code></pre>
 <p>Generate first differences for the effect of high versus low “meals” on the probability that a school will hold classes year round:</p>
-<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><div class="sourceLine" id="cb11-1" data-line-number="1">m.sm1.diff &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m.sm1, <span class="st">"meals"</span>)</div>
-<div class="sourceLine" id="cb11-2" data-line-number="2">
-<span class="kw">summary</span>(m.sm1.diff)</div></code></pre>
+<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">m.sm1.diff &lt;-<span class="st"> </span><span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m.sm1, <span class="st">"meals"</span>)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw">summary</span>(m.sm1.diff)</a></code></pre>
 <pre><code>##        meals       mean         sd     median  lower_2.5  upper_97.5
 ## 1 18 vs 74.2 -0.1500784 0.04000775 -0.1474838 -0.2328644 -0.07629612</code></pre>
 <p>Generate a second set of fitted values and a plot:</p>
-<pre class="sourceCode r" id="cb13"><code class="sourceCode r"><div class="sourceLine" id="cb13-1" data-line-number="1">
-<span class="kw">library</span>(ggplot2)</div>
-<div class="sourceLine" id="cb13-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb13-3" data-line-number="3">
-<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(m.sm1.diff, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> .smargin_qi)) <span class="op">+</span>
-</div>
-<div class="sourceLine" id="cb13-4" data-line-number="4">
-<span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>(<span class="dt">fill =</span> <span class="st">"blue"</span>, <span class="dt">alpha =</span> <span class="fl">0.25</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb13"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(m.sm1.diff, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> .smargin_qi)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>(<span class="dt">fill =</span> <span class="st">"blue"</span>, <span class="dt">alpha =</span> <span class="fl">0.25</span>)</a></code></pre>
 <p><img src="5_svyglm_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 </section><section id="example-2-user-has-details-about-complex-survey-design-but-not-sample-weights" class="level3"><h3>Example 2: User has Details about Complex Survey Design (but not sample weights)</h3>
 <p>Suppose that the survey house that provided the dataset excluded probability weights but made other details about the survey design available. We can still estimate a model without probability weights that takes instead variables that identify each the stratum and/or cluster from which each observation was selected and the size of the finite sample from which each observation was selected.</p>
-<pre class="sourceCode r" id="cb14"><code class="sourceCode r"><div class="sourceLine" id="cb14-1" data-line-number="1">apiclus.design &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/survey/topics/svydesign">svydesign</a></span>(<span class="dt">ids =</span> <span class="op">~</span><span class="dv">1</span>, <span class="dt">strata =</span> <span class="op">~</span>stype, <span class="dt">fpc =</span> <span class="op">~</span>fpc, <span class="dt">data =</span> apistrat)</div>
-<div class="sourceLine" id="cb14-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb14-3" data-line-number="3">m2 &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/survey/topics/svyglm">svyglm</a></span>(yr.rnd <span class="op">~</span><span class="st"> </span>meals <span class="op">+</span><span class="st"> </span>mobility,</div>
-<div class="sourceLine" id="cb14-4" data-line-number="4">             <span class="dt">design =</span> apiclus.design,</div>
-<div class="sourceLine" id="cb14-5" data-line-number="5">             <span class="dt">family =</span> <span class="kw">quasibinomial</span>())</div>
-<div class="sourceLine" id="cb14-6" data-line-number="6"></div>
-<div class="sourceLine" id="cb14-7" data-line-number="7">
-<span class="kw">summary</span>(m2)</div></code></pre>
+<pre class="sourceCode r" id="cb14"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">apiclus.design &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/survey/topics/svydesign">svydesign</a></span>(<span class="dt">ids =</span> <span class="op">~</span><span class="dv">1</span>, <span class="dt">strata =</span> <span class="op">~</span>stype, <span class="dt">fpc =</span> <span class="op">~</span>fpc, <span class="dt">data =</span> apistrat)</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">m2 &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/survey/topics/svyglm">svyglm</a></span>(yr.rnd <span class="op">~</span><span class="st"> </span>meals <span class="op">+</span><span class="st"> </span>mobility,</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">             <span class="dt">design =</span> apiclus.design,</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">             <span class="dt">family =</span> <span class="kw">quasibinomial</span>())</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="kw">summary</span>(m2)</a></code></pre>
 <pre><code>## 
 ## Call:
 ## svyglm(formula = yr.rnd ~ meals + mobility, design = apiclus.design, 
@@ -198,9 +187,8 @@
 ## 
 ## Number of Fisher Scoring iterations: 6</code></pre>
 <p>The coefficient estimates from this model are identical to point estimates in the previous example, but the standard errors are smaller.</p>
-<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><div class="sourceLine" id="cb16-1" data-line-number="1">m.sm2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m2, <span class="dt">meals =</span> <span class="kw">quantile</span>(apistrat<span class="op">$</span>meals, <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)))</div>
-<div class="sourceLine" id="cb16-2" data-line-number="2">
-<span class="kw">summary</span>(m.sm2)</div></code></pre>
+<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">m.sm2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m2, <span class="dt">meals =</span> <span class="kw">quantile</span>(apistrat<span class="op">$</span>meals, <span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>)))</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw">summary</span>(m.sm2)</a></code></pre>
 <pre><code>##   meals       mean         sd     median   lower_2.5 upper_97.5
 ## 1  18.0 0.03127663 0.02207439 0.02584485 0.006952182 0.08708536
 ## 2  74.2 0.18148118 0.03959123 0.17758124 0.113059958 0.27000292</code></pre>

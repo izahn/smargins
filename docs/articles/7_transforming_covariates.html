@@ -91,7 +91,7 @@
     <div class="page-header toc-ignore">
       <h1>Transforming Covariates</h1>
             
-            <h4 class="date">2017-11-17</h4>
+            <h4 class="date">2017-11-30</h4>
           </div>
 
     
@@ -100,56 +100,51 @@
 <section id="supported-transformations" class="level2"><h2>Supported transformations</h2>
 <p><strong>NOTE</strong> this stuff is broken right now, need to fix.</p>
 <p>For convenience, you may wish to transform one or more of your covariates within the model estimation call. For example, imagine we want to natural log transform the variable <code>dist</code> in a linear regression:</p>
-<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">cars &lt;-<span class="st"> </span><span class="kw">transform</span>(cars, <span class="dt">distance =</span> dist, <span class="dt">dist.log =</span> <span class="kw">log</span>(dist))</div>
-<div class="sourceLine" id="cb1-2" data-line-number="2">m.log &lt;-<span class="st"> </span><span class="kw">lm</span>(speed <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(distance), <span class="dt">data =</span> cars)</div>
-<div class="sourceLine" id="cb1-3" data-line-number="3">m.log2 &lt;-<span class="st"> </span><span class="kw">lm</span>(speed <span class="op">~</span><span class="st"> </span>dist.log, <span class="dt">data =</span> cars)</div></code></pre>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">cars &lt;-<span class="st"> </span><span class="kw">transform</span>(cars, <span class="dt">distance =</span> dist, <span class="dt">dist.log =</span> <span class="kw">log</span>(dist))</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">m.log &lt;-<span class="st"> </span><span class="kw">lm</span>(speed <span class="op">~</span><span class="st"> </span><span class="kw">log</span>(distance), <span class="dt">data =</span> cars)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">m.log2 &lt;-<span class="st"> </span><span class="kw">lm</span>(speed <span class="op">~</span><span class="st"> </span>dist.log, <span class="dt">data =</span> cars)</a></code></pre>
 <p>Then we want to find quantities of interest when the <code>dist</code> variable is 26 to 56 (the first to third quartile):</p>
-<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><div class="sourceLine" id="cb2-1" data-line-number="1">
-<span class="kw">library</span>(smargins)</div>
-<div class="sourceLine" id="cb2-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb2-3" data-line-number="3">
-<span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m.log, <span class="dt">distance =</span> <span class="kw">c</span>(<span class="dv">26</span>, <span class="dv">56</span>)))</div></code></pre>
+<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(smargins)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m.log, <span class="dt">distance =</span> <span class="kw">c</span>(<span class="dv">26</span>, <span class="dv">56</span>)))</a></code></pre>
 <pre><code>##   distance     mean        sd   median lower_2.5 upper_97.5
-## 1       26 13.84258 0.4527787 13.83918  12.96433   14.75466
-## 2       56 18.13360 0.5074485 18.13195  17.13959   19.11022</code></pre>
+## 1       26 13.84615 0.4521404 13.84875  12.95014   14.72002
+## 2       56 18.14244 0.5020858 18.14237  17.13978   19.11407</code></pre>
 <p>We could also estimate the model with <code>dist</code> as a polynomial. For example:</p>
-<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><div class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Find range of polynomial values</span></div>
-<div class="sourceLine" id="cb4-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb4-3" data-line-number="3">m2 &lt;-<span class="st"> </span><span class="kw">lm</span>(speed <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(distance, <span class="dv">2</span>), <span class="dt">data =</span> cars)</div>
-<div class="sourceLine" id="cb4-4" data-line-number="4">
-<span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m2, <span class="dt">distance =</span> <span class="kw">quantile</span>(distance, <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">.1</span>))))</div></code></pre>
+<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Find range of polynomial values</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">m2 &lt;-<span class="st"> </span><span class="kw">lm</span>(speed <span class="op">~</span><span class="st"> </span><span class="kw">poly</span>(distance, <span class="dv">2</span>), <span class="dt">data =</span> cars)</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m2, <span class="dt">distance =</span> <span class="kw">quantile</span>(distance, <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">.1</span>))))</a></code></pre>
 <pre><code>##    distance     mean        sd   median lower_2.5 upper_97.5
-## 1       2.0 12.98784 0.5060653 12.99483  12.00597   13.96437
-## 2      15.8 13.99358 0.4408434 13.99620  13.14711   14.85035
-## 3      21.6 14.37996 0.4285808 14.37928  13.55532   15.20996
-## 4      26.0 14.65873 0.4238075 14.65488  13.83817   15.48535
-## 5      32.0 15.01894 0.4219956 15.01722  14.20308   15.83996
-## 6      36.0 15.24630 0.4229190 15.24337  14.42804   16.07993
-## 7      46.0 15.76995 0.4290569 15.76761  14.93044   16.61875
-## 8      54.0 16.14286 0.4349294 16.14103  15.28841   16.99905
-## 9      64.4 16.56649 0.4410860 16.56894  15.70833   17.44208
-## 10     80.4 17.08326 0.4479755 17.08098  16.21480   17.96388
-## 11    120.0 17.65870 0.5689497 17.64435  16.57228   18.79874</code></pre>
+## 1       2.0 12.99225 0.5018516 12.99681  12.00295   13.96428
+## 2      15.8 13.99657 0.4375195 14.00002  13.13832   14.82993
+## 3      21.6 14.38247 0.4255298 14.38470  13.54414   15.20571
+## 4      26.0 14.66093 0.4208915 14.66435  13.82530   15.47436
+## 5      32.0 15.02079 0.4191443 15.02149  14.18515   15.83234
+## 6      36.0 15.24795 0.4200282 15.24760  14.41446   16.06318
+## 7      46.0 15.77127 0.4257724 15.77046  14.93323   16.59845
+## 8      54.0 16.14407 0.4310355 16.14345  15.29843   16.98602
+## 9      64.4 16.56778 0.4360367 16.56731  15.71574   17.42205
+## 10     80.4 17.08512 0.4404796 17.08360  16.21855   17.95996
+## 11    120.0 17.66439 0.5566233 17.66405  16.56126   18.76233</code></pre>
 <p>Splines and other transformations should generally work as expected.</p>
-<pre class="sourceCode r" id="cb6"><code class="sourceCode r"><div class="sourceLine" id="cb6-1" data-line-number="1">
-<span class="kw">library</span>(splines)</div>
-<div class="sourceLine" id="cb6-2" data-line-number="2"></div>
-<div class="sourceLine" id="cb6-3" data-line-number="3">m3 &lt;-<span class="st"> </span><span class="kw">lm</span>(speed <span class="op">~</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/splines/topics/bs">bs</a></span>(distance, <span class="dt">df =</span> <span class="dv">4</span>), <span class="dt">data =</span> cars)</div>
-<div class="sourceLine" id="cb6-4" data-line-number="4">
-<span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m3, <span class="dt">distance =</span> <span class="kw">seq</span>(<span class="kw">min</span>(distance), <span class="kw">max</span>(distance), <span class="dv">10</span>)))</div></code></pre>
+<pre class="sourceCode r" id="cb6"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">library</span>(splines)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">m3 &lt;-<span class="st"> </span><span class="kw">lm</span>(speed <span class="op">~</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/splines/topics/bs">bs</a></span>(distance, <span class="dt">df =</span> <span class="dv">4</span>), <span class="dt">data =</span> cars)</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="kw">summary</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m3, <span class="dt">distance =</span> <span class="kw">seq</span>(<span class="kw">min</span>(distance), <span class="kw">max</span>(distance), <span class="dv">10</span>)))</a></code></pre>
 <pre><code>##    distance      mean        sd    median  lower_2.5 upper_97.5
-## 1         2  4.736606 2.1084727  4.760981  0.5907482   8.792542
-## 2        12  7.304984 1.0600557  7.309100  5.1751614   9.355259
-## 3        22 10.086723 0.6717410 10.086211  8.7547460  11.390935
-## 4        32 12.866770 0.5218796 12.869657 11.8379670  13.926415
-## 5        42 15.430070 0.5828383 15.434292 14.2945443  16.597623
-## 6        52 17.561570 0.7234041 17.565451 16.1597097  18.966400
-## 7        62 19.057760 0.7273851 19.058564 17.6537497  20.485053
-## 8        72 19.980612 0.8688503 19.978661 18.3162825  21.721517
-## 9        82 20.657583 1.2241078 20.639207 18.2914830  23.094383
-## 10       92 21.427673 1.4209764 21.434711 18.6302237  24.237779
-## 11      102 22.629883 1.5411126 22.672560 19.6068088  25.672858
-## 12      112 24.603210 2.8340450 24.589111 19.0996606  30.304192</code></pre>
+## 1         2  4.713416 2.0849501  4.691207  0.7003211   8.868574
+## 2        12  7.310005 1.0597860  7.295817  5.2344562   9.385630
+## 3        22 10.100102 0.6785198 10.102431  8.7403359  11.444343
+## 4        32 12.875215 0.5223873 12.883129 11.8382334  13.886051
+## 5        42 15.426853 0.5836145 15.417952 14.2957843  16.578861
+## 6        52 17.546523 0.7309033 17.538420 16.1165970  18.970063
+## 7        62 19.037142 0.7416341 19.028836 17.5653934  20.477946
+## 8        72 19.964037 0.8826734 19.967771 18.2157508  21.672603
+## 9        82 20.654941 1.2288805 20.630897 18.2272652  23.049934
+## 10       92 21.448998 1.4153217 21.452463 18.6818176  24.211359
+## 11      102 22.685352 1.5439896 22.693599 19.7095552  25.715018
+## 12      112 24.703146 2.8908133 24.687141 19.1055117  30.403740</code></pre>
 </section>
 </div>
   </div>
