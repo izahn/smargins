@@ -91,7 +91,7 @@
     <div class="page-header toc-ignore">
       <h1>Expected Values for GLMs</h1>
             
-            <h4 class="date">2017-11-30</h4>
+            <h4 class="date">2017-12-06</h4>
           </div>
 
     
@@ -140,8 +140,8 @@
 <pre class="sourceCode r" id="cb8"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">library</span>(smargins)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">m.sm &lt;-<span class="st"> </span><span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m1, <span class="dt">age =</span> <span class="dv">36</span>, <span class="dt">race =</span> <span class="st">"white"</span>)</a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw">summary</span>(m.sm)</a></code></pre>
-<pre><code>##   age  race      mean         sd    median lower_2.5 upper_97.5
-## 1  36 white 0.6091556 0.02925852 0.6095709 0.5503798  0.6651414</code></pre>
+<pre><code>##   age  race      mean        sd   median lower_2.5 upper_97.5
+## 1  36 white 0.6088467 0.0290506 0.608863 0.5507057  0.6641614</code></pre>
 <p>Show the results graphically:</p>
 <pre class="sourceCode r" id="cb10"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"></a>
@@ -155,11 +155,11 @@
 <a class="sourceLine" id="cb11-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb11-4" data-line-number="4"><span class="kw">summary</span>(m2.sm)</a></code></pre>
 <pre><code>##   educate      mean         sd    median lower_2.5 upper_97.5
-## 1      10 0.6902521 0.01210330 0.6902468 0.6654436  0.7138264
-## 2      14 0.8134816 0.01047298 0.8135955 0.7920693  0.8338647</code></pre>
+## 1      10 0.6901043 0.01221313 0.6901476 0.6659910  0.7134331
+## 2      14 0.8132709 0.01045084 0.8136569 0.7927545  0.8332865</code></pre>
 <pre class="sourceCode r" id="cb13"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="dt">var =</span> <span class="st">"educate"</span>))</a></code></pre>
-<pre><code>##    educate       mean        sd     median  lower_2.5 upper_97.5
-## 1 10 vs 14 -0.1232295 0.0115573 -0.1231777 -0.1459548 -0.1006645</code></pre>
+<pre><code>##    educate       mean         sd     median  lower_2.5 upper_97.5
+## 1 10 vs 14 -0.1231666 0.01165802 -0.1231291 -0.1461423 -0.1000393</code></pre>
 <pre class="sourceCode r" id="cb15"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(m2.sm, <span class="st">"educate"</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb15-2" data-line-number="2"><span class="st">    </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_density">geom_density</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> .smargin_qi, <span class="dt">fill =</span> <span class="kw">factor</span>(educate)))</a></code></pre>
 <p><img src="4_glm_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>

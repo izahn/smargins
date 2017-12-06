@@ -23,10 +23,10 @@ library(smargins)
 Given the following model:
 
 ```{r}
-m <- lm(mpg ~ hp + wt, data = mtcars)
+m <- lm(mpg ~ hp + wt + gear, data = mtcars)
 ```
 
-suppose that we wish to examine the effect of `hp` by calculating expected values at several levels of `hp` while averaging over the observed values of wt.
+suppose that we wish to examine the effect of `hp` by calculating expected values at several levels of `hp` while averaging over the observed values of `wt` and `gear`.
 
 Which do you like better?
 
@@ -60,10 +60,64 @@ Now which do you prefer?
 
 # Interface for comparisons
 
-Some options:
+Currently there is a `scompare` function that calculates pairwise differences for each combination of values on a particular predictor variable. For example, we can compare the differences between expected values for each level of `gear` as follows:
+```{r}
+summary(scompare(smargins(m, gear = sort(unique(gear))), var="gear"))
+```
+
+It would be nice to offer some flexibility here so that comparisons other than pairwise can be made. There are a few different interfaces we might choose from.
+
+Some options include:
 
 - matrix based, like `car::lht`, and https://github.com/goshevs/effcomp
 - character representation, like `car::lht`
 - function based, like `emmeans::contrast`
 - function based, but function does computation directly
 
+A few examples follow below.
+
+## Matrix interface for comparisons
+
+```{R}
+summary(scompare_v1(smargins(m,
+                             gear = sort(unique(gear))),
+                    var = "gear",
+                    contrast = c(-1, 0, 1)))
+```
+
+```{R}
+summary(scompare_v1(smargins(m,
+                             gear = sort(unique(gear))),
+                    var = "gear",
+                    contrast = c(-0.5, -0.5, 1.0)))
+```
+
+
+## Simple function based interface to comparisons
+
+
+```{R}
+summary(scompare_v2(smargins(m,
+                             gear = sort(unique(gear))),
+                    var = "gear",
+                    contrast.fun = function(a, b, c) a - b + 0*c))
+```
+
+Naming is a problem...
+
+```{R}
+summary(scompare_v2b(smargins(m,
+                             gear = sort(unique(gear))),
+                    var = "gear",
+                    contrast.funs = list("3 vs 4" = function(a, b, c) a - b + 0*c)))
+```
+
+```{R}
+summary(scompare_v2b(smargins(m,
+                             gear = sort(unique(gear))),
+                    var = "gear",
+                    contrast.funs = list("3 and 4 vs 5" = function(a, b, c) .5*a + .5*b + - c)))
+```
+
+
+After looking at these examples I'm not sure we have a clear winner yet. Perhaps there is another way that I haven't thought of yet? If you think of one please let me know by opening an issue at https://github.com/izahn/smargins/issues

@@ -91,7 +91,7 @@
     <div class="page-header toc-ignore">
       <h1>smargins Questions and Discussion</h1>
             
-            <h4 class="date">2017-11-30</h4>
+            <h4 class="date">2017-12-06</h4>
           </div>
 
     
@@ -99,77 +99,84 @@
 <div class="contents">
 <section id="specify-x-variable-names-or-values" class="level1"><h1>Specify x variable names or values?</h1>
 <p>Given the following model:</p>
-<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt, <span class="dt">data =</span> mtcars)</a></code></pre>
-<p>suppose that we wish to examine the effect of <code>hp</code> by calculating expected values at several levels of <code>hp</code> while averaging over the observed values of wt.</p>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>hp <span class="op">+</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>gear, <span class="dt">data =</span> mtcars)</a></code></pre>
+<p>suppose that we wish to examine the effect of <code>hp</code> by calculating expected values at several levels of <code>hp</code> while averaging over the observed values of <code>wt</code> and <code>gear</code>.</p>
 <p>Which do you like better?</p>
 <pre class="sourceCode r" id="cb2"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">smargins_v1</span>(m, <span class="dt">hp =</span> <span class="kw">quantile</span>(hp))</a></code></pre>
 <pre><code>##       hp .sim_number .smargin_qi
-## 1     52           1    23.43415
-## 2     52           2    22.06762
-## 3     52           3    21.93736
-## 4     52           4    20.79450
-## 5     52           5    22.91710
-## 6     52           6    22.57741
+## 1     52           1    24.08801
+## 2     52           2    25.04764
+## 3     52           3    24.43555
+## 4     52           4    24.30619
+## 5     52           5    24.73331
+## 6     52           6    23.40831
 ## # - - - - - - - - - - - - - - - -                                 
-## 24995 335        4995    16.44750
-## 24996 335        4996    12.72099
-## 24997 335        4997    14.28981
-## 24998 335        4998    13.01697
-## 24999 335        4999    12.82070
-## 25000 335        5000    16.61789</code></pre>
+## 24995 335        4995    13.02764
+## 24996 335        4996    13.23298
+## 24997 335        4997    11.66770
+## 24998 335        4998    13.32230
+## 24999 335        4999    16.47527
+## 25000 335        5000    14.11117</code></pre>
 <p>or</p>
 <pre class="sourceCode r" id="cb4"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/smargins_v2.html">smargins_v2</a></span>(m, <span class="st">"hp"</span>)</a></code></pre>
 <pre><code>##       hp .sim_number .smargin_qi
-## 1     52           1    22.00846
-## 2     52           2    23.29410
-## 3     52           3    22.47808
-## 4     52           4    21.68294
-## 5     52           5    21.58904
-## 6     52           6    22.26535
+## 1     52           1    22.57997
+## 2     52           2    23.56909
+## 3     52           3    24.91277
+## 4     52           4    22.35991
+## 5     52           5    22.69978
+## 6     52           6    23.41944
 ## # - - - - - - - - - - - - - - - -                                 
-## 24995 335        4995    13.03139
-## 24996 335        4996    16.04784
-## 24997 335        4997    13.13492
-## 24998 335        4998    12.69117
-## 24999 335        4999    12.44544
-## 25000 335        5000    10.45215</code></pre>
+## 24995 335        4995    11.08558
+## 24996 335        4996    10.73280
+## 24997 335        4997    12.42628
+## 24998 335        4998    14.58362
+## 24999 335        4999    14.22267
+## 25000 335        5000    17.25174</code></pre>
 <p>?</p>
 <p>Now suppose that we want to choose the values of hp ourselves:</p>
 <pre class="sourceCode r" id="cb6"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">smargins_v1</span>(m, <span class="dt">hp =</span> <span class="kw">seq</span>(<span class="dv">50</span>, <span class="dv">350</span>, <span class="dt">by =</span> <span class="dv">50</span>))</a></code></pre>
 <pre><code>##       hp .sim_number .smargin_qi
-## 1     50           1    24.04149
-## 2     50           2    22.48656
-## 3     50           3    25.43862
-## 4     50           4    23.65238
-## 5     50           5    22.86388
-## 6     50           6    21.95825
+## 1     50           1    23.67599
+## 2     50           2    23.94712
+## 3     50           3    23.86978
+## 4     50           4    25.25884
+## 5     50           5    22.10601
+## 6     50           6    24.62478
 ## # - - - - - - - - - - - - - - - -                                 
-## 34995 350        4995    12.79141
-## 34996 350        4996    15.22682
-## 34997 350        4997    14.75734
-## 34998 350        4998    15.97615
-## 34999 350        4999    12.12507
-## 35000 350        5000    13.29887</code></pre>
+## 34995 350        4995    13.01436
+## 34996 350        4996    15.58402
+## 34997 350        4997    13.68577
+## 34998 350        4998    10.90554
+## 34999 350        4999    10.84421
+## 35000 350        5000    12.99449</code></pre>
 <p>or</p>
 <pre class="sourceCode r" id="cb8"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/smargins_v2.html">smargins_v2</a></span>(m, <span class="st">"hp"</span>, <span class="dt">xvalues =</span> <span class="kw">list</span>(<span class="dt">hp =</span> <span class="kw">seq</span>(<span class="dv">50</span>, <span class="dv">350</span>, <span class="dt">by =</span> <span class="dv">50</span>)))</a></code></pre>
 <pre><code>##       hp .sim_number .smargin_qi
-## 1     50           1    24.55306
-## 2     50           2    21.56957
-## 3     50           3    23.36404
-## 4     50           4    21.78855
-## 5     50           5    23.38039
-## 6     50           6    22.60272
+## 1     50           1    24.39110
+## 2     50           2    23.12868
+## 3     50           3    22.31790
+## 4     50           4    22.94109
+## 5     50           5    23.00245
+## 6     50           6    22.22947
 ## # - - - - - - - - - - - - - - - -                                 
-## 34995 350        4995    11.07827
-## 34996 350        4996    14.36518
-## 34997 350        4997    15.10669
-## 34998 350        4998    13.68474
-## 34999 350        4999    12.83843
-## 35000 350        5000    13.69062</code></pre>
+## 34995 350        4995   13.152172
+## 34996 350        4996    7.793063
+## 34997 350        4997   12.345081
+## 34998 350        4998   13.447767
+## 34999 350        4999   15.909270
+## 35000 350        5000   11.656213</code></pre>
 <p>Now which do you prefer?</p>
 <p><code>smargins_v1</code> is more verbose for the simple case, but less so when the user does wish to specify values. Which one should we pick? Or is there some combination or alternative that would be even better?</p>
 </section><section id="interface-for-comparisons" class="level1"><h1>Interface for comparisons</h1>
-<p>Some options:</p>
+<p>Currently there is a <code>scompare</code> function that calculates pairwise differences for each combination of values on a particular predictor variable. For example, we can compare the differences between expected values for each level of <code>gear</code> as follows:</p>
+<pre class="sourceCode r" id="cb10"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw"><a href="../reference/scompare.html">scompare</a></span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m, <span class="dt">gear =</span> <span class="kw">sort</span>(<span class="kw">unique</span>(gear))), <span class="dt">var=</span><span class="st">"gear"</span>))</a></code></pre>
+<pre><code>##     gear      mean        sd    median lower_2.5 upper_97.5
+## 1 3 vs 4 -1.011286 0.8398293 -1.002223  -2.67395  0.6376987
+## 2 3 vs 5 -2.022573 1.6796587 -2.004445  -5.34790  1.2753973
+## 3 4 vs 5 -1.011286 0.8398293 -1.002223  -2.67395  0.6376987</code></pre>
+<p>It would be nice to offer some flexibility here so that comparisons other than pairwise can be made. There are a few different interfaces we might choose from.</p>
+<p>Some options include:</p>
 <ul>
 <li>matrix based, like <code><a href="http://www.rdocumentation.org/packages/car/topics/linearHypothesis">car::lht</a></code>, and <a href="https://github.com/goshevs/effcomp" class="uri">https://github.com/goshevs/effcomp</a>
 </li>
@@ -178,7 +185,43 @@
 <li>function based, like <code><a href="http://www.rdocumentation.org/packages/emmeans/topics/contrast">emmeans::contrast</a></code>
 </li>
 <li>function based, but function does computation directly</li>
-</ul></section>
+</ul>
+<p>A few examples follow below.</p>
+<section id="matrix-interface-for-comparisons" class="level2"><h2>Matrix interface for comparisons</h2>
+<pre class="sourceCode r" id="cb12"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">scompare_v1</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m,</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">                             <span class="dt">gear =</span> <span class="kw">sort</span>(<span class="kw">unique</span>(gear))),</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">                    <span class="dt">var =</span> <span class="st">"gear"</span>,</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">                    <span class="dt">contrast =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)))</a></code></pre>
+<pre><code>##     gear     mean       sd   median lower_2.5 upper_97.5
+## 1 -1 0 1 2.006667 1.711305 1.995972 -1.320703   5.319751</code></pre>
+<pre class="sourceCode r" id="cb14"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">scompare_v1</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m,</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">                             <span class="dt">gear =</span> <span class="kw">sort</span>(<span class="kw">unique</span>(gear))),</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">                    <span class="dt">var =</span> <span class="st">"gear"</span>,</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">                    <span class="dt">contrast =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">-0.5</span>, <span class="fl">1.0</span>)))</a></code></pre>
+<pre><code>##          gear    mean      sd   median  lower_2.5 upper_97.5
+## 1 -0.5 -0.5 1 1.49402 1.27138 1.480393 -0.9675313   4.073178</code></pre>
+</section><section id="simple-function-based-interface-to-comparisons" class="level2"><h2>Simple function based interface to comparisons</h2>
+<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">scompare_v2</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m,</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">                             <span class="dt">gear =</span> <span class="kw">sort</span>(<span class="kw">unique</span>(gear))),</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">                    <span class="dt">var =</span> <span class="st">"gear"</span>,</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">                    <span class="dt">contrast.fun =</span> <span class="cf">function</span>(a, b, c) a <span class="op">-</span><span class="st"> </span>b <span class="op">+</span><span class="st"> </span><span class="dv">0</span><span class="op">*</span>c))</a></code></pre>
+<pre><code>##         gear      mean        sd    median lower_2.5 upper_97.5
+## 1 comparison -1.038076 0.8496704 -1.037681 -2.693875   0.621474</code></pre>
+<p>Naming is a problem…</p>
+<pre class="sourceCode r" id="cb18"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">scompare_v2b</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m,</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">                             <span class="dt">gear =</span> <span class="kw">sort</span>(<span class="kw">unique</span>(gear))),</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">                    <span class="dt">var =</span> <span class="st">"gear"</span>,</a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">                    <span class="dt">contrast.funs =</span> <span class="kw">list</span>(<span class="st">"3 vs 4"</span> =<span class="st"> </span><span class="cf">function</span>(a, b, c) a <span class="op">-</span><span class="st"> </span>b <span class="op">+</span><span class="st"> </span><span class="dv">0</span><span class="op">*</span>c)))</a></code></pre>
+<pre><code>##     gear      mean        sd    median lower_2.5 upper_97.5
+## 1 3 vs 4 -1.010048 0.8244786 -1.015673 -2.612933  0.6068117</code></pre>
+<pre class="sourceCode r" id="cb20"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">scompare_v2b</span>(<span class="kw"><a href="../reference/smargins.html">smargins</a></span>(m,</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">                             <span class="dt">gear =</span> <span class="kw">sort</span>(<span class="kw">unique</span>(gear))),</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">                    <span class="dt">var =</span> <span class="st">"gear"</span>,</a>
+<a class="sourceLine" id="cb20-4" data-line-number="4">                    <span class="dt">contrast.funs =</span> <span class="kw">list</span>(<span class="st">"3 and 4 vs 5"</span> =<span class="st"> </span><span class="cf">function</span>(a, b, c) <span class="fl">.5</span><span class="op">*</span>a <span class="op">+</span><span class="st"> </span><span class="fl">.5</span><span class="op">*</span>b <span class="op">+</span><span class="st"> </span><span class="op">-</span><span class="st"> </span>c)))</a></code></pre>
+<pre><code>##           gear      mean       sd    median lower_2.5 upper_97.5
+## 1 3 and 4 vs 5 -1.541021 1.298242 -1.534998 -4.101106  0.9724547</code></pre>
+<p>After looking at these examples I’m not sure we have a clear winner yet. Perhaps there is another way that I haven’t thought of yet? If you think of one please let me know by opening an issue at <a href="https://github.com/izahn/smargins/issues" class="uri">https://github.com/izahn/smargins/issues</a></p>
+</section></section>
 </div>
   </div>
 
@@ -188,7 +231,12 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#specify-x-variable-names-or-values">Specify x variable names or values?</a></li>
-      <li><a href="#interface-for-comparisons">Interface for comparisons</a></li>
+      <li>
+<a href="#interface-for-comparisons">Interface for comparisons</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#matrix-interface-for-comparisons">Matrix interface for comparisons</a></li>
+      <li><a href="#simple-function-based-interface-to-comparisons">Simple function based interface to comparisons</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       </div>

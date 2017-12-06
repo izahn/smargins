@@ -91,7 +91,7 @@
     <div class="page-header toc-ignore">
       <h1>Using smargins with Amelia</h1>
             
-            <h4 class="date">2017-11-30</h4>
+            <h4 class="date">2017-12-06</h4>
           </div>
 
     
@@ -120,11 +120,11 @@
 ## 
 ## -- Imputation 3 --
 ## 
-##   1  2  3
+##   1  2
 ## 
 ## -- Imputation 4 --
 ## 
-##   1  2  3
+##   1  2
 ## 
 ## -- Imputation 5 --
 ## 
@@ -135,24 +135,24 @@
 <pre class="sourceCode r" id="cb7"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/Amelia/topics/mi.meld">mi.meld</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/reduce">reduce</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(models, coef), rbind),</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">        <span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/reduce">reduce</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map</a></span>(models, <span class="op">~</span><span class="st"> </span><span class="kw">coef</span>(<span class="kw">summary</span>(.))[, <span class="st">"Std. Error"</span>]), rbind))</a></code></pre>
 <pre><code>## $q.mi
-##      (Intercept)    trade    civlib
-## [1,]    114.9887 18.09119 -633.9077
+##      (Intercept)    trade   civlib
+## [1,]    115.9486 18.15496 -637.201
 ## 
 ## $se.mi
 ##      (Intercept)    trade   civlib
-## [1,]     98.1241 1.255935 185.7855</code></pre>
+## [1,]    96.92541 1.239931 182.6399</code></pre>
 <p>Nicer output is available from several of the available multiple-imputation packages in R, including the <em>mice</em> and <em>mitools</em>.</p>
 <pre class="sourceCode r" id="cb9"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">library</span>(mice)</a></code></pre>
 <pre><code>## Loading required package: lattice</code></pre>
 <pre class="sourceCode r" id="cb11"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">(foo &lt;-<span class="st"> </span><span class="kw">summary</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/mice/topics/pool">pool</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/mice/topics/as.mira">as.mira</a></span>(models))))</a></code></pre>
 <pre><code>##                    est         se         t       df     Pr(&gt;|t|)
-## (Intercept)  114.98871  98.124104  1.171870 113.9335 0.2436938765
-## trade         18.09119   1.255935 14.404563 114.4086 0.0000000000
-## civlib      -633.90770 185.785486 -3.412041 107.2762 0.0009103158
-##                   lo 95      hi 95 nmis        fmi      lambda
-## (Intercept)   -79.39560  309.37303   NA 0.02489632 0.007928188
-## trade          15.60329   20.57909   NA 0.02184438 0.004893214
-## civlib      -1002.19492 -265.62049   NA 0.05280639 0.035310514</code></pre>
+## (Intercept)  115.94859  96.925405  1.196266 114.2037 0.2340703917
+## trade         18.15496   1.239931 14.641908 114.7050 0.0000000000
+## civlib      -637.20096 182.639877 -3.488838 112.7967 0.0006928665
+##                  lo 95      hi 95 nmis        fmi      lambda
+## (Intercept)  -76.05622  307.95339   NA 0.02320620 0.006248513
+## trade         15.69883   20.61109   NA 0.01972270 0.002778270
+## civlib      -999.05056 -275.35137   NA 0.03110488 0.014076359</code></pre>
 <section id="quantities-of-interest-for-mi" class="level2"><h2>Quantities of interest for MI</h2>
 <p>Using simulations to estimate uncertainty makes it pretty easy to incorporate additional uncertainty from imputed values.</p>
 <pre class="sourceCode r" id="cb13"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">library</span>(smargins)</a>
@@ -164,13 +164,14 @@
 <a class="sourceLine" id="cb13-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb13-8" data-line-number="8"><span class="kw">summary</span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/reduce">reduce</a></span>(models.sm, rbind))</a></code></pre>
 <pre><code>##     trade      mean       sd    median lower_2.5 upper_97.5
-## 1 38.5325  628.7885 43.25057  628.2606  544.3476   714.7878
-## 2 59.5300  628.5344 44.15742  628.0618  542.1988   715.3780
-## 3 81.1050  630.8922 44.06268  631.3492  544.9058   716.7130
-## 4 38.4075 1004.8990 32.09179 1004.4314  942.3108  1068.4141
-## 5 59.1900 1005.4066 32.54967 1005.3414  942.4076  1068.4465
-## 6 80.7875 1394.9110 39.66198 1394.7071 1317.9139  1472.7663
-## 7 38.7000 1393.7872 39.31925 1393.1614 1316.5203  1470.1587</code></pre>
+## 1 38.4075  629.5738 42.89750  629.5891  544.1707   713.8550
+## 2 58.8350  634.5849 42.95185  635.4293  551.0451   719.7549
+## 3 80.7875  629.5525 44.51840  629.5309  543.9320   716.1761
+## 4 59.1900  999.1990 32.23231  999.1479  936.3776  1062.7405
+## 5 81.1050 1011.3282 32.20677 1011.5555  948.0754  1073.4816
+## 6 38.7000 1006.1459 32.75386 1006.0958  942.5650  1072.0525
+## 7 59.5300 1397.5705 39.95786 1397.6203 1319.2201  1475.5956
+## 8 38.4650 1410.9172 39.92553 1410.7654 1331.0978  1487.8401</code></pre>
 </section>
 </div>
   </div>
